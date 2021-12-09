@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efe6591b53c648459a6a433d921c863, type: 3}
+  m_Name: Assassinate
+  m_EditorClassIdentifier: 
+  Name: Assassination
+  PlayerDisplayMessage: Sender has assassinated your leader.
+  Responses:
+  - DisplayMessage: Publicize News
+    NoticeDisplayMessage: Receiver has published news that Sender has assassinated
+      their leader, ReceiverLeader.
+    SenderOpinion: -80
+    SenderMoney: 0
+    SenderWarPower: 0
+    ReceiverOpinion: -80
+    ReceiverMoney: 0
+    ReceiverWarPower: 0
+    ChangeLeader: 1
+    WorldSenderOpinion: 0
+    WorldReceiverOpinion: 0
+  - DisplayMessage: Claim Natural Death
+    NoticeDisplayMessage: Receiver's leader, ReceiverLeader, has died of natural
+      causes wink wink
+    SenderOpinion: 0
+    SenderMoney: 0
+    SenderWarPower: 0
+    ReceiverOpinion: 0
+    ReceiverMoney: 0
+    ReceiverWarPower: 0
+    ChangeLeader: 1
+    WorldSenderOpinion: 0
+    WorldReceiverOpinion: 0
+  NoticeSymbol: {fileID: 21300000, guid: 08882a2fc8a6e4893bd309c51f50e708, type: 3}

@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efe6591b53c648459a6a433d921c863, type: 3}
+  m_Name: Disagreement
+  m_EditorClassIdentifier: 
+  Name: Disagreement
+  PlayerDisplayMessage: Sender is demanding territory from Affected.
+  Responses:
+  - DisplayMessage: Support Sender
+    NoticeDisplayMessage: Receiver has supported Sender in their territorial dispute
+      with Affected.
+    SenderOpinion: 30
+    SenderMoney: 0
+    SenderWarPower: 0
+    ReceiverOpinion: 10
+    ReceiverMoney: 0
+    ReceiverWarPower: 0
+    ChangeLeader: 0
+    WorldSenderOpinion: -10
+    WorldReceiverOpinion: -10
+  - DisplayMessage: Support Affected
+    NoticeDisplayMessage: Receiver has supported Affected in their territorial dispute
+      with Sender.
+    SenderOpinion: -30
+    SenderMoney: 0
+    SenderWarPower: 0
+    ReceiverOpinion: 10
+    ReceiverMoney: 0
+    ReceiverWarPower: 0
+    ChangeLeader: 0
+    WorldSenderOpinion: -10
+    WorldReceiverOpinion: 15
+  NoticeSymbol: {fileID: 21300000, guid: 89a88cb0db1319f4d8a0cfb4a40b0a78, type: 3}

@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d58fd24baab24518a9cf9bb525a210a, type: 3}
+  m_Name: Country1
+  m_EditorClassIdentifier: 
+  countryName: Dolphin Dictatorship
+  LeaderName: New Leader
+  IsPlayerCountry: 0
+  ID: 0
+  money: 245
+  warPower: 95
+  BaseMoneyGain: 50
+  BaseWarPowerGain: 50
+  LeaderPersonality: 0
+  LeaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  Flag: {fileID: 0}
+  textColor: {r: 1, g: 0, b: 0, a: 1}
