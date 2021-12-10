@@ -269,8 +269,7 @@ public class Main : MonoBehaviour
         foreach (Country country in cnt_NonPlayers)
         {
             if (Random.Range(1, 100) > 0)// 25%
-                //RunEvent(country);
-                break;
+                RunEvent(country);
         }
 
         ce_NonPlayer.ForEach(x => SendAction(x)); // Run events in proper order so nonplayer events go first

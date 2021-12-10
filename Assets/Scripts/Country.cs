@@ -138,10 +138,13 @@ public class Country : ScriptableObject
             Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
             Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
-        PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
-        PlayerRelations.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
-        PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
-        PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+        if (ID != -1)
+        {
+            PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
+            PlayerRelations.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+            PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
+            PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+        }
         Debug.Log("h " + Relations[0].DriftSpeed);
 
 
