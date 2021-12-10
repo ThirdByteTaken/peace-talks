@@ -10,7 +10,7 @@ public class AIManager : MonoBehaviour
         foreach (Response Response in ce.action.Responses)
         {
             var Relation = sender.Relations[ce.receiver.ID].Value;
-            if (Relation < Response.MinRelation || Relation > Response.MaxRelation) continue;
+            if (Relation <= Response.MinRelation || Relation >= Response.MaxRelation) continue;
             if (sender.Money < Response.MinMoney) continue;
             PossibleResponses.Add(Response);
         }

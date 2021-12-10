@@ -18,6 +18,9 @@ MonoBehaviour:
   - DisplayMessage: Publicize News
     NoticeDisplayMessage: Receiver has published news that Sender has assassinated
       their leader, ReceiverLeader.
+    MinRelation: -100
+    MaxRelation: 100
+    MinMoney: 0
     SenderOpinion: -80
     SenderMoney: 0
     SenderWarPower: 0
@@ -30,6 +33,9 @@ MonoBehaviour:
   - DisplayMessage: Claim Natural Death
     NoticeDisplayMessage: Receiver's leader, ReceiverLeader, has died of natural
       causes wink wink
+    MinRelation: -100
+    MaxRelation: 100
+    MinMoney: 0
     SenderOpinion: 0
     SenderMoney: 0
     SenderWarPower: 0
