@@ -119,6 +119,14 @@ public class Country : ScriptableObject
         {
             MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
             WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
+            foreach (Relation Relation in Relations)
+            {
+                Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
+                Relation.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+                Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
+                Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+            }
+
             leaderFocus = value;
         }
     }
