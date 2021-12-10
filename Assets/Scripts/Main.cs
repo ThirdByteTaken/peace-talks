@@ -99,6 +99,7 @@ public class Main : MonoBehaviour
 
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
+            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].LeaderFocus);
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
@@ -107,8 +108,7 @@ public class Main : MonoBehaviour
             cs.SetColorBlock(cb_CountrySlotColors[0]);
         }
 
-        cnt_NonPlayers[0].Relations[0].Value += 69;
-        cnt_NonPlayers[0].Relations[0].RestingValue = 1;
+        cnt_NonPlayers[0].PlayerRelations.Value += 69;
         cs_Player.Init();
         // Game Setup
         GameInfo.s_TurnCount = 0;
@@ -269,7 +269,8 @@ public class Main : MonoBehaviour
         foreach (Country country in cnt_NonPlayers)
         {
             if (Random.Range(1, 100) > 0)// 25%
-                RunEvent(country);
+                //RunEvent(country);
+                break;
         }
 
         ce_NonPlayer.ForEach(x => SendAction(x)); // Run events in proper order so nonplayer events go first
@@ -307,6 +308,13 @@ public class Main : MonoBehaviour
                     relation.Value += (relation.Value < relation.RestingMin) ? 1 : -1 * relation.DriftSpeed; // If greater than resting range, decrease relations, otherwise increase them               
 
 
+            }
+            cnt.PlayerRelations.GracePeriod--;
+            if (cnt.PlayerRelations.IsDrifting)
+            {
+                int driftDirection = (cnt.PlayerRelations.Value < cnt.PlayerRelations.RestingMin) ? 1 : -1;
+                cnt.PlayerRelations.Value += driftDirection * cnt.PlayerRelations.DriftSpeed; // If greater than resting range, decrease cnt.PlayerRelationss, otherwise increase them               
+                cnt.PlayerRelations.Value = (driftDirection == 1) ? Mathf.Min(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMin) : Mathf.Max(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMax);
             }
         }
 

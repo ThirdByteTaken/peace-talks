@@ -118,24 +118,34 @@ public class Country : ScriptableObject
         get { return leaderFocus; }
         set
         {
-            Debug.Log(value.name + name);
-            MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
-            WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
-            Debug.Log("g " + Relations[0].DriftSpeed);
-            foreach (Relation Relation in Relations)
-            {
-                Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
-                Relation.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
-                Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
-                Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
-            }
-            Debug.Log("h " + Relations[0].DriftSpeed);
-
+            UpdateFocusModifiers(value);
             leaderFocus = value;
         }
     }
     public Sprite Flag;
     public Color textColor;
+
+    public void UpdateFocusModifiers(Focus value)
+    {
+        Debug.Log(value.name + name);
+        MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
+        WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
+        Debug.Log("g " + Relations[0].DriftSpeed);
+        foreach (Relation Relation in Relations)
+        {
+            Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
+            Relation.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+            Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
+            Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+        }
+        PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
+        PlayerRelations.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+        PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
+        PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+        Debug.Log("h " + Relations[0].DriftSpeed);
+
+
+    }
 }
 public enum PersonalityTypes
 {
