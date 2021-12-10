@@ -1,2 +1,3 @@
-* linguist-vendored
-*.shader linguist-vendored=false
+*.cs linguist-detectable=true
+*.shader linguist-detectable=false
+*.cginc linguist-detectable=false
