@@ -18,6 +18,10 @@ public class Response
     public string DisplayMessage;
     public string NoticeDisplayMessage;
 
+    [Header("Requirements")]
+    public int MinRelation;
+    public int MaxRelation;
+    public int MinMoney;
 
     [Header("Sender Effects")]
     [Tooltip("The sender's opinion change towards the receiver")]

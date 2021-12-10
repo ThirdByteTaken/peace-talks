@@ -61,8 +61,16 @@ public class ActionManager : MonoBehaviour
 
     public void RunPlayerAction(Action action)
     {
+        var sender = CurrentEvent.sender;
+        var receiver = CurrentEvent.receiver;
         RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
-        RunResponse(0);
+        foreach (Response Response in CurrentEvent.action.Responses)
+        {
+            var Relation = sender.Relations[CurrentEvent.receiver.ID].Value;
+            if (Relation < Response.MinRelation || Relation > Response.MaxRelation) continue;
+            if (sender.Money < Response.MinMoney) continue;
+            RunResponse(Response);
+        }
         DeselectCurrentCountrySlot();
         SetCountrySlotButtonsUninteractable();
         main.actionTaken = true;
@@ -76,9 +84,8 @@ public class ActionManager : MonoBehaviour
     {
         foreach (CountrySlot cs in main.cs_NonPlayers) cs.SetButtonInteractable(false);
     }
-    public void RunResponse(int Index)
+    public void RunResponse(Response Response)
     {
-        Response Response = CurrentEvent.action.Responses[Index];
         if (CurrentEvent.receiver.IsPlayerCountry) // Receiver is player
         {
             CurrentEvent.sender.PlayerRelations.Value += Response.SenderOpinion;
