@@ -105,10 +105,10 @@ public class Country : ScriptableObject
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
 
-    public const int RelationDrift = 5;
-    public const int RelationGracePeriod = 5;
-    public const int RelationRestingValue = 0;
-    public const int RelationRestingRange = 20;
+    //public const int RelationDrift = 5;
+    //public const int RelationGracePeriod = 5;
+    //public const int RelationRestingValue = 0;
+    //public const int RelationRestingRange = 20;
 
     public PersonalityTypes LeaderPersonality;
     [SerializeField]
@@ -118,7 +118,7 @@ public class Country : ScriptableObject
         get { return leaderFocus; }
         set
         {
-            Debug.Log(value.name);
+            Debug.Log(value.name + name);
             MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
             WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
             Debug.Log("g " + Relations[0].DriftSpeed);
