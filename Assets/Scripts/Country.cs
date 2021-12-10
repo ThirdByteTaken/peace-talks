@@ -111,14 +111,17 @@ public class Country : ScriptableObject
     public const int RelationRestingRange = 20;
 
     public PersonalityTypes LeaderPersonality;
+    [SerializeField]
     private Focus leaderFocus;
     public Focus LeaderFocus
     {
         get { return leaderFocus; }
         set
         {
+            Debug.Log(value.name);
             MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
             WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
+            Debug.Log("g " + Relations[0].DriftSpeed);
             foreach (Relation Relation in Relations)
             {
                 Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
@@ -126,6 +129,7 @@ public class Country : ScriptableObject
                 Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
                 Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
             }
+            Debug.Log("h " + Relations[0].DriftSpeed);
 
             leaderFocus = value;
         }

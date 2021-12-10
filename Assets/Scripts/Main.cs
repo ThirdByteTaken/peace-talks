@@ -130,8 +130,8 @@ public class Main : MonoBehaviour
         // if the sender/receiver and affected is the same, keep randomizing affected till they're not
         while (Sender == newAffected || newReceiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
-        if (newReceiver == cnt_Player)
-            print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
+        //if (newReceiver == cnt_Player)
+        //    print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
         Event newEvent = new Event(newActionType, Sender, newReceiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));
@@ -264,7 +264,7 @@ public class Main : MonoBehaviour
         actionTaken = false;
 
         cnt_NonPlayers[0].Relations[0].Value = GameInfo.s_TurnCount;
-        print("set tp " + GameInfo.s_TurnCount);
+
 
         foreach (Country country in cnt_NonPlayers)
         {
@@ -309,7 +309,7 @@ public class Main : MonoBehaviour
 
             }
         }
-        print(cnt_NonPlayers[0].Relations[0].Value + " " + cnt_NonPlayers[0].Relations[0].GracePeriod);
+
     }
 
     #endregion
