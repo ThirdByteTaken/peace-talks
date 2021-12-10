@@ -285,7 +285,7 @@ public class Main : MonoBehaviour
         foreach (Country country in cnt_NonPlayers)
         {
             country.Money += Default_Money_Gain + country.LeaderFocus.MoneyModifier;
-            country.WarPower += Default_WarPower_Gain + country.LeaderFocus.WarpowerModifier;
+            country.WarPower += Default_WarPower_Gain + country.LeaderFocus.WarPowerModifier;
             /*foreach (Relation relation in country.Relations)
             {
                 relation.Value += relation.DriftSpeed * ((relation.Value > relation.RestingValue) ? -1 : 1);
@@ -293,7 +293,7 @@ public class Main : MonoBehaviour
             }*/
         }
         cnt_Player.Money += Default_Money_Gain + cnt_Player.LeaderFocus.MoneyModifier;
-        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarpowerModifier;
+        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarPowerModifier;
     }
 
     private void UpdateCountryRelations()

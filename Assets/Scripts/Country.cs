@@ -102,8 +102,8 @@ public class Country : ScriptableObject
         }
     }
 
-    public const int BaseMoneyGain = 10;
-    public const int BaseWarPowerGain = 10;
+    public int MoneyGain = 10;
+    public int WarPowerGain = 10;
 
     public const int RelationDrift = 5;
     public const int RelationGracePeriod = 5;
@@ -111,7 +111,17 @@ public class Country : ScriptableObject
     public const int RelationRestingRange = 20;
 
     public PersonalityTypes LeaderPersonality;
-    public Focus LeaderFocus;
+    private Focus leaderFocus;
+    public Focus LeaderFocus
+    {
+        get { return leaderFocus; }
+        set
+        {
+            MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
+            WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
+            leaderFocus = value;
+        }
+    }
     public Sprite Flag;
     public Color textColor;
 }
