@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Country0
   m_EditorClassIdentifier: 
   countryName: Penguin Principality
-  LeaderName: Sir Evensworth
+  LeaderName: New Leader
   IsPlayerCountry: 1
   ID: -1
-  money: 245
-  warPower: 95
-  BaseMoneyGain: 50
-  BaseWarPowerGain: 50
-  LeaderPersonality: 0
-  LeaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  money: 10520
+  warPower: 10345
+  MoneyGain: 50
+  WarPowerGain: 50
+  LeaderPersonality: 1
+  leaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
   Flag: {fileID: 0}
   textColor: {r: 0.70980394, g: 0.0627451, b: 0.7647059, a: 1}

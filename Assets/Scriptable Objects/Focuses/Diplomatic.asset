@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Diplomatic
   m_EditorClassIdentifier: 
   MoneyModifier: -25
-  WarpowerModifier: 50
-  RelationDriftModifier: 0
-  RelationGracePeriodModifier: 0
-  RelationRestingValueModifier: 0
-  RelationRestingRangeModifier: 0
+  WarPowerModifier: 0
+  RelationDriftModifier: 20
+  RelationGracePeriodModifier: 20
+  RelationRestingValueModifier: 20
+  RelationRestingRangeModifier: 20

@@ -13,4 +13,8 @@ MonoBehaviour:
   m_Name: Economic
   m_EditorClassIdentifier: 
   MoneyModifier: 50
-  WarpowerModifier: -25
+  WarPowerModifier: 0
+  RelationDriftModifier: 99
+  RelationGracePeriodModifier: 0
+  RelationRestingValueModifier: 0
+  RelationRestingRangeModifier: 0
