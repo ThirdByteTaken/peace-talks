@@ -149,7 +149,7 @@ public class Main : MonoBehaviour
         actionManager.RunAction(currentEvent);
 
         //TODO would decide receiver response and run it
-        actionManager.RunResponse(0);
+        actionManager.RunResponse(AIManager.BestResponse(currentEvent, currentEvent.sender));
         UpdateCountrySlots();
 
     }

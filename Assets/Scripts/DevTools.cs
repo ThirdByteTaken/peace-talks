@@ -10,6 +10,12 @@ public class DevTools : MonoBehaviour
         return (T)v.GetValue(Random.Range(0, v.Length));
     }
 
+    public static T RandomListValue<T>(List<T> list)
+    {
+        return list[Random.Range(0, list.Count)];
+
+    }
+
     public static string DecodeMessage(string message, Event currentEvent)
     {
         message = message.Replace("SenderLeader", currentEvent.sender.LeaderName);
