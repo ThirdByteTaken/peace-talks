@@ -30,7 +30,7 @@ public class DevTools : MonoBehaviour
         return message;
     }
 
-    public static string colorCountryText(Country country)
+    public static string ColorCountryText(Country country)
     {
         return "<#" + ColorUtility.ToHtmlStringRGB(country.textColor) + ">";
     }

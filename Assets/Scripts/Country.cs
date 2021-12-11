@@ -14,7 +14,7 @@ public class Country : ScriptableObject
     {
         get
         {
-            return "<material=\"LiberationSans SDF - Outline\">" + DevTools.colorCountryText(this) + countryName + "</color>" + "</material>";
+            return "<material=\"LiberationSans SDF - Outline\">" + DevTools.ColorCountryText(this) + countryName + "</color>" + "</material>";
         }
     }
     public string LeaderName;
@@ -83,7 +83,7 @@ public class Country : ScriptableObject
                 {
                     /*if (relation.RestingMin < relation.Value && relation.Value < relation.RestingMax) // If in resting range
                         relation.DriftSpeed = 0; // Stop drifting
-                    else if (relation.GracePeriod == 0) // If drifing can occur from current position and the grace period is up
+                    else if (relation.GracePeriod == 0) // If drifting can occur from current position and the grace period is up
                         relation.DriftSpeed = (((relation.Value > relation.RestingValue) ? -1 : 1)) * Main.Default_Relation_Drift_Rate; // Set drifting value to proper sign based on current value
                         *//*
                     int changeValue = relation.Value - Relations[System.Array.IndexOf(value, relation)].Value;
