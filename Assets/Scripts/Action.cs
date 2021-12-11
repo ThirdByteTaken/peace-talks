@@ -22,6 +22,7 @@ public class Response
     public int MinRelation;
     public int MaxRelation;
     public int MinMoney;
+    public int MinWarPower;
 
     [Header("Sender Effects")]
     [Tooltip("The sender's opinion change towards the receiver")]

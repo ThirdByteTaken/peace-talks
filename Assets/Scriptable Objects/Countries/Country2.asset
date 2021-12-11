@@ -18,8 +18,6 @@ MonoBehaviour:
   ID: 1
   money: 295
   warPower: 95
-  BaseMoneyGain: 50
-  BaseWarPowerGain: 50
   LeaderPersonality: 0
   LeaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
   Flag: {fileID: 0}
