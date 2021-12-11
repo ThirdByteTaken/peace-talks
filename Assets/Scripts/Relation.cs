@@ -63,8 +63,6 @@ public class Relation
             return (!(Value >= RestingMin && Value <= RestingMax) && GracePeriod <= 0);
         }
     }
-
-
 }
 
 

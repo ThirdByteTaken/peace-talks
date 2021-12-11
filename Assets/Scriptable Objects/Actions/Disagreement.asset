@@ -18,6 +18,9 @@ MonoBehaviour:
   - DisplayMessage: Support Sender
     NoticeDisplayMessage: Receiver has supported Sender in their territorial dispute
       with Affected.
+    MinRelation: 30
+    MaxRelation: 100
+    MinMoney: 0
     SenderOpinion: 30
     SenderMoney: 0
     SenderWarPower: 0
@@ -30,6 +33,9 @@ MonoBehaviour:
   - DisplayMessage: Support Affected
     NoticeDisplayMessage: Receiver has supported Affected in their territorial dispute
       with Sender.
+    MinRelation: -100
+    MaxRelation: 69
+    MinMoney: 0
     SenderOpinion: -30
     SenderMoney: 0
     SenderWarPower: 0

@@ -17,6 +17,11 @@ MonoBehaviour:
   Responses:
   - DisplayMessage: Accept Loan
     NoticeDisplayMessage: Receiver has agreed to give Sender a gift of war power.
+    MinRelation: 30
+    MaxRelation: 100
+    MinMoney: 0
+    MinWarPower: 50
+    RequireStrongerSender: 0
     SenderOpinion: 20
     SenderMoney: 0
     SenderWarPower: 50
@@ -28,6 +33,11 @@ MonoBehaviour:
     WorldReceiverOpinion: 0
   - DisplayMessage: Decline Loan
     NoticeDisplayMessage: Receiver has declined to give Sender a gift of war power.
+    MinRelation: -100
+    MaxRelation: 100
+    MinMoney: 0
+    MinWarPower: 0
+    RequireStrongerSender: 0
     SenderOpinion: 0
     SenderMoney: 0
     SenderWarPower: 0

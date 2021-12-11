@@ -10,6 +10,7 @@ public class Main : MonoBehaviour
     public const int Max_Action_Reactions = 3; // should be updated for the largest number of responses for a single action
     public const int Default_Money_Gain = 50;
     public const int Default_WarPower_Gain = 50;
+    public const int Default_Loan_Grace_Period = 5;
     public const int Default_Relation_Drift_Rate = 5;
     public const int Default_Relation_Grace_Period = 5; // turns after a relation-changing action before relations start to drift
     public const int Default_Relation_Resting_Value = 0; // where range is centered on
@@ -149,7 +150,7 @@ public class Main : MonoBehaviour
         actionManager.RunAction(currentEvent);
 
         //TODO would decide receiver response and run it
-        actionManager.RunResponse(0);
+        actionManager.RunResponse(AIManager.BestResponse(currentEvent, currentEvent.sender));
         UpdateCountrySlots();
 
     }
