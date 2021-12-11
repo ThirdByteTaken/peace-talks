@@ -102,18 +102,53 @@ public class Country : ScriptableObject
         }
     }
 
-    public const int BaseMoneyGain = 10;
-    public const int BaseWarPowerGain = 10;
+    public int MoneyGain = 10;
+    public int WarPowerGain = 10;
 
-    public const int RelationDrift = 5;
-    public const int RelationGracePeriod = 5;
-    public const int RelationRestingValue = 0;
-    public const int RelationRestingRange = 20;
+    //public const int RelationDrift = 5;
+    //public const int RelationGracePeriod = 5;
+    //public const int RelationRestingValue = 0;
+    //public const int RelationRestingRange = 20;
 
     public PersonalityTypes LeaderPersonality;
-    public Focus LeaderFocus;
+    [SerializeField]
+    private Focus leaderFocus;
+    public Focus LeaderFocus
+    {
+        get { return leaderFocus; }
+        set
+        {
+            UpdateFocusModifiers(value);
+            leaderFocus = value;
+        }
+    }
     public Sprite Flag;
     public Color textColor;
+
+    public void UpdateFocusModifiers(Focus value)
+    {
+        Debug.Log(value.name + name);
+        MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
+        WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
+        Debug.Log("g " + Relations[0].DriftSpeed);
+        foreach (Relation Relation in Relations)
+        {
+            Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
+            Relation.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+            Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
+            Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+        }
+        if (ID != -1)
+        {
+            PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
+            PlayerRelations.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+            PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
+            PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
+        }
+        Debug.Log("h " + Relations[0].DriftSpeed);
+
+
+    }
 }
 public enum PersonalityTypes
 {

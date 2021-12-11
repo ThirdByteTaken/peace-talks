@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce691f32d925c497f9ab56e3521ef626, type: 3}
-  m_Name: Economic
+  m_Name: Diplomatic
   m_EditorClassIdentifier: 
-  MoneyModifier: 50
+  MoneyModifier: -25
   WarPowerModifier: 0
-  RelationDriftModifier: 99
-  RelationGracePeriodModifier: 0
-  RelationRestingValueModifier: 0
-  RelationRestingRangeModifier: 0
+  RelationDriftModifier: 20
+  RelationGracePeriodModifier: 20
+  RelationRestingValueModifier: 20
+  RelationRestingRangeModifier: 20

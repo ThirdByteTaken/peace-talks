@@ -5,6 +5,12 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Focus : ScriptableObject
 {
+    [Header("Resource Modifiers")]
     public int MoneyModifier;
-    public int WarpowerModifier;
+    public int WarPowerModifier;
+    [Header("Relation Modifiers")]
+    public int RelationDriftModifier;
+    public int RelationGracePeriodModifier;
+    public int RelationRestingValueModifier;
+    public int RelationRestingRangeModifier;
 }
