@@ -24,6 +24,8 @@ public class Response
     public int MinMoney;
     public int MinWarPower;
 
+    public bool RequireStrongerSender;
+
     [Header("Sender Effects")]
     [Tooltip("The sender's opinion change towards the receiver")]
     public int SenderOpinion;

@@ -19,7 +19,9 @@ MonoBehaviour:
     NoticeDisplayMessage: Receiver has agreed to give Sender a gift of money.
     MinRelation: 30
     MaxRelation: 100
-    MinMoney: 0
+    MinMoney: 50
+    MinWarPower: 0
+    RequireStrongerSender: 0
     SenderOpinion: 20
     SenderMoney: 50
     SenderWarPower: 0
@@ -34,6 +36,8 @@ MonoBehaviour:
     MinRelation: -100
     MaxRelation: 100
     MinMoney: 0
+    MinWarPower: 0
+    RequireStrongerSender: 0
     SenderOpinion: 0
     SenderMoney: 0
     SenderWarPower: 0

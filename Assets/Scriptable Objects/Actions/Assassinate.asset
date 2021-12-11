@@ -21,6 +21,8 @@ MonoBehaviour:
     MinRelation: -100
     MaxRelation: 100
     MinMoney: 0
+    MinWarPower: 0
+    RequireStrongerSender: 0
     SenderOpinion: -80
     SenderMoney: 0
     SenderWarPower: 0
@@ -36,6 +38,8 @@ MonoBehaviour:
     MinRelation: -100
     MaxRelation: 100
     MinMoney: 0
+    MinWarPower: 0
+    RequireStrongerSender: 1
     SenderOpinion: 0
     SenderMoney: 0
     SenderWarPower: 0
