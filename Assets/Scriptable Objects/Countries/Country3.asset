@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Country3
   m_EditorClassIdentifier: 
   countryName: Kiwi Kingdom
-  LeaderName: Queen Elizabeth III
+  LeaderName: New Leader
   IsPlayerCountry: 0
   ID: 2
-  money: 245
-  warPower: 95
-  BaseMoneyGain: 50
-  BaseWarPowerGain: 50
-  LeaderPersonality: 0
-  LeaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  money: 11245
+  warPower: 10295
+  MoneyGain: 50
+  WarPowerGain: 50
+  LeaderPersonality: 1
+  leaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
   Flag: {fileID: 0}
   textColor: {r: 1, g: 0.9490196, b: 0, a: 1}

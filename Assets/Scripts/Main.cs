@@ -100,6 +100,7 @@ public class Main : MonoBehaviour
 
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
+            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].LeaderFocus);
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
@@ -108,8 +109,7 @@ public class Main : MonoBehaviour
             cs.SetColorBlock(cb_CountrySlotColors[0]);
         }
 
-        cnt_NonPlayers[0].Relations[0].Value += 69;
-        cnt_NonPlayers[0].Relations[0].RestingValue = 1;
+        cnt_NonPlayers[0].PlayerRelations.Value += 69;
         cs_Player.Init();
         // Game Setup
         GameInfo.s_TurnCount = 0;
@@ -131,8 +131,8 @@ public class Main : MonoBehaviour
         // if the sender/receiver and affected is the same, keep randomizing affected till they're not
         while (Sender == newAffected || newReceiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
-        if (newReceiver == cnt_Player)
-            print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
+        //if (newReceiver == cnt_Player)
+        //    print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
         Event newEvent = new Event(newActionType, Sender, newReceiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));
@@ -265,7 +265,7 @@ public class Main : MonoBehaviour
         actionTaken = false;
 
         cnt_NonPlayers[0].Relations[0].Value = GameInfo.s_TurnCount;
-        print("set tp " + GameInfo.s_TurnCount);
+
 
         foreach (Country country in cnt_NonPlayers)
         {
@@ -286,7 +286,7 @@ public class Main : MonoBehaviour
         foreach (Country country in cnt_NonPlayers)
         {
             country.Money += Default_Money_Gain + country.LeaderFocus.MoneyModifier;
-            country.WarPower += Default_WarPower_Gain + country.LeaderFocus.WarpowerModifier;
+            country.WarPower += Default_WarPower_Gain + country.LeaderFocus.WarPowerModifier;
             /*foreach (Relation relation in country.Relations)
             {
                 relation.Value += relation.DriftSpeed * ((relation.Value > relation.RestingValue) ? -1 : 1);
@@ -294,7 +294,7 @@ public class Main : MonoBehaviour
             }*/
         }
         cnt_Player.Money += Default_Money_Gain + cnt_Player.LeaderFocus.MoneyModifier;
-        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarpowerModifier;
+        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarPowerModifier;
     }
 
     private void UpdateCountryRelations()
@@ -309,8 +309,15 @@ public class Main : MonoBehaviour
 
 
             }
+            cnt.PlayerRelations.GracePeriod--;
+            if (cnt.PlayerRelations.IsDrifting)
+            {
+                int driftDirection = (cnt.PlayerRelations.Value < cnt.PlayerRelations.RestingMin) ? 1 : -1;
+                cnt.PlayerRelations.Value += driftDirection * cnt.PlayerRelations.DriftSpeed; // If greater than resting range, decrease cnt.PlayerRelationss, otherwise increase them               
+                cnt.PlayerRelations.Value = (driftDirection == 1) ? Mathf.Min(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMin) : Mathf.Max(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMax);
+            }
         }
-        print(cnt_NonPlayers[0].Relations[0].Value + " " + cnt_NonPlayers[0].Relations[0].GracePeriod);
+
     }
 
     #endregion

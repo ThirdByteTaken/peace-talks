@@ -14,12 +14,12 @@ public class Relation
             int changeValue = value - Value;
             //Debug.Log("chng: " + changeValue);
             if (restingValue != 0)
-                Debug.Log(IsDrifting + " " + changeValue + " " + Value + " " + RestingMin);
-            if (!((IsDrifting) && (changeValue > 0) == (Value < RestingMin))) // Unless it is currently drifting in the direction of the change
-            {
-                GracePeriod = Main.Default_Relation_Grace_Period; // Reset the grace period
-                //Debug.Log("Grace Period reset");
-            }
+                //                Debug.Log(IsDrifting + " " + changeValue + " " + Value + " " + RestingMin);
+                if (!((IsDrifting) && (changeValue > 0) == (Value < RestingMin))) // Unless it is currently drifting in the direction of the change
+                {
+                    GracePeriod = Main.Default_Relation_Grace_Period; // Reset the grace period
+                                                                      //Debug.Log("Grace Period reset");
+                }
             if (Value <= -100)
             {
                 DeathManager.GameOver("War", "War has broken out");
