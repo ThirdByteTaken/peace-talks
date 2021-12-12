@@ -123,17 +123,18 @@ public class Main : MonoBehaviour
 
     public void RunEvent(Country Sender)
     {
-        Action newActionType = ActionManager.s_actions[Random.Range(0, ActionManager.s_actions.Count)];
+        Action nextAction = AIManager.BestAction(Sender);
         int newReceiverID = Random.Range(0, cnt_NonPlayers.Length);
         Country newReceiver = (newReceiverID == Sender.ID) ? cnt_Player : cnt_NonPlayers[newReceiverID];
-        // if it is a disagreement, get another country to be the affected country
-        Country newAffected = (newActionType.Name == "Disagreement") ? cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)] : null;
-        // if the sender/receiver and affected is the same, keep randomizing affected till they're not
+
+        // If it is a disagreement, get another country to be the affected country
+        Country newAffected = (nextAction.Name == "Disagreement") ? cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)] : null;
+
+        // If the sender/receiver and affected is the same, keep randomizing affected till they're not
         while (Sender == newAffected || newReceiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
-        //if (newReceiver == cnt_Player)
-        //    print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
-        Event newEvent = new Event(newActionType, Sender, newReceiver, newAffected);
+
+        Event newEvent = new Event(nextAction, Sender, newReceiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));
         else
