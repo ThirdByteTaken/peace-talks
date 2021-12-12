@@ -40,8 +40,12 @@ public class AIManager : MonoBehaviour
             if (action.FittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.FittingFocusChance].Add(action);
             else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
             else bestActions[action.FittingFocusChance].Add(action);
+
         }
-        return null;
+        Likelihood likelihood = WeightedRandomLikelihood();
+        while (bestActions[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
+        if (bestActions[likelihood].Count == 0) return null;
+        return DevTools.RandomListValue(bestActions[likelihood]);
     }
 
     private static Dictionary<Likelihood, List<Action>> bestActions;
@@ -68,8 +72,8 @@ public class AIManager : MonoBehaviour
         bestResponses.Add(Likelihood.Highest, new List<Response>());
     }
 
-    readonly List<int> LikelihoodRatio = new List<int> { 32, 16, 8, 4, 2, 1 };
-    public Likelihood WeightedRandomLikelihood()
+    static readonly List<int> LikelihoodRatio = new List<int> { 32, 16, 8, 4, 2, 1 };
+    public static Likelihood WeightedRandomLikelihood()
     {
         var TotalRatio = LikelihoodRatio.Sum();
         int rand = Random.Range(0, TotalRatio + 1);
