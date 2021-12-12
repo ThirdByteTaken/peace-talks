@@ -37,6 +37,18 @@ public class AIManager : MonoBehaviour
         bestActions.Add(Likelihood.Highest, new List<Action>());
     }
 
+    private static Dictionary<Likelihood, List<Response>> bestResponses;
+    static void ResetResponseDictionary()
+    {
+        bestResponses.Clear();
+        bestResponses.Add(Likelihood.Lowest, new List<Response>());
+        bestResponses.Add(Likelihood.Lower, new List<Response>());
+        bestResponses.Add(Likelihood.Low, new List<Response>());
+        bestResponses.Add(Likelihood.Middle, new List<Response>());
+        bestResponses.Add(Likelihood.High, new List<Response>());
+        bestResponses.Add(Likelihood.Highest, new List<Response>());
+    }
+
     public static Action BestAction(Country country)
     {
         foreach (Action action in ActionManager.s_actions)

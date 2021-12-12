@@ -8543,6 +8543,7 @@ GameObject:
   - component: {fileID: 1737418789}
   - component: {fileID: 1737418787}
   - component: {fileID: 1737418790}
+  - component: {fileID: 1737418791}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -8613,11 +8614,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a85f3476ad06c489a9765b5f219c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actions:
-  - {fileID: 11400000, guid: 5421a6d0eecd842be8b21303a94c0f65, type: 2}
-  - {fileID: 11400000, guid: c8ddc586b00c33946b56496ed2715b26, type: 2}
-  - {fileID: 11400000, guid: c7de29750c1e521488b7f7406d959915, type: 2}
-  - {fileID: 11400000, guid: 0055a92d17f92403a93510e62ef5acba, type: 2}
   focuses:
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
@@ -8636,6 +8632,18 @@ MonoBehaviour:
   txt_GameOverTitle: {fileID: 1355848910}
   txt_GameOverReason: {fileID: 1900329872}
   go_GameOver: {fileID: 497202464}
+--- !u!114 &1737418791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737418786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc2c988a53b69471bb331126c64f2cde, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1758530301
 GameObject:
   m_ObjectHideFlags: 0
