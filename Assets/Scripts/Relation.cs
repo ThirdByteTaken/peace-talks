@@ -11,6 +11,7 @@ public class Relation
         get { return _value; }
         set
         {
+            value = Mathf.Clamp(value, -100, 100);
             int changeValue = value - Value;
             //Debug.Log("chng: " + changeValue);
             if (restingValue != 0)
@@ -20,7 +21,7 @@ public class Relation
                     GracePeriod = Main.Default_Relation_Grace_Period; // Reset the grace period
                                                                       //Debug.Log("Grace Period reset");
                 }
-            if (Value <= -100)
+            if (value <= -100)
             {
                 DeathManager.GameOver("War", "War has broken out");
             }

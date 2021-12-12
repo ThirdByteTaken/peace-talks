@@ -87,7 +87,8 @@ public class Main : MonoBehaviour
         for (int i = 0; i < rel_PlayerNew.Length; i++) rel_PlayerNew[i] = new Relation(); // initializes each one   
 
         cnt_Player.Relations = rel_PlayerNew;
-
+        Relation[] rel_PlayerLeaderNew = (Relation[])rel_PlayerNew.Clone();
+        cnt_Player.Leader = new Leader("john", new Relation(), rel_PlayerLeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(actionManager.focuses));
         for (int i = 0; i < cnt_NonPlayers.Length; i++) // Country initialization
         {
 
@@ -98,9 +99,13 @@ public class Main : MonoBehaviour
 
             cnt_NonPlayers[i].Relations = rel_New; // Reset all relations            
 
+
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
             cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
+
+            Relation[] rel_LeaderNew = (Relation[])rel_New.Clone();
+            cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(actionManager.focuses));
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
@@ -132,7 +137,7 @@ public class Main : MonoBehaviour
         while (Sender == newAffected || newReceiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
         //if (newReceiver == cnt_Player)
-        //    print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
+        print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
         Event newEvent = new Event(newActionType, Sender, newReceiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));

@@ -8,17 +8,18 @@ public class AIManager : MonoBehaviour
     public static Response BestResponse(Event ce, Country sender)
     {
         List<Response> PossibleResponses = new List<Response>();
+        int Relation = sender.Relations[ce.receiver.ID].Value;
         foreach (Response Response in ce.action.Responses)
         {
-            var Relation = sender.Relations[ce.receiver.ID].Value;
 
-            if (Relation <= Response.MinRelation || Relation >= Response.MaxRelation) continue;
+
+            if (Relation < Response.MinRelation || Relation > Response.MaxRelation) continue;
             if (ce.receiver.Money < Response.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
             if (ce.receiver.WarPower < Response.MinWarPower) continue;
             if (Response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
 
             PossibleResponses.Add(Response);
         }
-        return DevTools.RandomListValue(PossibleResponses);
+        return DevTools.RandomListValue<Response>(PossibleResponses);
     }
 }
