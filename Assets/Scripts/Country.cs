@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using System.Linq;
 [CreateAssetMenu]
 public class Country : ScriptableObject
 {
@@ -85,6 +85,9 @@ public class Country : ScriptableObject
             focus = value;
         }
     }
+
+    public Dictionary<Focus, int> focInt_FocusTendencies; // how much the country values each focus
+
     public Sprite Flag;
     public Color textColor;
 
@@ -107,5 +110,30 @@ public class Country : ScriptableObject
             PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
     }
+
+    public void CountryStatsDrift() // Country focus shifts towards leader focus
+    {
+
+        //for each value:
+        //  multiply by new weight
+        //  divide by old weight
+
+
+        //  for each decimal remainder:
+        //       round up highest one
+        int oldWeight = 100 - focInt_FocusTendencies[Leader.Focus];
+        int newWeight = 100 - (focInt_FocusTendencies[Leader.Focus] += 5);
+        List<float> FocusValues = new List<int>(focInt_FocusTendencies.Values).Select(x => (float)x).ToList();
+
+        for (int i = 0; i < FocusValues.Count; i++)
+        {
+            FocusValues[i] *= (newWeight / (float)oldWeight);
+        }
+
+
+        focInt_FocusTendencies[Leader.Focus] += 5;
+    }
+
+
 }
 
