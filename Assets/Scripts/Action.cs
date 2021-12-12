@@ -31,6 +31,10 @@ public class Response
     public int MinMoney;
     public int MinWarPower;
 
+    [Header("AI Settings")]
+    public Focus[] FittingFocuses;
+    public Likelihood FittingFocusChance;
+
     public bool RequireStrongerSender;
 
     [Header("Sender Effects")]
@@ -56,8 +60,10 @@ public class Response
 
 public enum Likelihood
 {
-    None,
+    Lowest,
+    Lower,
     Low,
     Middle,
-    High
+    High,
+    Highest
 }

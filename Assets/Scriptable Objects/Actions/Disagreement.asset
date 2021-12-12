@@ -21,6 +21,11 @@ MonoBehaviour:
     MinRelation: 30
     MaxRelation: 100
     MinMoney: 0
+    MinWarPower: 0
+    FittingFocuses:
+    - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
+    FittingFocusChance: 4
+    RequireStrongerSender: 0
     SenderOpinion: 30
     SenderMoney: 0
     SenderWarPower: 0
@@ -36,6 +41,11 @@ MonoBehaviour:
     MinRelation: -100
     MaxRelation: 69
     MinMoney: 0
+    MinWarPower: 0
+    FittingFocuses:
+    - {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+    FittingFocusChance: 4
+    RequireStrongerSender: 0
     SenderOpinion: -30
     SenderMoney: 0
     SenderWarPower: 0
@@ -46,3 +56,10 @@ MonoBehaviour:
     WorldSenderOpinion: -10
     WorldReceiverOpinion: 15
   NoticeSymbol: {fileID: 21300000, guid: 89a88cb0db1319f4d8a0cfb4a40b0a78, type: 3}
+  FittingFocuses:
+  - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
+  NonfittingFocuses:
+  - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  FittingFocusChance: 4
+  NeutralChance: 2
+  NonfittingFocusChance: 0
