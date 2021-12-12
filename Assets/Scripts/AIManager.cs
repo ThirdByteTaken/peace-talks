@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class AIManager : MonoBehaviour
 {
@@ -10,13 +10,13 @@ public class AIManager : MonoBehaviour
     public static Response BestResponse(Event ce, Country sender)
     {
         ResetResponseDictionary();
-        var Relation = sender.Relations[ce.receiver.ID].Value;
+        var relation = sender.Relations[ce.receiver.ID].Value;
 
         List<Response> PossibleResponses = new List<Response>();
         foreach (Response Response in ce.action.Responses)
         {
 
-            if (Relation < Response.MinRelation || Relation > Response.MaxRelation) continue;
+            if (relation < Response.MinRelation || relation > Response.MaxRelation) continue;
             if (ce.receiver.Money < Response.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
             if (ce.receiver.WarPower < Response.MinWarPower) continue;
             if (Response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
@@ -26,13 +26,19 @@ public class AIManager : MonoBehaviour
         return DevTools.RandomListValue(PossibleResponses);
     }
 
-    public static Action BestAction(Country country)
+    public static Action BestAction(Country sender)
     {
         ResetActionDictionary();
+        Country receiver = new Country();
+        var relation = sender.Relations[receiver.ID].Value;
         foreach (Action action in ActionManager.s_actions)
         {
-            if (action.FittingFocuses.Contains(country.LeaderFocus)) bestActions[action.FittingFocusChance].Add(action);
-            else if (action.NonfittingFocuses.Contains(country.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
+            if (relation < action.MinRelation || relation > action.MaxRelation) continue;
+            if (sender.Money < action.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
+            if (sender.WarPower < action.MinWarPower) continue;
+
+            if (action.FittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.FittingFocusChance].Add(action);
+            else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
             else bestActions[action.FittingFocusChance].Add(action);
         }
         return null;
@@ -60,6 +66,30 @@ public class AIManager : MonoBehaviour
         bestResponses.Add(Likelihood.Middle, new List<Response>());
         bestResponses.Add(Likelihood.High, new List<Response>());
         bestResponses.Add(Likelihood.Highest, new List<Response>());
+    }
+
+    readonly List<int> LikelihoodRatio = new List<int> { 32, 16, 8, 4, 2, 1 };
+    public Likelihood WeightedRandomLikelihood()
+    {
+        var TotalRatio = LikelihoodRatio.Sum();
+        int rand = Random.Range(0, TotalRatio + 1);
+        int iteration = 0;
+        foreach (int x in LikelihoodRatio)
+        {
+            if ((rand -= x) < 0) break;
+            iteration++;
+        }
+        switch (iteration)
+        {
+            case 0: return Likelihood.Highest;
+            case 1: return Likelihood.High;
+            case 2: return Likelihood.Middle;
+            case 3: return Likelihood.Low;
+            case 4: return Likelihood.Lower;
+            case 5: return Likelihood.Lowest;
+            default: return Likelihood.Highest;
+        }
+
     }
 
 }

@@ -11,6 +11,12 @@ public class Action : ScriptableObject
     public List<Response> Responses;
     public Sprite NoticeSymbol;
 
+    [Header("Requirements")]
+    public int MinRelation;
+    public int MaxRelation;
+    public int MinMoney;
+    public int MinWarPower;
+
     [Header("AI Settings")]
     public List<Focus> FittingFocuses;
     public List<Focus> NonfittingFocuses;
