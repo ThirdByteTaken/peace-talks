@@ -9,6 +9,7 @@ public class AIManager : MonoBehaviour
     // Determines the receivers response to actions
     public static Response BestResponse(Event ce, Country sender)
     {
+        ResetResponseDictionary();
         var Relation = sender.Relations[ce.receiver.ID].Value;
 
         List<Response> PossibleResponses = new List<Response>();
@@ -23,6 +24,18 @@ public class AIManager : MonoBehaviour
             PossibleResponses.Add(Response);
         }
         return DevTools.RandomListValue(PossibleResponses);
+    }
+
+    public static Action BestAction(Country country)
+    {
+        ResetActionDictionary();
+        foreach (Action action in ActionManager.s_actions)
+        {
+            if (action.FittingFocuses.Contains(country.LeaderFocus)) bestActions[action.FittingFocusChance].Add(action);
+            else if (action.NonfittingFocuses.Contains(country.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
+            else bestActions[action.FittingFocusChance].Add(action);
+        }
+        return null;
     }
 
     private static Dictionary<Likelihood, List<Action>> bestActions;
@@ -49,14 +62,4 @@ public class AIManager : MonoBehaviour
         bestResponses.Add(Likelihood.Highest, new List<Response>());
     }
 
-    public static Action BestAction(Country country)
-    {
-        foreach (Action action in ActionManager.s_actions)
-        {
-            if (action.FittingFocuses.Contains(country.LeaderFocus)) bestActions[action.FittingFocusChance].Add(action);
-            else if (action.NonfittingFocuses.Contains(country.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
-            else bestActions[action.FittingFocusChance].Add(action);
-        }
-        return null;
-    }
 }

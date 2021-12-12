@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class DevTools : MonoBehaviour
 {
@@ -33,5 +34,29 @@ public class DevTools : MonoBehaviour
     public static string ColorCountryText(Country country)
     {
         return "<#" + ColorUtility.ToHtmlStringRGB(country.textColor) + ">";
+    }
+
+    static readonly List<int> LikelihoodRatio = new List<int> { 32, 16, 8, 4, 2, 1 };
+    public static Likelihood WeightedRandomLikelihood()
+    {
+        var TotalRatio = LikelihoodRatio.Sum();
+        int rand = Random.Range(0, TotalRatio + 1);
+        int iteration = 0;
+        foreach (int x in LikelihoodRatio)
+        {
+            if ((rand -= x) < 0) break;
+            iteration++;
+        }
+        switch (iteration)
+        {
+            case 0: return Likelihood.Highest;
+            case 1: return Likelihood.High;
+            case 2: return Likelihood.Middle;
+            case 3: return Likelihood.Low;
+            case 4: return Likelihood.Lower;
+            case 5: return Likelihood.Lowest;
+            default: return Likelihood.Highest;
+        }
+
     }
 }
