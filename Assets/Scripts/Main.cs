@@ -100,7 +100,7 @@ public class Main : MonoBehaviour
 
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
-            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].LeaderFocus);
+            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
@@ -161,7 +161,7 @@ public class Main : MonoBehaviour
         newEventSlot.Init();
         newEventSlot.transform.SetAsFirstSibling();
         newEventSlot.SetCountryName(currentEvent.sender.CountryName);
-        newEventSlot.SetLeaderName(currentEvent.sender.LeaderName);
+        newEventSlot.SetLeaderName(currentEvent.sender.Leader.Name);
         newEventSlot.SetAction(currentEvent.action.Name);
 
         go_CurrentEventSlots.Add(newEventSlot.gameObject);
@@ -227,8 +227,8 @@ public class Main : MonoBehaviour
     public void UpdateCountrySlots()
     {
         cs_Player.SetCountryName(cnt_Player.CountryName);
-        cs_Player.SetLeaderName(cnt_Player.LeaderName);
-        cs_Player.SetPersonality(cnt_Player.LeaderPersonality);
+        cs_Player.SetLeaderName(cnt_Player.Leader.Name);
+        cs_Player.SetPersonality(cnt_Player.Leader.Personality);
         cs_Player.SetMoney(cnt_Player.Money);
         cs_Player.SetWarPower(cnt_Player.WarPower);
         for (int i = 0; i < cs_NonPlayers.Length; i++)
@@ -237,8 +237,8 @@ public class Main : MonoBehaviour
             var cs = cs_NonPlayers[i];
             // CountrySlot.SetFlag(Country.Flag); Flags don't matter yet
             cs.SetCountryName(cnt.CountryName);
-            cs.SetLeaderName(cnt.LeaderName);
-            cs.SetPersonality(cnt.LeaderPersonality);
+            cs.SetLeaderName(cnt.Leader.Name);
+            cs.SetPersonality(cnt.Leader.Personality);
             cs.SetMoney(cnt.Money);
             cs.SetWarPower(cnt.WarPower);
             cs.SetRelation(cnt.PlayerRelations.Value); // Get relations toward the player country 
@@ -285,16 +285,16 @@ public class Main : MonoBehaviour
     {
         foreach (Country country in cnt_NonPlayers)
         {
-            country.Money += Default_Money_Gain + country.LeaderFocus.MoneyModifier;
-            country.WarPower += Default_WarPower_Gain + country.LeaderFocus.WarPowerModifier;
+            country.Money += Default_Money_Gain + country.Focus.MoneyModifier;
+            country.WarPower += Default_WarPower_Gain + country.Focus.WarPowerModifier;
             /*foreach (Relation relation in country.Relations)
             {
                 relation.Value += relation.DriftSpeed * ((relation.Value > relation.RestingValue) ? -1 : 1);
                 relation.GracePeriod--;
             }*/
         }
-        cnt_Player.Money += Default_Money_Gain + cnt_Player.LeaderFocus.MoneyModifier;
-        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarPowerModifier;
+        cnt_Player.Money += Default_Money_Gain + cnt_Player.Focus.MoneyModifier;
+        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.Focus.WarPowerModifier;
     }
 
     private void UpdateCountryRelations()

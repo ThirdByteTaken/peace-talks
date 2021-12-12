@@ -17,7 +17,7 @@ public class Country : ScriptableObject
             return "<material=\"LiberationSans SDF - Outline\">" + DevTools.ColorCountryText(this) + countryName + "</color>" + "</material>";
         }
     }
-    public string LeaderName;
+    public Leader Leader;
 
     public bool IsPlayerCountry;
 
@@ -68,58 +68,21 @@ public class Country : ScriptableObject
     }
 
 
-    private Relation[] relations; // Relations with other countries
-    public Relation[] Relations
-    {
-        get
-        {
-            return relations;
-        }
-        set
-        {
-            /*Debug.Log("FDF");
-            if (relations != null)
-                foreach (Relation relation in value)
-                {
-                    /*if (relation.RestingMin < relation.Value && relation.Value < relation.RestingMax) // If in resting range
-                        relation.DriftSpeed = 0; // Stop drifting
-                    else if (relation.GracePeriod == 0) // If drifting can occur from current position and the grace period is up
-                        relation.DriftSpeed = (((relation.Value > relation.RestingValue) ? -1 : 1)) * Main.Default_Relation_Drift_Rate; // Set drifting value to proper sign based on current value
-                        *//*
-                    int changeValue = relation.Value - Relations[System.Array.IndexOf(value, relation)].Value;
-                    Debug.Log("chng: " + changeValue);
-                    if (!((relation.IsDrifting) && (changeValue > 0) == (relation.Value < relation.RestingMin))) // Unless it is currently drifting in the direction of the change
-                    {
-                        relation.GracePeriod = Main.Default_Relation_Grace_Period; // Reset the grace period
-                        Debug.Log("Grace Period reset");
-                    }
-                    if (relation.Value <= -100)
-                    {
-                        DeathManager.GameOver("War", "War has broken out");
-                    }
-                }*/
-            relations = value;
-        }
-    }
+    public Relation[] Relations;
 
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
 
-    //public const int RelationDrift = 5;
-    //public const int RelationGracePeriod = 5;
-    //public const int RelationRestingValue = 0;
-    //public const int RelationRestingRange = 20;
 
-    public PersonalityTypes LeaderPersonality;
     [SerializeField]
-    private Focus leaderFocus;
-    public Focus LeaderFocus
+    private Focus focus;
+    public Focus Focus
     {
-        get { return leaderFocus; }
+        get { return focus; }
         set
         {
             UpdateFocusModifiers(value);
-            leaderFocus = value;
+            focus = value;
         }
     }
     public Sprite Flag;
@@ -150,9 +113,4 @@ public class Country : ScriptableObject
 
     }
 }
-public enum PersonalityTypes
-{
-    Angry,
-    Neutral,
-    Peaceful
-}
+
