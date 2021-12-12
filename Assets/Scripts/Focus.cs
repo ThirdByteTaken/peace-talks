@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Focus : ScriptableObject
 {
+    public int ID;
     [Header("Resource Modifiers")]
     public int MoneyModifier;
     public int WarPowerModifier;

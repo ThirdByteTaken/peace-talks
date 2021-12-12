@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+
 [CreateAssetMenu]
 public class Country : ScriptableObject
 {
@@ -86,7 +87,7 @@ public class Country : ScriptableObject
         }
     }
 
-    public Dictionary<Focus, int> focInt_FocusTendencies; // how much the country values each focus
+    public List<int> FocusTendencies; // how much the country values each focus
 
     public Sprite Flag;
     public Color textColor;
@@ -121,17 +122,38 @@ public class Country : ScriptableObject
 
         //  for each decimal remainder:
         //       round up highest one
-        int oldWeight = 100 - focInt_FocusTendencies[Leader.Focus];
-        int newWeight = 100 - (focInt_FocusTendencies[Leader.Focus] += 5);
-        List<float> FocusValues = new List<int>(focInt_FocusTendencies.Values).Select(x => (float)x).ToList();
 
-        for (int i = 0; i < FocusValues.Count; i++)
+
+        int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
+        int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
+        List<float> FocusValues = FocusTendencies.Skip(Leader.Focus.ID).ToList().ConvertAll(x => (float)x);
+
+
+        FocusValues.ForEach(x => x *= (newWeight / (float)oldWeight));
+
+
+        List<float> FocusValueRemainders = FocusValues.ConvertAll(x => x %= 1);
+        FocusValueRemainders.Sort();
+        FocusValueRemainders.Reverse();
+        FocusValues.ForEach(x => x /= 1);
+        while (FocusValues.Sum() < 100)
         {
-            FocusValues[i] *= (newWeight / (float)oldWeight);
+            int maxIndex = FocusValueRemainders.IndexOf(FocusValueRemainders.Max());
+            FocusValues[maxIndex]++;
+            FocusValueRemainders.RemoveAt(maxIndex);
         }
 
 
-        focInt_FocusTendencies[Leader.Focus] += 5;
+        for (int i = 0; i < FocusTendencies.Count; i++)
+        {
+            if (i == Leader.Focus.ID) continue;
+            FocusTendencies[i] = (int)FocusValues[i];
+        }
+
+
+
+
+        FocusTendencies[Leader.Focus.ID] += 5;
     }
 
 
