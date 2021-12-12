@@ -9,7 +9,8 @@ public class ActionManager : MonoBehaviour
 
     public Event CurrentEvent = new Event();
 
-    public List<Action> actions = new List<Action>();
+    private List<Action> actions = new List<Action>();
+    public static List<Action> s_actions = new List<Action>();
 
     public List<Focus> focuses = new List<Focus>();
 
@@ -18,6 +19,7 @@ public class ActionManager : MonoBehaviour
     private void Start()
     {
         main = GetComponent<Main>();
+        s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
         Main.s_TurnActions += DeselectCurrentCountrySlot;
     }

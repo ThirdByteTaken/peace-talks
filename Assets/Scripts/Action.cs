@@ -12,8 +12,8 @@ public class Action : ScriptableObject
     public Sprite NoticeSymbol;
 
     [Header("AI Settings")]
-    public Focus[] FittingFocuses;
-    public Focus[] NonfittingFocuses;
+    public List<Focus> FittingFocuses;
+    public List<Focus> NonfittingFocuses;
     public Likelihood FittingFocusChance;
     public Likelihood NeutralChance;
     public Likelihood NonfittingFocusChance;

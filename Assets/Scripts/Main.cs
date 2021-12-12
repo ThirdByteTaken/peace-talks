@@ -123,7 +123,7 @@ public class Main : MonoBehaviour
 
     public void RunEvent(Country Sender)
     {
-        Action newActionType = actionManager.actions[Random.Range(0, actionManager.actions.Count)];
+        Action newActionType = ActionManager.s_actions[Random.Range(0, ActionManager.s_actions.Count)];
         int newReceiverID = Random.Range(0, cnt_NonPlayers.Length);
         Country newReceiver = (newReceiverID == Sender.ID) ? cnt_Player : cnt_NonPlayers[newReceiverID];
         // if it is a disagreement, get another country to be the affected country
