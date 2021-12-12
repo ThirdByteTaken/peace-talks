@@ -122,8 +122,8 @@ public class Country : ScriptableObject
 
         //  for each decimal remainder:
         //       round up highest one
-
-
+        Debug.Log("before running");
+        FocusTendencies.ForEach(x => Debug.Log(x));
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
         List<float> FocusValues = FocusTendencies.Skip(Leader.Focus.ID).ToList().ConvertAll(x => (float)x);
@@ -154,6 +154,9 @@ public class Country : ScriptableObject
 
 
         FocusTendencies[Leader.Focus.ID] += 5;
+
+        Debug.Log("after running");
+        FocusTendencies.ForEach(x => Debug.Log(x));
     }
 
 

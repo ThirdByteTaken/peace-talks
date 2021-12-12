@@ -106,6 +106,11 @@ public class Main : MonoBehaviour
 
             Relation[] rel_LeaderNew = (Relation[])rel_New.Clone();
             cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(actionManager.focuses));
+            cnt_NonPlayers[i].FocusTendencies = new List<int>();
+            actionManager.focuses.ForEach(x => cnt_NonPlayers[i].FocusTendencies.Add(0));
+            print(cnt_NonPlayers[i].FocusTendencies.Count);
+            cnt_NonPlayers[i].FocusTendencies[actionManager.focuses.IndexOf(cnt_NonPlayers[i].Focus)] += 100;
+            s_TurnActions += cnt_NonPlayers[i].CountryStatsDrift;
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
