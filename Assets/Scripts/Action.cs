@@ -10,6 +10,13 @@ public class Action : ScriptableObject
     public string PlayerDisplayMessage;
     public List<Response> Responses;
     public Sprite NoticeSymbol;
+
+    [Header("AI Settings")]
+    public Focus[] FittingFocuses;
+    public Focus[] NonfittingFocuses;
+    public Likelihood FittingFocusChance;
+    public Likelihood NeutralChance;
+    public Likelihood NonfittingFocusChance;
 }
 
 [System.Serializable]
@@ -45,4 +52,12 @@ public class Response
     [Tooltip("Whole world's opinion change towards the receiver")]
     public int WorldReceiverOpinion;
 
+}
+
+public enum Likelihood
+{
+    None,
+    Low,
+    Middle,
+    High
 }
