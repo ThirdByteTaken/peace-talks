@@ -124,8 +124,10 @@ public class Country : ScriptableObject
         //       round up highest one
         Debug.Log("before running");
         FocusTendencies.ForEach(x => Debug.Log("original \t" + x));
-        List<float> FocusValues = FocusTendencies.Skip(Leader.Focus.ID).ToList().ConvertAll(x => (float)x);
+        List<float> FocusValues = FocusTendencies.ConvertAll(x => (float)x);
+        FocusValues.RemoveAt(Leader.Focus.ID);
         Debug.Log("Focus Values: (should be same)");
+
         FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
@@ -137,27 +139,25 @@ public class Country : ScriptableObject
         FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
 
         List<float> FocusValueRemainders = FocusValues.ConvertAll(x => x %= 1);
-        FocusValueRemainders.Sort();
-        FocusValueRemainders.Reverse();
         Debug.Log("Focus remainders:");
         FocusValueRemainders.ForEach(x => Debug.Log("focus remainder \t" + x));
-        FocusValues.ForEach(x => x /= 1);
+        for (int i = 0; i < FocusValues.Count; i++)
+            FocusValues[i] = Mathf.Floor(FocusValues[i]);
+
         Debug.Log("Focus Values after truncate:");
         FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
         while (FocusValues.Sum() < newWeight)
         {
             int maxIndex = FocusValueRemainders.IndexOf(FocusValueRemainders.Max());
             FocusValues[maxIndex]++;
-            FocusValueRemainders.RemoveAt(maxIndex);
+            FocusValueRemainders[maxIndex] = 0; // So it wont be accessed as max value
         }
         Debug.Log("Focus Values after round adding:");
         FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
 
-
-        for (int i = 0; i < FocusTendencies.Count; i++)
+        for (int i = 0; i < FocusValues.Count; i++)
         {
-            if (i == Leader.Focus.ID) continue;
-            FocusTendencies[i] = (int)FocusValues[i];
+            FocusTendencies[i + ((i >= Leader.Focus.ID) ? 1 : 0)] = (int)FocusValues[i];
         }
 
 
