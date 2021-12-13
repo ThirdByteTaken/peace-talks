@@ -87,6 +87,7 @@ public class ActionManager : MonoBehaviour
 
     public void RunResponse(Response Response)
     {
+        CurrentEvent.receiver.cnt_RecentlyInteracted.Add(CurrentEvent.sender);
         if (CurrentEvent.receiver.IsPlayerCountry) // Receiver is player
         {
             CurrentEvent.sender.PlayerRelations.Value += Response.SenderOpinion;

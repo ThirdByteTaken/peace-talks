@@ -123,20 +123,26 @@ public class Main : MonoBehaviour
 
     public void RunEvent(Country sender)
     {
-        int newReceiverID = sender.ID;//Random.Range(0, cnt_NonPlayers.Length);
-        Country newReceiver = (newReceiverID == sender.ID) ? cnt_Player : cnt_NonPlayers[newReceiverID];
+        Country receiver = AIManager.BestCountry(sender);
+        if (receiver == null)
+        {
+            int rand = Random.Range(0, cnt_NonPlayers.Length);
+            receiver = (rand == sender.ID) ? cnt_Player : cnt_NonPlayers[rand];
+        }
 
-        Action nextAction = AIManager.BestAction(sender, newReceiver);
+        Action nextAction = AIManager.BestAction(sender, receiver);
         if (nextAction == null) return;
+
+        sender.cnt_RecentlyInteracted.Remove(receiver);
 
         // If it is a disagreement, get another country to be the affected country
         Country newAffected = (nextAction.Name == "Disagreement") ? cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)] : null;
 
         // If the sender/receiver and affected is the same, keep randomizing affected till they're not
-        while (sender == newAffected || newReceiver == newAffected)
+        while (sender == newAffected || receiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
 
-        Event newEvent = new Event(nextAction, sender, newReceiver, newAffected);
+        Event newEvent = new Event(nextAction, sender, receiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));
         else
@@ -152,7 +158,6 @@ public class Main : MonoBehaviour
         }
         actionManager.RunAction(currentEvent);
 
-        //TODO would decide receiver response and run it
         actionManager.RunResponse(AIManager.BestResponse(currentEvent, currentEvent.sender));
         UpdateCountrySlots();
 

@@ -51,6 +51,15 @@ public class AIManager : MonoBehaviour
         return DevTools.RandomListValue(bestActions[likelihood]);
     }
 
+    public static Country BestCountry(Country sender)
+    {
+        if (Random.Range(0, 3) == 1 || sender.cnt_RecentlyInteracted.Count > 0)
+        {
+            return DevTools.RandomListValue(sender.cnt_RecentlyInteracted);
+        }
+        else return null;
+    }
+
     private static Dictionary<Likelihood, List<Action>> bestActions = new Dictionary<Likelihood, List<Action>>();
     static void ResetActionDictionary()
     {

@@ -102,6 +102,8 @@ public class Country : ScriptableObject
         }
     }
 
+    public List<Country> cnt_RecentlyInteracted;
+
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
 
