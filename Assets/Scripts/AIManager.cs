@@ -58,6 +58,7 @@ public class AIManager : MonoBehaviour
     {
         if (Random.Range(0, 3) == 1 || sender.cnt_RecentlyInteracted.Count > 0)
         {
+            if (sender.cnt_RecentlyInteracted.Count == 0) return null;
             return DevTools.RandomListValue(sender.cnt_RecentlyInteracted);
         }
         else return null;
