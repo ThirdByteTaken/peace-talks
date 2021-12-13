@@ -25,7 +25,7 @@ public class AIManager : MonoBehaviour
         }
 
         Likelihood likelihood = WeightedRandomLikelihood();
-        while (bestActions[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
+        while (bestResponses[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
         if (bestResponses[likelihood].Count == 0) return null;
         return DevTools.RandomListValue(bestResponses[likelihood]);
     }
