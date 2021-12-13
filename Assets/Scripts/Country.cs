@@ -147,7 +147,7 @@ public class Country : ScriptableObject
             FocusTendencies[i + ((i >= Leader.Focus.ID) ? 1 : 0)] = (int)FocusValues[i];
         }
 
-
+        if (FocusTendencies.IndexOf(FocusTendencies.Max()) == Leader.Focus.ID) Focus = Leader.Focus;
     }
 
 
