@@ -8614,6 +8614,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44a85f3476ad06c489a9765b5f219c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  actions:
+  - {fileID: 11400000, guid: 5421a6d0eecd842be8b21303a94c0f65, type: 2}
+  - {fileID: 11400000, guid: c8ddc586b00c33946b56496ed2715b26, type: 2}
+  - {fileID: 11400000, guid: c7de29750c1e521488b7f7406d959915, type: 2}
+  - {fileID: 11400000, guid: 0055a92d17f92403a93510e62ef5acba, type: 2}
   focuses:
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}

@@ -26,18 +26,21 @@ public class AIManager : MonoBehaviour
         return DevTools.RandomListValue(PossibleResponses);
     }
 
-    public static Action BestAction(Country sender)
+    public static Action BestAction(Country sender, Country receiver)
     {
         ResetActionDictionary();
-        Country receiver = new Country();
-        var relation = sender.Relations[receiver.ID].Value;
+        var relation = 0;
+        if (receiver.IsPlayerCountry) relation = sender.PlayerRelations.Value;
+        else relation = sender.Relations[receiver.ID].Value;
+
         foreach (Action action in ActionManager.s_actions)
         {
             if (relation < action.MinRelation || relation > action.MaxRelation) continue;
             if (sender.Money < action.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
             if (sender.WarPower < action.MinWarPower) continue;
 
-            if (action.FittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.FittingFocusChance].Add(action);
+            action.FittingFocuses.ForEach(x => print(x));
+            if (action.FittingFocuses.Contains(sender.LeaderFocus)) { print(action.Name + ": " + action.FittingFocusChance); bestActions[action.FittingFocusChance].Add(action); }
             else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
             else bestActions[action.FittingFocusChance].Add(action);
 
@@ -48,7 +51,7 @@ public class AIManager : MonoBehaviour
         return DevTools.RandomListValue(bestActions[likelihood]);
     }
 
-    private static Dictionary<Likelihood, List<Action>> bestActions;
+    private static Dictionary<Likelihood, List<Action>> bestActions = new Dictionary<Likelihood, List<Action>>();
     static void ResetActionDictionary()
     {
         bestActions.Clear();
@@ -60,7 +63,7 @@ public class AIManager : MonoBehaviour
         bestActions.Add(Likelihood.Highest, new List<Action>());
     }
 
-    private static Dictionary<Likelihood, List<Response>> bestResponses;
+    private static Dictionary<Likelihood, List<Response>> bestResponses = new Dictionary<Likelihood, List<Response>>();
     static void ResetResponseDictionary()
     {
         bestResponses.Clear();

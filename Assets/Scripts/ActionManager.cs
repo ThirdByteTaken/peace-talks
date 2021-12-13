@@ -9,6 +9,7 @@ public class ActionManager : MonoBehaviour
 
     public Event CurrentEvent = new Event();
 
+    [SerializeField]
     private List<Action> actions = new List<Action>();
     public static List<Action> s_actions = new List<Action>();
 

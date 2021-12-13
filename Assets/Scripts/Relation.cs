@@ -11,6 +11,7 @@ public class Relation
         get { return _value; }
         set
         {
+            value = Mathf.Clamp(value, -100, 100);
             int changeValue = value - Value;
             //Debug.Log("chng: " + changeValue);
             if (restingValue != 0)

@@ -16,8 +16,8 @@ MonoBehaviour:
   LeaderName: New Leader
   IsPlayerCountry: 1
   ID: -1
-  money: 10520
-  warPower: 10345
+  money: 6850
+  warPower: 6850
   MoneyGain: 50
   WarPowerGain: 50
   LeaderPersonality: 1

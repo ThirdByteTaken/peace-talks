@@ -53,6 +53,10 @@ MonoBehaviour:
     WorldSenderOpinion: 0
     WorldReceiverOpinion: 0
   NoticeSymbol: {fileID: 21300000, guid: 81c410d16da454a59ab72faf209d14c3, type: 3}
+  MinRelation: 0
+  MaxRelation: 100
+  MinMoney: 0
+  MinWarPower: 0
   FittingFocuses:
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   NonfittingFocuses: []
