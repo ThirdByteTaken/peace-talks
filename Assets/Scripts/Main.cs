@@ -108,7 +108,6 @@ public class Main : MonoBehaviour
             cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(actionManager.focuses));
             cnt_NonPlayers[i].FocusTendencies = new List<int>();
             actionManager.focuses.ForEach(x => cnt_NonPlayers[i].FocusTendencies.Add(0));
-            print(cnt_NonPlayers[i].FocusTendencies.Count);
             cnt_NonPlayers[i].FocusTendencies[actionManager.focuses.IndexOf(cnt_NonPlayers[i].Focus)] += 100;
             s_TurnActions += cnt_NonPlayers[i].CountryStatsDrift;
         }
@@ -142,7 +141,7 @@ public class Main : MonoBehaviour
         while (Sender == newAffected || newReceiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
         //if (newReceiver == cnt_Player)
-        print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
+        //print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
         Event newEvent = new Event(newActionType, Sender, newReceiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));

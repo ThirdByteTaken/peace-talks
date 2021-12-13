@@ -123,25 +123,35 @@ public class Country : ScriptableObject
         //  for each decimal remainder:
         //       round up highest one
         Debug.Log("before running");
-        FocusTendencies.ForEach(x => Debug.Log(x));
+        FocusTendencies.ForEach(x => Debug.Log("original \t" + x));
+        List<float> FocusValues = FocusTendencies.Skip(Leader.Focus.ID).ToList().ConvertAll(x => (float)x);
+        Debug.Log("Focus Values: (should be same)");
+        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
-        List<float> FocusValues = FocusTendencies.Skip(Leader.Focus.ID).ToList().ConvertAll(x => (float)x);
 
+        for (int i = 0; i < FocusValues.Count; i++)
+            FocusValues[i] *= (newWeight / (float)oldWeight);
 
-        FocusValues.ForEach(x => x *= (newWeight / (float)oldWeight));
-
+        Debug.Log("Focus Values after math (" + (newWeight / (float)oldWeight) + "):");
+        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
 
         List<float> FocusValueRemainders = FocusValues.ConvertAll(x => x %= 1);
         FocusValueRemainders.Sort();
         FocusValueRemainders.Reverse();
+        Debug.Log("Focus remainders:");
+        FocusValueRemainders.ForEach(x => Debug.Log("focus remainder \t" + x));
         FocusValues.ForEach(x => x /= 1);
-        while (FocusValues.Sum() < 100)
+        Debug.Log("Focus Values after truncate:");
+        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
+        while (FocusValues.Sum() < newWeight)
         {
             int maxIndex = FocusValueRemainders.IndexOf(FocusValueRemainders.Max());
             FocusValues[maxIndex]++;
             FocusValueRemainders.RemoveAt(maxIndex);
         }
+        Debug.Log("Focus Values after round adding:");
+        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
 
 
         for (int i = 0; i < FocusTendencies.Count; i++)
@@ -153,10 +163,9 @@ public class Country : ScriptableObject
 
 
 
-        FocusTendencies[Leader.Focus.ID] += 5;
 
         Debug.Log("after running");
-        FocusTendencies.ForEach(x => Debug.Log(x));
+        FocusTendencies.ForEach(x => Debug.Log("original \t" + x));
     }
 
 
