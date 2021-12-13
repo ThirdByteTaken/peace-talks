@@ -13,22 +13,21 @@ public class AIManager : MonoBehaviour
         var relation = sender.Relations[ce.receiver.ID].Value;
 
         List<Response> PossibleResponses = new List<Response>();
-        foreach (Response Response in ce.action.Responses)
+        foreach (Response response in ce.action.Responses)
         {
 
-            if (relation < Response.MinRelation || relation > Response.MaxRelation) continue;
-            if (ce.receiver.Money < Response.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
-            if (ce.receiver.WarPower < Response.MinWarPower) continue;
-            if (Response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
+            if (relation < response.MinRelation || relation > response.MaxRelation) continue;
+            if (ce.receiver.Money < response.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
+            if (ce.receiver.WarPower < response.MinWarPower) continue;
+            if (response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
 
-            response.FittingFocuses.ForEach(x => print(x));
-            if (action.FittingFocuses.Contains(sender.LeaderFocus)) { print(action.Name + ": " + action.FittingFocusChance); bestActions[action.FittingFocusChance].Add(action); }
-            else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
-            else bestActions[action.FittingFocusChance].Add(action);
-
-            PossibleResponses.Add(Response);
+            bestResponses[response.FittingFocusChance].Add(response); // Add all possible responses to respective part of list
         }
-        return DevTools.RandomListValue(PossibleResponses);
+
+        Likelihood likelihood = WeightedRandomLikelihood();
+        while (bestActions[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
+        if (bestResponses[likelihood].Count == 0) return null;
+        return DevTools.RandomListValue(bestResponses[likelihood]);
     }
 
     public static Action BestAction(Country sender, Country receiver)
@@ -44,8 +43,7 @@ public class AIManager : MonoBehaviour
             if (sender.Money < action.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
             if (sender.WarPower < action.MinWarPower) continue;
 
-            action.FittingFocuses.ForEach(x => print(x));
-            if (action.FittingFocuses.Contains(sender.LeaderFocus)) { print(action.Name + ": " + action.FittingFocusChance); bestActions[action.FittingFocusChance].Add(action); }
+            if (action.FittingFocuses.Contains(sender.LeaderFocus)) { bestActions[action.FittingFocusChance].Add(action); }
             else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
             else bestActions[action.FittingFocusChance].Add(action);
 
