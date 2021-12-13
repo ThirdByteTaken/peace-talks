@@ -80,7 +80,7 @@ public class Main : MonoBehaviour
 
         s_TurnActions += UpdateCountryResources;
         s_TurnActions += UpdateCountryRelations;
-
+        print(ActionManager.focuses.Count);
         SetActionButtonsEnabled(false);
 
         Relation[] rel_PlayerNew = new Relation[cnt_NonPlayers.Length]; // makes new list of relations
@@ -88,7 +88,7 @@ public class Main : MonoBehaviour
 
         cnt_Player.Relations = rel_PlayerNew;
         Relation[] rel_PlayerLeaderNew = (Relation[])rel_PlayerNew.Clone();
-        cnt_Player.Leader = new Leader("john", new Relation(), rel_PlayerLeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(actionManager.focuses));
+        cnt_Player.Leader = new Leader("john", new Relation(), rel_PlayerLeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
         for (int i = 0; i < cnt_NonPlayers.Length; i++) // Country initialization
         {
 
@@ -105,13 +105,13 @@ public class Main : MonoBehaviour
             cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
 
             Relation[] rel_LeaderNew = (Relation[])rel_New.Clone();
-            cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(actionManager.focuses));
-            cnt_NonPlayers[i].FocusTendencies = new List<int>() { 10, 5, 10, 5, 70 };
-            //for (int j = 0; j < actionManager.focuses.Count; j++) cnt_NonPlayers[i].FocusTendencies.Add(0);
+            cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
+            cnt_NonPlayers[i].FocusTendencies = new List<int>();
+            for (int j = 0; j < ActionManager.focuses.Count; j++) cnt_NonPlayers[i].FocusTendencies.Add(0);
 
 
 
-            //cnt_NonPlayers[i].FocusTendencies[actionManager.focuses.IndexOf(cnt_NonPlayers[i].Focus)] += 100;
+            cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] += 100;
             s_TurnActions += cnt_NonPlayers[i].CountryStatsDrift;
         }
 

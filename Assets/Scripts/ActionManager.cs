@@ -11,12 +11,21 @@ public class ActionManager : MonoBehaviour
 
     public List<Action> actions = new List<Action>();
 
-    public List<Focus> focuses = new List<Focus>();
+
+    public static List<Focus> focuses = new List<Focus>();
+    public List<Focus> Focuses;
 
     private Main main;
 
+    void Awake()
+    {
+        focuses = Focuses;
+    }
     private void Start()
     {
+        print(Focuses.Count);
+        focuses = Focuses;
+        print("n" + focuses.Count);
         main = GetComponent<Main>();
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
         Main.s_TurnActions += DeselectCurrentCountrySlot;
