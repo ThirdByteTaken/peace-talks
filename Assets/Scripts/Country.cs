@@ -122,38 +122,25 @@ public class Country : ScriptableObject
 
         //  for each decimal remainder:
         //       round up highest one
-        Debug.Log("before running");
-        FocusTendencies.ForEach(x => Debug.Log("original \t" + x));
         List<float> FocusValues = FocusTendencies.ConvertAll(x => (float)x);
         FocusValues.RemoveAt(Leader.Focus.ID);
-        Debug.Log("Focus Values: (should be same)");
-
-        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
 
         for (int i = 0; i < FocusValues.Count; i++)
             FocusValues[i] *= (newWeight / (float)oldWeight);
 
-        Debug.Log("Focus Values after math (" + (newWeight / (float)oldWeight) + "):");
-        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
 
         List<float> FocusValueRemainders = FocusValues.ConvertAll(x => x %= 1);
-        Debug.Log("Focus remainders:");
-        FocusValueRemainders.ForEach(x => Debug.Log("focus remainder \t" + x));
         for (int i = 0; i < FocusValues.Count; i++)
             FocusValues[i] = Mathf.Floor(FocusValues[i]);
 
-        Debug.Log("Focus Values after truncate:");
-        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
         while (FocusValues.Sum() < newWeight)
         {
             int maxIndex = FocusValueRemainders.IndexOf(FocusValueRemainders.Max());
             FocusValues[maxIndex]++;
             FocusValueRemainders[maxIndex] = 0; // So it wont be accessed as max value
         }
-        Debug.Log("Focus Values after round adding:");
-        FocusValues.ForEach(x => Debug.Log("focus value \t" + x));
 
         for (int i = 0; i < FocusValues.Count; i++)
         {
@@ -161,11 +148,6 @@ public class Country : ScriptableObject
         }
 
 
-
-
-
-        Debug.Log("after running");
-        FocusTendencies.ForEach(x => Debug.Log("original \t" + x));
     }
 
 
