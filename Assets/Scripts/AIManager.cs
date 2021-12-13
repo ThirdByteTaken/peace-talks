@@ -21,6 +21,11 @@ public class AIManager : MonoBehaviour
             if (ce.receiver.WarPower < Response.MinWarPower) continue;
             if (Response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
 
+            response.FittingFocuses.ForEach(x => print(x));
+            if (action.FittingFocuses.Contains(sender.LeaderFocus)) { print(action.Name + ": " + action.FittingFocusChance); bestActions[action.FittingFocusChance].Add(action); }
+            else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
+            else bestActions[action.FittingFocusChance].Add(action);
+
             PossibleResponses.Add(Response);
         }
         return DevTools.RandomListValue(PossibleResponses);
