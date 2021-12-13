@@ -71,6 +71,20 @@ public class Country : ScriptableObject
 
     public Relation[] Relations;
 
+    private Relation leaderRelations;
+    public Relation LeaderRelations
+    {
+        get
+        {
+            return leaderRelations;
+        }
+        set
+        {
+            if (value.Value <= -100) PopulationRevolt();
+            leaderRelations = value;
+        }
+    }
+
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
 
@@ -114,14 +128,6 @@ public class Country : ScriptableObject
 
     public void CountryStatsDrift() // Country focus shifts towards leader focus
     {
-
-        //for each value:
-        //  multiply by new weight
-        //  divide by old weight
-
-
-        //  for each decimal remainder:
-        //       round up highest one
         List<float> FocusValues = FocusTendencies.ConvertAll(x => (float)x);
         FocusValues.RemoveAt(Leader.Focus.ID);
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
@@ -150,6 +156,9 @@ public class Country : ScriptableObject
         if (FocusTendencies.IndexOf(FocusTendencies.Max()) == Leader.Focus.ID) Focus = Leader.Focus;
     }
 
+    public void PopulationRevolt()
+    {
 
+    }
 }
 
