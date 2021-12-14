@@ -283,8 +283,7 @@ public class Main : MonoBehaviour
                 country.ActionCooldowns[action]--;
                 if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
             }
-            if (Random.Range(1, 100) > 0)// 25%
-                RunEvent(country);
+            RunEvent(country);
         }
 
         ce_NonPlayer.ForEach(x => SendAction(x)); // Run events in proper order so nonplayer events go first
