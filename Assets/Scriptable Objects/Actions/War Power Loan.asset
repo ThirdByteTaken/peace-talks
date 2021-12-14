@@ -54,6 +54,7 @@ MonoBehaviour:
     WorldSenderOpinion: 0
     WorldReceiverOpinion: 0
   NoticeSymbol: {fileID: 21300000, guid: 57d6944a4240d4e31adcf1acdef73c1e, type: 3}
+  Cooldown: 1
   MinRelation: 0
   MaxRelation: 100
   MinMoney: 0
