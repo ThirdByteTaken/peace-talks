@@ -124,6 +124,7 @@ public class ActionManager : MonoBehaviour
             }
         }
 
+        CurrentEvent.sender.ActionCooldowns.Add(CurrentEvent.action, CurrentEvent.action.Cooldown);
         CurrentEvent.sender.Money += Response.SenderMoney;
         CurrentEvent.sender.WarPower += Response.SenderWarPower;
         CurrentEvent.receiver.Money += Response.ReceiverMoney;

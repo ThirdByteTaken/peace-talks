@@ -42,6 +42,7 @@ public class AIManager : MonoBehaviour
             if (relation < action.MinRelation || relation > action.MaxRelation) continue;
             if (sender.Money < action.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
             if (sender.WarPower < action.MinWarPower) continue;
+            if (sender.ActionCooldowns.ContainsKey(action)) continue;
 
             if (action.FittingFocuses.Contains(sender.LeaderFocus)) { bestActions[action.FittingFocusChance].Add(action); }
             else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);

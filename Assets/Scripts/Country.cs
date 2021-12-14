@@ -148,6 +148,8 @@ public class Country : ScriptableObject
         }
 
     }
+
+    public Dictionary<Action, int> ActionCooldowns;
 }
 public enum PersonalityTypes
 {

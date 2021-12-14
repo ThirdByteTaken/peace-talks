@@ -277,6 +277,12 @@ public class Main : MonoBehaviour
 
         foreach (Country country in cnt_NonPlayers)
         {
+            // Update cooldowns
+            foreach (Action action in country.ActionCooldowns.Keys)
+            {
+                country.ActionCooldowns[action]--;
+                if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
+            }
             if (Random.Range(1, 100) > 0)// 25%
                 RunEvent(country);
         }
