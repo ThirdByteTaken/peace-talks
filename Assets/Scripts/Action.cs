@@ -10,6 +10,7 @@ public class Action : ScriptableObject
     public string PlayerDisplayMessage;
     public List<Response> Responses;
     public Sprite NoticeSymbol;
+    public int Cooldown;
 
     [Header("Requirements")]
     public int MinRelation;
