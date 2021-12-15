@@ -80,7 +80,7 @@ public class Country : ScriptableObject
         }
         set
         {
-            if (value.Value <= -100) PopulationRevolt();
+            //if (value.Value <= -100) PopulationRevolt();
             leaderRelations = value;
         }
     }
@@ -134,12 +134,16 @@ public class Country : ScriptableObject
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
 
         for (int i = 0; i < FocusValues.Count; i++)
-            FocusValues[i] *= (newWeight / (float)oldWeight);
-
+        {
+            FocusValues[i] = (newWeight / (float)oldWeight);
+            FocusValues[i] = Mathf.Clamp(FocusValues[i], 0, 100);
+        }
 
         List<float> FocusValueRemainders = FocusValues.ConvertAll(x => x %= 1);
+
         for (int i = 0; i < FocusValues.Count; i++)
             FocusValues[i] = Mathf.Floor(FocusValues[i]);
+
         int x = 0;
         while (FocusValues.Sum() < newWeight)
         {
@@ -158,8 +162,11 @@ public class Country : ScriptableObject
         for (int i = 0; i < FocusValues.Count; i++)
         {
             FocusTendencies[i + ((i >= Leader.Focus.ID) ? 1 : 0)] = (int)FocusValues[i];
+
         }
-        Debug.Log(FocusTendencies.IndexOf(FocusTendencies.Max()));
+        Debug.Log("Focus Values: (should be same)");
+
+        FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));
         Focus = ActionManager.focuses[FocusTendencies.IndexOf(FocusTendencies.Max())];
     }
 
