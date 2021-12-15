@@ -144,29 +144,30 @@ public class Country : ScriptableObject
         for (int i = 0; i < FocusValues.Count; i++)
             FocusValues[i] = Mathf.Floor(FocusValues[i]);
 
-        int x = 0;
+        //int x = 0;
         while (FocusValues.Sum() < newWeight)
         {
             int maxIndex = FocusValueRemainders.IndexOf(FocusValueRemainders.Max());
             FocusValues[maxIndex]++;
             FocusValueRemainders[maxIndex] = 0; // So it wont be accessed as max value
-            if (x > 10)
+            /*if (x > 10)
             {
                 Debug.Log("bruh it got stuck");
                 FocusValues.ForEach(x => Debug.Log("STUCK VAL \t" + x));
                 break;
             }
             x++;
+            */
         }
 
         for (int i = 0; i < FocusValues.Count; i++)
         {
             FocusTendencies[i + ((i >= Leader.Focus.ID) ? 1 : 0)] = (int)FocusValues[i];
-
         }
+        /*
         Debug.Log("Focus Values: (should be same)");
 
-        FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));
+        FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));*/
         Focus = ActionManager.focuses[FocusTendencies.IndexOf(FocusTendencies.Max())];
     }
 
@@ -193,6 +194,7 @@ public class Country : ScriptableObject
         Focus foc_New = ActionManager.focuses[iteration];
 
         Leader = new Leader("john"/*Leader Name Generator*/, rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
+        leaderRelations.Value = leaderRelations.RestingValue;
     }
 }
 

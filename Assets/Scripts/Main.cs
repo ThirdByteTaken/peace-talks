@@ -317,7 +317,11 @@ public class Main : MonoBehaviour
             {
                 relation.GracePeriod--;
                 if (relation.IsDrifting)
+                {
+                    int driftDirection = (relation.Value < relation.RestingMin) ? 1 : -1;
                     relation.Value += (relation.Value < relation.RestingMin) ? 1 : -1 * relation.DriftSpeed; // If greater than resting range, decrease relations, otherwise increase them               
+                    relation.Value = (driftDirection == 1) ? Mathf.Min(relation.Value, relation.RestingMin) : Mathf.Max(relation.Value, relation.RestingMax);
+                }
 
 
             }
@@ -328,6 +332,7 @@ public class Main : MonoBehaviour
                 cnt.PlayerRelations.Value += driftDirection * cnt.PlayerRelations.DriftSpeed; // If greater than resting range, decrease cnt.PlayerRelationss, otherwise increase them               
                 cnt.PlayerRelations.Value = (driftDirection == 1) ? Mathf.Min(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMin) : Mathf.Max(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMax);
             }
+            cnt.LeaderRelations.Value += Mathf.RoundToInt(cnt.LeaderRelations.DriftSpeed * (cnt.FocusTendencies[cnt.Leader.Focus.ID] - (float)cnt.FocusTendencies.Average()));
         }
 
     }
