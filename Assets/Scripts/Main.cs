@@ -348,13 +348,42 @@ public class Main : MonoBehaviour
         print("TURN " + GameInfo.s_TurnCount + ":");
         for (int i = 0; i < cnt_NonPlayers.Length; i++)
         {
-            print("\tCOUNTRY " + i + ":");
-            for (int j = i + 1; j < cnt_NonPlayers.Length; j++)
+            for (int j = 0; j < cnt_NonPlayers.Length; j++)
             {
+                if (i == j) continue;
+                print("\tCOUNTRY " + i + " to COUNTRY " + j + ":");
+
                 int focusTendencyDiff = Mathf.Abs(cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] - cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[i].Focus.ID]);
+
+                print("\t\tFocusTendencyDiff: " + focusTendencyDiff + " (first country -> " + cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] + " second country -> " + cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[i].Focus.ID] + ")");
+
                 int compareFocusTendencyDiff = Mathf.Abs(cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[j].Focus.ID] - cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[j].Focus.ID]);
-                int personalityDiff = (cnt_NonPlayers[i].Leader.Personality == cnt_NonPlayers[j].Leader.Personality) ? 1 : 0;
-                cnt_NonPlayers[i].Relations[j].Value -= Mathf.RoundToInt((cnt_NonPlayers[i].FocusDifferenceHarshness * RelationChangeFromFocusDiffFactor * ((focusTendencyDiff + compareFocusTendencyDiff) / 2)) + (cnt_NonPlayers[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff));
+
+                print("\t\tCompareFocusTendencyDiff: " + compareFocusTendencyDiff + " (first country -> " + cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[j].Focus.ID] + " second country -> " + cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[j].Focus.ID] + ")");
+
+                int averageFocusTendencyDiff = ((focusTendencyDiff + compareFocusTendencyDiff) / 2);
+
+                print("\t\tAverage: " + averageFocusTendencyDiff);
+
+                int focusTendencyDiffEffect = Mathf.RoundToInt(cnt_NonPlayers[i].FocusDifferenceHarshness * RelationChangeFromFocusDiffFactor * averageFocusTendencyDiff);
+
+                print("\t\tfocusTendencyDiffEffect: " + focusTendencyDiffEffect + " (harshness -> " + cnt_NonPlayers[i].FocusDifferenceHarshness + " factor -> " + RelationChangeFromFocusDiffFactor + ")");
+
+                int personalityDiff = Mathf.Abs((int)cnt_NonPlayers[i].Leader.Personality - (int)cnt_NonPlayers[j].Leader.Personality);
+
+                print("\t\tPersonalityDiff: " + personalityDiff + " (first country -> " + cnt_NonPlayers[i].Leader.Personality + " second country -> " + cnt_NonPlayers[j].Leader.Personality + ")");
+
+                int personalityDiffEffect = Mathf.RoundToInt(cnt_NonPlayers[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff);
+
+                print("\t\tPersonalityDiffEffect: " + personalityDiffEffect + " (harshness -> " + cnt_NonPlayers[i].PersonalityDifferenceHarshness + " factor -> " + RelationChangeFromPersonalityDiffFactor + ")");
+
+                int relationEffect = personalityDiffEffect + focusTendencyDiffEffect;
+
+                print("\t\tRelationEffect: " + relationEffect);
+
+                cnt_NonPlayers[i].Relations[j].Value -= Mathf.RoundToInt(focusTendencyDiffEffect + (cnt_NonPlayers[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff));
+
+
             }
         }
     }
