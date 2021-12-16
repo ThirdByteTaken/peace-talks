@@ -169,6 +169,7 @@ public class Country : ScriptableObject
 
         FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));*/
         Focus = ActionManager.focuses[FocusTendencies.IndexOf(FocusTendencies.Max())];
+
     }
 
     public void PopulationRevolt()

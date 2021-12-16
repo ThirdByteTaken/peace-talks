@@ -16,6 +16,9 @@ public class Main : MonoBehaviour
     public const int Default_Relation_Resting_Value = 0; // where range is centered on
     public const int Default_Relation_Resting_Range = 20; // size of range in either direction (value of 20 means range is -20 to 20)
 
+    public int RelationChangeFromFocusDiffFactor;
+    public int RelationChangeFromPersonalityDiffFactor;
+
     #region Variables
 
     public CountrySlot[] cs_NonPlayers;
@@ -79,7 +82,7 @@ public class Main : MonoBehaviour
         s_noDeath = noDeath;
 
         s_TurnActions += UpdateCountryResources;
-        s_TurnActions += UpdateCountryRelations;
+        s_TurnActions += DriftCountryRelations;
         print(ActionManager.focuses.Count);
         SetActionButtonsEnabled(false);
 
@@ -309,7 +312,7 @@ public class Main : MonoBehaviour
         cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.Focus.WarPowerModifier;
     }
 
-    private void UpdateCountryRelations()
+    private void DriftCountryRelations()
     {
         foreach (Country cnt in cnt_NonPlayers)
         {
@@ -335,6 +338,20 @@ public class Main : MonoBehaviour
             cnt.LeaderRelations.Value += Mathf.RoundToInt(cnt.LeaderRelations.DriftSpeed * (cnt.FocusTendencies[cnt.Leader.Focus.ID] - (float)cnt.FocusTendencies.Average()));
         }
 
+    }
+
+    private void UpdateInterCountryRelations(Country newLeaderCountry)
+    {
+        for (int i = 0; i < cnt_NonPlayers.Length; i++)
+        {
+            for (int j = i + 1; j < cnt_NonPlayers.Length; j++)
+            {
+                int focusTendencyDiff = Mathf.Abs(cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] - cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[i].Focus.ID]);
+                int compareFocusTendencyDiff = Mathf.Abs(cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[j].Focus.ID] - cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[j].Focus.ID]);
+                int personalityDiff = (cnt_NonPlayers[i].Leader.Personality == cnt_NonPlayers[j].Leader.Personality) ? 1 : 0;
+                cnt_NonPlayers[i].Relations[j].Value -= (RelationChangeFromFocusDiffFactor * ((focusTendencyDiff + compareFocusTendencyDiff) / 2)) + (RelationChangeFromPersonalityDiffFactor * personalityDiff);
+            }
+        }
     }
 
     #endregion
