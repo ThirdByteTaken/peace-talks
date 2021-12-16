@@ -20,5 +20,8 @@ MonoBehaviour:
   MoneyGain: 50
   WarPowerGain: 50
   focus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  FocusTendencies: 67000000000000000000000000000000
+  PersonalityDifferenceHarshness: 1
+  FocusDifferenceHarshness: 1
   Flag: {fileID: 0}
   textColor: {r: 1, g: 0.9490196, b: 0, a: 1}

@@ -102,6 +102,10 @@ public class Country : ScriptableObject
     }
 
     public List<int> FocusTendencies; // how much the country values each focus
+    [Range(0, 2)]
+    public float PersonalityDifferenceHarshness; // affects how much their relations decrease each turn because of a personality mismatch with the other country
+    [Range(0, 2)]
+    public float FocusDifferenceHarshness; // affects how much their relations decrease each turn because of focus mismatches with the other country
 
     public Sprite Flag;
     public Color textColor;

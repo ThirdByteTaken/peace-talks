@@ -8562,6 +8562,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02dfb36d879024893999d87d12eb84e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RelationChangeFromFocusDiffFactor: 0.1
+  RelationChangeFromPersonalityDiffFactor: 10
   cs_NonPlayers:
   - {fileID: 192234810}
   - {fileID: 375893735}
