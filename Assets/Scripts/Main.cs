@@ -377,11 +377,15 @@ public class Main : MonoBehaviour
 
                 print("\t\tPersonalityDiffEffect: " + personalityDiffEffect + " (harshness -> " + cnt_NonPlayers[i].PersonalityDifferenceHarshness + " factor -> " + RelationChangeFromPersonalityDiffFactor + ")");
 
-                int relationEffect = personalityDiffEffect + focusTendencyDiffEffect;
+                int ideologicalDifference = personalityDiffEffect + focusTendencyDiffEffect;
 
-                print("\t\tRelationEffect: " + relationEffect);
+                print("\t\tideologicalDifference: " + ideologicalDifference);
 
-                cnt_NonPlayers[i].Relations[j].Value -= Mathf.RoundToInt(focusTendencyDiffEffect + (cnt_NonPlayers[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff));
+                int restingValue = (-ideologicalDifference + 15) * 2; // converts range of 0 - 30 to a range of -30 to 30
+
+                print("\t\trestingValue: " + restingValue);
+
+                cnt_NonPlayers[i].Relations[j].RestingValue = restingValue;
 
 
             }
