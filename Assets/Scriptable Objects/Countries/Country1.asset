@@ -16,10 +16,10 @@ MonoBehaviour:
   LeaderName: New Leader
   IsPlayerCountry: 0
   ID: 0
-  money: 20595
-  warPower: 10645
-  MoneyGain: 100
-  WarPowerGain: 50
+  money: 10275
+  warPower: 3425
+  MoneyGain: 75
+  WarPowerGain: 25
   LeaderPersonality: 2
   leaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   Flag: {fileID: 0}

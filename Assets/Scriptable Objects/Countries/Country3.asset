@@ -16,11 +16,11 @@ MonoBehaviour:
   LeaderName: New Leader
   IsPlayerCountry: 0
   ID: 2
-  money: 11245
-  warPower: 10295
+  money: 7725
+  warPower: 5975
   MoneyGain: 50
   WarPowerGain: 50
-  LeaderPersonality: 1
-  leaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  LeaderPersonality: 2
+  leaderFocus: {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
   Flag: {fileID: 0}
   textColor: {r: 1, g: 0.9490196, b: 0, a: 1}

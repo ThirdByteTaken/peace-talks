@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce691f32d925c497f9ab56e3521ef626, type: 3}
   m_Name: Diplomatic
   m_EditorClassIdentifier: 
-  MoneyModifier: -25
-  WarPowerModifier: 0
-  RelationDriftModifier: 20
-  RelationGracePeriodModifier: 20
-  RelationRestingValueModifier: 20
-  RelationRestingRangeModifier: 20
+  MoneyModifier: -10
+  WarPowerModifier: -10
+  RelationDriftModifier: 0
+  RelationGracePeriodModifier: 5
+  RelationRestingValueModifier: 5
+  RelationRestingRangeModifier: 5

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoneyModifier: 0
   WarPowerModifier: 0
-  RelationDriftModifier: 50
-  RelationGracePeriodModifier: 50
-  RelationRestingValueModifier: 50
-  RelationRestingRangeModifier: 50
+  RelationDriftModifier: 0
+  RelationGracePeriodModifier: 0
+  RelationRestingValueModifier: 0
+  RelationRestingRangeModifier: 0

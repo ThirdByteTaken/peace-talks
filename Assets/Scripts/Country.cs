@@ -102,6 +102,8 @@ public class Country : ScriptableObject
         }
     }
 
+    public List<Country> cnt_RecentlyInteracted;
+
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
 
@@ -130,7 +132,6 @@ public class Country : ScriptableObject
         Debug.Log(value.name + name);
         MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
         WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
-        Debug.Log("g " + Relations[0].DriftSpeed);
         foreach (Relation Relation in Relations)
         {
             Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
@@ -145,10 +146,10 @@ public class Country : ScriptableObject
             PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
             PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
-        Debug.Log("h " + Relations[0].DriftSpeed);
-
 
     }
+
+    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
 }
 public enum PersonalityTypes
 {
