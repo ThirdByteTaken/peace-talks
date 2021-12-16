@@ -12,21 +12,25 @@ public class AIManager : MonoBehaviour
         ResetResponseDictionary();
         var relation = sender.Relations[ce.receiver.ID].Value;
 
-        List<Response> PossibleResponses = new List<Response>();
+        List<Response> AllPossibleResponses = new List<Response>();
         foreach (Response response in ce.action.Responses)
         {
-
             if (relation < response.MinRelation || relation > response.MaxRelation) continue;
             if (ce.receiver.Money < response.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
             if (ce.receiver.WarPower < response.MinWarPower) continue;
             if (response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
 
-            bestResponses[response.FittingFocusChance].Add(response); // Add all possible responses to respective part of list
+            if (response.FittingFocuses.Contains(ce.receiver.LeaderFocus))
+                bestResponses[response.FittingFocusChance].Add(response);
+            else
+                bestResponses[Likelihood.Middle].Add(response); // Add response to be moderately likely
+
+            AllPossibleResponses.Add(response);
         }
 
         Likelihood likelihood = WeightedRandomLikelihood();
         while (bestResponses[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
-        if (bestResponses[likelihood].Count == 0) return null;
+        if (bestResponses[likelihood].Count == 0) return DevTools.RandomListValue(AllPossibleResponses); // Return a random response
         return DevTools.RandomListValue(bestResponses[likelihood]);
     }
 

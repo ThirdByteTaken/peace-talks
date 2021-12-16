@@ -10,38 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5efe6591b53c648459a6a433d921c863, type: 3}
-  m_Name: Money Loan
+  m_Name: Meet Leader
   m_EditorClassIdentifier: 
-  Name: Money Loan
-  PlayerDisplayMessage: Sender is asking for a gift of money.
+  Name: Meet Leader
+  PlayerDisplayMessage: Sender has requested a meeting
   Responses:
-  - DisplayMessage: Accept Loan
-    NoticeDisplayMessage: Receiver has agreed to give Sender a gift of money.
-    MinRelation: 30
+  - DisplayMessage: Agree To Meet
+    NoticeDisplayMessage: Receiver has agreed to meet with Sender
+    MinRelation: -70
     MaxRelation: 100
-    MinMoney: 50
+    MinMoney: 15
     MinWarPower: 0
     FittingFocuses: []
-    FittingFocusChance: 1
-    RequireStrongerSender: 0
-    SenderOpinion: 20
-    SenderMoney: 50
-    SenderWarPower: 0
-    ReceiverOpinion: 10
-    ReceiverMoney: -50
-    ReceiverWarPower: 0
-    ChangeLeader: 0
-    WorldSenderOpinion: 0
-    WorldReceiverOpinion: 0
-  - DisplayMessage: Decline Loan
-    NoticeDisplayMessage: Receiver has declined to give Sender a gift of money.
-    MinRelation: -100
-    MaxRelation: 100
-    MinMoney: 0
-    MinWarPower: 0
-    FittingFocuses:
-    - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
-    FittingFocusChance: 4
+    FittingFocusChance: 0
     RequireStrongerSender: 0
     SenderOpinion: 0
     SenderMoney: 0
@@ -52,15 +33,32 @@ MonoBehaviour:
     ChangeLeader: 0
     WorldSenderOpinion: 0
     WorldReceiverOpinion: 0
-  NoticeSymbol: {fileID: 21300000, guid: 81c410d16da454a59ab72faf209d14c3, type: 3}
-  Cooldown: 2
-  MinRelation: 0
+  - DisplayMessage: Decline Meeting
+    NoticeDisplayMessage: 
+    MinRelation: 0
+    MaxRelation: 0
+    MinMoney: 0
+    MinWarPower: 0
+    FittingFocuses: []
+    FittingFocusChance: 0
+    RequireStrongerSender: 0
+    SenderOpinion: 0
+    SenderMoney: 0
+    SenderWarPower: 0
+    ReceiverOpinion: 0
+    ReceiverMoney: 0
+    ReceiverWarPower: 0
+    ChangeLeader: 0
+    WorldSenderOpinion: 0
+    WorldReceiverOpinion: 0
+  NoticeSymbol: {fileID: 0}
+  Cooldown: 0
+  MinRelation: -10
   MaxRelation: 100
-  MinMoney: 0
+  MinMoney: 15
   MinWarPower: 0
-  FittingFocuses:
-  - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  FittingFocuses: []
   NonfittingFocuses: []
-  FittingFocusChance: 3
-  NeutralChance: 2
+  FittingFocusChance: 0
+  NeutralChance: 0
   NonfittingFocusChance: 0

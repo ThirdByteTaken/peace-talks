@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5efe6591b53c648459a6a433d921c863, type: 3}
+  m_Name: Denounce
+  m_EditorClassIdentifier: 
+  Name: 
+  PlayerDisplayMessage: 
+  Responses: []
+  NoticeSymbol: {fileID: 0}
+  Cooldown: 0
+  MinRelation: 0
+  MaxRelation: 0
+  MinMoney: 0
+  MinWarPower: 0
+  FittingFocuses: []
+  NonfittingFocuses: []
+  FittingFocusChance: 0
+  NeutralChance: 0
+  NonfittingFocusChance: 0
