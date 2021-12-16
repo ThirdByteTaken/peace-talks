@@ -262,6 +262,7 @@ public class Main : MonoBehaviour
     {
         GameInfo.s_TurnCount++;
         UpdateCountrySlots();
+        UpdateActionCooldowns();
 
         SetActionButtonsEnabled(false);
 
@@ -275,14 +276,9 @@ public class Main : MonoBehaviour
         cnt_NonPlayers[0].Relations[0].Value = GameInfo.s_TurnCount;
 
 
+
         foreach (Country country in cnt_NonPlayers)
         {
-            // Update cooldowns
-            foreach (Action action in country.ActionCooldowns.Keys.ToList())
-            {
-                country.ActionCooldowns[action]--;
-                if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
-            }
             RunEvent(country);
         }
 
@@ -308,6 +304,25 @@ public class Main : MonoBehaviour
         }
         cnt_Player.Money += Default_Money_Gain + cnt_Player.LeaderFocus.MoneyModifier;
         cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarPowerModifier;
+    }
+
+    private void UpdateActionCooldowns()
+    {
+        foreach (Country country in cnt_NonPlayers)
+        {
+            foreach (Action action in country.ActionCooldowns.Keys.ToList())
+            {
+                country.ActionCooldowns[action]--;
+                if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
+            }
+        }
+
+        foreach (Action action in cnt_Player.ActionCooldowns.Keys.ToList())
+        {
+            cnt_Player.ActionCooldowns[action]--;
+            if (cnt_Player.ActionCooldowns[action] <= 0) cnt_Player.ActionCooldowns.Remove(action);
+        }
+
     }
 
     private void UpdateCountryRelations()
