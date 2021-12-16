@@ -66,6 +66,11 @@ public class ActionManager : MonoBehaviour
     {
         var sender = CurrentEvent.sender;
         var receiver = CurrentEvent.receiver;
+        if (main.cnt_Player.ActionCooldowns.Keys.Contains(action))
+        {
+            print("Cooldown");
+            return;
+        }
         RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
         RunResponse(AIManager.BestResponse(CurrentEvent, main.cnt_Player));
         DeselectCurrentCountrySlot();
