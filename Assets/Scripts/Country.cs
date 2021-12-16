@@ -149,7 +149,7 @@ public class Country : ScriptableObject
 
     }
 
-    public Dictionary<Action, int> ActionCooldowns;
+    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
 }
 public enum PersonalityTypes
 {
