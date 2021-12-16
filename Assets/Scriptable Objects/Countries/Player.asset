@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d58fd24baab24518a9cf9bb525a210a, type: 3}
-  m_Name: Country1
+  m_Name: Player
   m_EditorClassIdentifier: 
-  countryName: Dolphin Dictatorship
+  countryName: Penguin Principality
   LeaderName: New Leader
-  IsPlayerCountry: 0
-  ID: 0
-  money: 10275
-  warPower: 3425
-  MoneyGain: 75
-  WarPowerGain: 25
-  LeaderPersonality: 2
-  leaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  IsPlayerCountry: 1
+  ID: -1
+  money: 6850
+  warPower: 6850
+  MoneyGain: 50
+  WarPowerGain: 50
+  LeaderPersonality: 1
+  leaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
   Flag: {fileID: 0}
-  textColor: {r: 1, g: 0, b: 0, a: 1}
+  textColor: {r: 0.70980394, g: 0.0627451, b: 0.7647059, a: 1}
