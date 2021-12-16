@@ -278,7 +278,7 @@ public class Main : MonoBehaviour
         foreach (Country country in cnt_NonPlayers)
         {
             // Update cooldowns
-            foreach (Action action in country.ActionCooldowns.Keys)
+            foreach (Action action in country.ActionCooldowns.Keys.ToList())
             {
                 country.ActionCooldowns[action]--;
                 if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
