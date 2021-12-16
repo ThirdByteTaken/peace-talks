@@ -16,8 +16,9 @@ MonoBehaviour:
   LeaderName: New Leader
   IsPlayerCountry: 0
   ID: 2
-  money: 7725
-  warPower: 5975
+  money: 1000
+  warPower: 100
+  cnt_RecentlyInteracted: []
   MoneyGain: 50
   WarPowerGain: 50
   LeaderPersonality: 2

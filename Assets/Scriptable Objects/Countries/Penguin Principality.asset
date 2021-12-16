@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d58fd24baab24518a9cf9bb525a210a, type: 3}
-  m_Name: Republic of Rhinoceroses
+  m_Name: Penguin Principality
   m_EditorClassIdentifier: 
-  countryName: Republic of Rhinoceroses
+  countryName: Penguin Principality
   LeaderName: New Leader
-  IsPlayerCountry: 0
-  ID: 1
+  IsPlayerCountry: 1
+  ID: -1
   money: 1000
   warPower: 100
   cnt_RecentlyInteracted: []
   MoneyGain: 50
   WarPowerGain: 50
-  LeaderPersonality: 0
-  leaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  LeaderPersonality: 1
+  leaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
   Flag: {fileID: 0}
-  textColor: {r: 0.07450981, g: 0, b: 1, a: 1}
+  textColor: {r: 0.70980394, g: 0.0627451, b: 0.7647059, a: 1}

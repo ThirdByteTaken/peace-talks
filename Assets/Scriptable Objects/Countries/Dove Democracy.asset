@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d58fd24baab24518a9cf9bb525a210a, type: 3}
-  m_Name: Player
+  m_Name: Dove Democracy
   m_EditorClassIdentifier: 
-  countryName: Penguin Principality
-  LeaderName: New Leader
-  IsPlayerCountry: 1
-  ID: -1
-  money: 6850
-  warPower: 6850
+  countryName: Dove Democracy
+  LeaderName: Leader Name
+  IsPlayerCountry: 0
+  ID: 3
+  money: 1000
+  warPower: 100
+  cnt_RecentlyInteracted: []
   MoneyGain: 50
   WarPowerGain: 50
-  LeaderPersonality: 1
-  leaderFocus: {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  LeaderPersonality: 2
+  leaderFocus: {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
   Flag: {fileID: 0}
-  textColor: {r: 0.70980394, g: 0.0627451, b: 0.7647059, a: 1}
+  textColor: {r: 0, g: 0.9407029, b: 1, a: 0}
