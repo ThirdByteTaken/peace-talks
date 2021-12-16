@@ -12,17 +12,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5efe6591b53c648459a6a433d921c863, type: 3}
   m_Name: Denounce
   m_EditorClassIdentifier: 
-  Name: 
-  PlayerDisplayMessage: 
-  Responses: []
+  Name: Denounce
+  PlayerDisplayMessage: Sender has denounced you.
+  Responses:
+  - DisplayMessage: Acknowledge
+    NoticeDisplayMessage: Receiver has been denounced by Sender
+    MinRelation: -100
+    MaxRelation: 100
+    MinMoney: 0
+    MinWarPower: 0
+    FittingFocuses: []
+    FittingFocusChance: 5
+    RequireStrongerSender: 0
+    SenderOpinion: 0
+    SenderMoney: 0
+    SenderWarPower: 0
+    ReceiverOpinion: -40
+    ReceiverMoney: 0
+    ReceiverWarPower: 0
+    ChangeLeader: 0
+    WorldSenderOpinion: 0
+    WorldReceiverOpinion: 0
   NoticeSymbol: {fileID: 0}
-  Cooldown: 0
-  MinRelation: 0
-  MaxRelation: 0
+  Cooldown: 3
+  MinRelation: -100
+  MaxRelation: 70
   MinMoney: 0
   MinWarPower: 0
-  FittingFocuses: []
-  NonfittingFocuses: []
-  FittingFocusChance: 0
-  NeutralChance: 0
-  NonfittingFocusChance: 0
+  FittingFocuses:
+  - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
+  NonfittingFocuses:
+  - {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+  - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  FittingFocusChance: 4
+  NeutralChance: 3
+  NonfittingFocusChance: 1

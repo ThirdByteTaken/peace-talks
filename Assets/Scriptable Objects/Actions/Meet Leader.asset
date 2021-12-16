@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Meet Leader
   m_EditorClassIdentifier: 
   Name: Meet Leader
-  PlayerDisplayMessage: Sender has requested a meeting
+  PlayerDisplayMessage: Sender has requested a meeting.
   Responses:
   - DisplayMessage: Agree To Meet
     NoticeDisplayMessage: Receiver has agreed to meet with Sender
@@ -21,31 +21,34 @@ MonoBehaviour:
     MaxRelation: 100
     MinMoney: 15
     MinWarPower: 0
-    FittingFocuses: []
-    FittingFocusChance: 0
+    FittingFocuses:
+    - {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+    - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+    FittingFocusChance: 5
     RequireStrongerSender: 0
-    SenderOpinion: 0
+    SenderOpinion: 10
     SenderMoney: 0
     SenderWarPower: 0
-    ReceiverOpinion: 0
+    ReceiverOpinion: 10
     ReceiverMoney: 0
     ReceiverWarPower: 0
     ChangeLeader: 0
     WorldSenderOpinion: 0
     WorldReceiverOpinion: 0
   - DisplayMessage: Decline Meeting
-    NoticeDisplayMessage: 
-    MinRelation: 0
-    MaxRelation: 0
+    NoticeDisplayMessage: Receiver has refused to meet with Sender
+    MinRelation: -100
+    MaxRelation: 100
     MinMoney: 0
     MinWarPower: 0
-    FittingFocuses: []
-    FittingFocusChance: 0
+    FittingFocuses:
+    - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
+    FittingFocusChance: 4
     RequireStrongerSender: 0
-    SenderOpinion: 0
+    SenderOpinion: -10
     SenderMoney: 0
     SenderWarPower: 0
-    ReceiverOpinion: 0
+    ReceiverOpinion: -10
     ReceiverMoney: 0
     ReceiverWarPower: 0
     ChangeLeader: 0
@@ -57,8 +60,10 @@ MonoBehaviour:
   MaxRelation: 100
   MinMoney: 15
   MinWarPower: 0
-  FittingFocuses: []
-  NonfittingFocuses: []
-  FittingFocusChance: 0
-  NeutralChance: 0
-  NonfittingFocusChance: 0
+  FittingFocuses:
+  - {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+  NonfittingFocuses:
+  - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
+  FittingFocusChance: 5
+  NeutralChance: 3
+  NonfittingFocusChance: 2
