@@ -12360,10 +12360,11 @@ MonoBehaviour:
   focuses:
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
-  go_Categories: {fileID: 1407164123}
-  go_Aggressive: {fileID: 1074453422}
-  go_Neutral: {fileID: 813690935}
-  go_Friendly: {fileID: 337678130}
+  go_CategoryButtons: {fileID: 1407164123}
+  go_Categories:
+  - {fileID: 1074453422}
+  - {fileID: 813690935}
+  - {fileID: 337678130}
 --- !u!114 &1737418790
 MonoBehaviour:
   m_ObjectHideFlags: 0

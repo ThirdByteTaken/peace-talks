@@ -18,7 +18,10 @@ public class ActionManager : MonoBehaviour
     private Main main;
 
     [SerializeField]
-    private GameObject go_Categories, go_Aggressive, go_Neutral, go_Friendly;
+    private GameObject go_CategoryButtons;
+
+    [SerializeField]
+    private GameObject[] go_Categories;
 
     private void Start()
     {
@@ -63,11 +66,8 @@ public class ActionManager : MonoBehaviour
 
     public void ReturnToCategories()
     {
-        go_Categories.SetActive(true);
-        go_Aggressive.SetActive(false);
-        go_Neutral.SetActive(false);
-        go_Friendly.SetActive(false);
-
+        go_CategoryButtons.SetActive(true);
+        foreach (GameObject obj in go_Categories) obj.SetActive(false);
     }
 
     public void DeselectCurrentCountrySlot()
