@@ -849,7 +849,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.85
+  m_fontSize: 23.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9289,7 +9289,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.85
+  m_fontSize: 23.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9845,7 +9845,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.85
+  m_fontSize: 23.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -10445,10 +10445,12 @@ MonoBehaviour:
   - {fileID: 192234810}
   - {fileID: 375893735}
   - {fileID: 524969836}
+  - {fileID: 1783107939}
   cnt_NonPlayers:
   - {fileID: 11400000, guid: 2bd1f4460a7fa4b96aa992b8ff667da8, type: 2}
   - {fileID: 11400000, guid: 447ce3f2b5008486d8594cec5f2552bb, type: 2}
   - {fileID: 11400000, guid: b76957531de5e455b9bc9ea767f14c8c, type: 2}
+  - {fileID: 11400000, guid: 96413a6e78ecc4deeb6c731615f2f498, type: 2}
   cnt_Player: {fileID: 11400000, guid: 85cd9d068cbf4b042b37193dcc0130ea, type: 2}
   cs_Player: {fileID: 1272718480}
   eventSlot: {fileID: 758442335}
@@ -11911,7 +11913,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 441510968}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.7666666
+  m_Size: 0.76666665
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12913,7 +12915,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.85
+  m_fontSize: 23.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
