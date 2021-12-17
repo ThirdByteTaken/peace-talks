@@ -36,6 +36,9 @@ public class Main : MonoBehaviour
     public GameObject go_Actions;
 
     [SerializeField]
+    private List<GameObject> go_ActionCategories = new List<GameObject>();
+
+    [SerializeField]
     private List<GameObject> go_CurrentEventSlots = new List<GameObject>();
 
     [SerializeField]
@@ -255,7 +258,7 @@ public class Main : MonoBehaviour
 
     public void SetActionButtonsEnabled(bool enabled)
     {
-        go_Actions.GetComponentsInChildren<Button>().ToList().ForEach(x => x.interactable = enabled);
+        go_ActionCategories.ForEach(x => x.GetComponentsInChildren<Button>().ToList().ForEach(x => x.interactable = enabled));
     }
 
     public void NextTurn()
@@ -264,6 +267,7 @@ public class Main : MonoBehaviour
         UpdateCountrySlots();
         UpdateActionCooldowns();
 
+        actionManager.ReturnToCategories();
         SetActionButtonsEnabled(false);
 
         go_CurrentNotices.ForEach(x => GameObject.Destroy(x.gameObject));

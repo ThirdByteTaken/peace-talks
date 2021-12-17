@@ -12308,6 +12308,11 @@ MonoBehaviour:
   eventSlot: {fileID: 758442335}
   notice: {fileID: 1700556814}
   go_Actions: {fileID: 1953953674}
+  go_ActionCategories:
+  - {fileID: 1407164123}
+  - {fileID: 1074453422}
+  - {fileID: 813690935}
+  - {fileID: 337678130}
   go_CurrentEventSlots: []
   go_CurrentNotices: []
   actionTaken: 0
@@ -12355,10 +12360,10 @@ MonoBehaviour:
   focuses:
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
-  obj_Categories: {fileID: 1407164123}
-  obj_Aggressive: {fileID: 1074453422}
-  obj_Neutral: {fileID: 813690935}
-  obj_Friendly: {fileID: 337678130}
+  go_Categories: {fileID: 1407164123}
+  go_Aggressive: {fileID: 1074453422}
+  go_Neutral: {fileID: 813690935}
+  go_Friendly: {fileID: 337678130}
 --- !u!114 &1737418790
 MonoBehaviour:
   m_ObjectHideFlags: 0

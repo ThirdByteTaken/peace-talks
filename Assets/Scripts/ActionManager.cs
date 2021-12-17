@@ -17,8 +17,8 @@ public class ActionManager : MonoBehaviour
 
     private Main main;
 
-[SerializeField]
-    private GameObject obj_Categories, obj_Aggressive, obj_Neutral, obj_Friendly;
+    [SerializeField]
+    private GameObject go_Categories, go_Aggressive, go_Neutral, go_Friendly;
 
     private void Start()
     {
@@ -61,12 +61,12 @@ public class ActionManager : MonoBehaviour
         CountrySlot.SetCurrentlyHovered(true);
     }
 
-    void ReturnToCategories()
+    public void ReturnToCategories()
     {
-        obj_Categories.SetActive(true);
-        obj_Aggressive.SetActive(false);
-        obj_Neutral.SetActive(false);
-        obj_Friendly.SetActive(false);
+        go_Categories.SetActive(true);
+        go_Aggressive.SetActive(false);
+        go_Neutral.SetActive(false);
+        go_Friendly.SetActive(false);
 
     }
 
