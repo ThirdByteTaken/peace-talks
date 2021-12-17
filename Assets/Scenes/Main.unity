@@ -995,7 +995,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.4
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11141,7 +11141,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.4
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11697,7 +11697,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.4
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -12355,6 +12355,10 @@ MonoBehaviour:
   focuses:
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  obj_Categories: {fileID: 1407164123}
+  obj_Aggressive: {fileID: 1074453422}
+  obj_Neutral: {fileID: 813690935}
+  obj_Friendly: {fileID: 337678130}
 --- !u!114 &1737418790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13899,7 +13903,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 441510969}
   m_HandleRect: {fileID: 441510968}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 1.0000005
   m_Size: 0.76666665
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -14907,7 +14911,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.4
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

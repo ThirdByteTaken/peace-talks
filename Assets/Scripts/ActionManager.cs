@@ -17,6 +17,9 @@ public class ActionManager : MonoBehaviour
 
     private Main main;
 
+[SerializeField]
+    private GameObject obj_Categories, obj_Aggressive, obj_Neutral, obj_Friendly;
+
     private void Start()
     {
         main = GetComponent<Main>();
@@ -31,6 +34,7 @@ public class ActionManager : MonoBehaviour
         //currentResponses = CurrentAction.Responses.OfType<Response>().ToList(); // Convert response array to list    
 
     }
+
     public void SelectCountrySlot(CountrySlot CountrySlot)
     {
         if (main.actionTaken)
@@ -57,6 +61,15 @@ public class ActionManager : MonoBehaviour
         CountrySlot.SetCurrentlyHovered(true);
     }
 
+    void ReturnToCategories()
+    {
+        obj_Categories.SetActive(true);
+        obj_Aggressive.SetActive(false);
+        obj_Neutral.SetActive(false);
+        obj_Friendly.SetActive(false);
+
+    }
+
     public void DeselectCurrentCountrySlot()
     {
         if (CurrentEvent.receiver != null && CurrentEvent.receiver.ID != -1) SelectCountrySlot(main.cs_NonPlayers[CurrentEvent.receiver.ID]);
@@ -75,6 +88,7 @@ public class ActionManager : MonoBehaviour
         RunResponse(AIManager.BestResponse(CurrentEvent, main.cnt_Player));
         DeselectCurrentCountrySlot();
         SetCountrySlotButtonsUninteractable();
+        ReturnToCategories();
         main.actionTaken = true;
     }
 
