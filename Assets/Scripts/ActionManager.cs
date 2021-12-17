@@ -136,9 +136,8 @@ public class ActionManager : MonoBehaviour
 
         if (Response.ChangeLeader)
         {
-            Relation[] rel_New = new Relation[main.cnt_NonPlayers.Length]; // makes new list of relations
-            for (int j = 0; j < rel_New.Length; j++) rel_New[j] = new Relation(); // initializes each one   
-            CurrentEvent.receiver.Leader = new Leader("john", new Relation(), rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(focuses));
+
+            CurrentEvent.receiver.ChangeLeader(CurrentEvent.sender); // replaces the recievers leader with one similar to the senders country
         }
 
         main.UpdateCountrySlots();

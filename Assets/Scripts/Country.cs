@@ -117,14 +117,14 @@ public class Country : ScriptableObject
         foreach (Relation Relation in Relations)
         {
             Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
-            Relation.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+            Relation.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
             Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
             Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
         if (ID != -1)
         {
             PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
-            PlayerRelations.GracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
+            PlayerRelations.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
             PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
             PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
@@ -179,27 +179,38 @@ public class Country : ScriptableObject
     public void PopulationRevolt()
     {
         if (IsPlayerCountry) DeathManager.GameOver("Revolt", "The people of your country disliked you so much that they revolted against you");
+        ChangeLeader(this);
+    }
+
+    public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
+    {
         Relation[] rel_New = new Relation[Relations.Length]; // makes new list of relations
         for (int j = 0; j < rel_New.Length; j++)
         {
             rel_New[j] = new Relation(); // initializes each one   
-            rel_New[j].Value = Random.Range(Relations[j].Value - 20, Relations[j].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
+            if (modelCountry != null)
+                rel_New[j].Value = Random.Range(modelCountry.Relations[j].Value - 20, modelCountry.Relations[j].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
         }
         Relation rel_newPlayer = new Relation();
-        rel_newPlayer.Value = Random.Range(PlayerRelations.Value - 20, PlayerRelations.Value + 20);
+        if (modelCountry == null)
+            rel_newPlayer.Value = Random.Range(modelCountry.PlayerRelations.Value - 20, modelCountry.PlayerRelations.Value + 20);
         // TODO Replace with new DevTools function 
-        var TotalRatio = FocusTendencies.Sum();
+        var TotalRatio = modelCountry.FocusTendencies.Sum();
         int rand = Random.Range(0, TotalRatio + 1);
         int iteration = 0;
-        foreach (int x in FocusTendencies)
+        foreach (int x in modelCountry.FocusTendencies)
         {
             if ((rand -= x) < 0) break;
             iteration++;
         }
-        Focus foc_New = ActionManager.focuses[iteration];
-
+        Focus foc_New = (modelCountry != null) ? ActionManager.focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.focuses);
+        Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
+        Debug.Log("\tnewplayerrelation: " + rel_newPlayer.Value);
+        Debug.Log("\tnewrelations:");
+        rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
+        Debug.Log("\tnewfocus: " + foc_New.name);
         Leader = new Leader("john"/*Leader Name Generator*/, rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
-        leaderRelations.Value = leaderRelations.RestingValue;
+        modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
 }
 

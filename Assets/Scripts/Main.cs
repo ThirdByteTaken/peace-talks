@@ -321,7 +321,7 @@ public class Main : MonoBehaviour
         {
             foreach (Relation relation in cnt.Relations)
             {
-                relation.GracePeriod--;
+                relation.CurrentGracePeriod--;
                 if (relation.IsDrifting)
                 {
                     int driftDirection = (relation.Value < relation.RestingMin) ? 1 : -1;
@@ -331,7 +331,7 @@ public class Main : MonoBehaviour
 
 
             }
-            cnt.PlayerRelations.GracePeriod--;
+            cnt.PlayerRelations.CurrentGracePeriod--;
             if (cnt.PlayerRelations.IsDrifting)
             {
                 int driftDirection = (cnt.PlayerRelations.Value < cnt.PlayerRelations.RestingMin) ? 1 : -1;

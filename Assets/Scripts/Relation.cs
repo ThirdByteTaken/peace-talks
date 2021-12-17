@@ -18,8 +18,8 @@ public class Relation
                 //                Debug.Log(IsDrifting + " " + changeValue + " " + Value + " " + RestingMin);
                 if (!((IsDrifting) && (changeValue > 0) == (Value < RestingMin))) // Unless it is currently drifting in the direction of the change
                 {
-                    GracePeriod = Main.Default_Relation_Grace_Period; // Reset the grace period
-                                                                      //Debug.Log("Grace Period reset");
+                    CurrentGracePeriod = ResetGracePeriod; // Reset the grace period
+                                                           //Debug.Log("Grace Period reset");
                 }
             if (value <= -100)
             {
@@ -29,7 +29,8 @@ public class Relation
         }
     }
     public int DriftSpeed = Main.Default_Relation_Drift_Rate;
-    public int GracePeriod = Main.Default_Relation_Grace_Period;
+    public int ResetGracePeriod = Main.Default_Relation_Grace_Period;
+    public int CurrentGracePeriod = Main.Default_Relation_Grace_Period;
     private int restingValue = Main.Default_Relation_Resting_Value;
     public int RestingValue
     {
@@ -61,7 +62,7 @@ public class Relation
     {
         get
         {
-            return (!(Value >= RestingMin && Value <= RestingMax) && GracePeriod <= 0);
+            return (!(Value >= RestingMin && Value <= RestingMax) && CurrentGracePeriod <= 0);
         }
     }
 }
