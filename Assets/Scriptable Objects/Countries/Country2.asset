@@ -13,14 +13,15 @@ MonoBehaviour:
   m_Name: Country2
   m_EditorClassIdentifier: 
   countryName: Republic of Rhinoceroses
-  LeaderName: New Leader
   IsPlayerCountry: 0
   ID: 1
-  money: 10275
-  warPower: 3425
-  MoneyGain: 75
-  WarPowerGain: 25
-  LeaderPersonality: 0
-  leaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  money: 22495
+  warPower: 14695
+  MoneyGain: 25
+  WarPowerGain: 50
+  focus: {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
+  FocusTendencies: 5700000001000000010000000b000000
+  PersonalityDifferenceHarshness: 1
+  FocusDifferenceHarshness: 1
   Flag: {fileID: 0}
   textColor: {r: 0.07450981, g: 0, b: 1, a: 1}

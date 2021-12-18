@@ -5,6 +5,13 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Focus : ScriptableObject
 {
+    public int ID
+    {
+        get
+        {
+            return ActionManager.focuses.IndexOf(this);
+        }
+    }
     [Header("Resource Modifiers")]
     public int MoneyModifier;
     public int WarPowerModifier;

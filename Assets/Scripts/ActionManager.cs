@@ -13,12 +13,21 @@ public class ActionManager : MonoBehaviour
     private List<Action> actions = new List<Action>();
     public static List<Action> s_actions = new List<Action>();
 
-    public List<Focus> focuses = new List<Focus>();
+
+    public static List<Focus> focuses = new List<Focus>();
+    public List<Focus> Focuses;
 
     private Main main;
 
+    void Awake()
+    {
+        focuses = Focuses;
+    }
     private void Start()
     {
+        print(Focuses.Count);
+        focuses = Focuses;
+        print("n" + focuses.Count);
         main = GetComponent<Main>();
         s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
@@ -137,9 +146,8 @@ public class ActionManager : MonoBehaviour
 
         if (Response.ChangeLeader)
         {
-            CurrentEvent.receiver.LeaderName = "New Leader";
-            CurrentEvent.receiver.LeaderPersonality = DevTools.RandomEnumValue<PersonalityTypes>();
-            CurrentEvent.receiver.LeaderFocus = focuses[Random.Range(0, focuses.Count)];
+
+            CurrentEvent.receiver.ChangeLeader(CurrentEvent.sender); // replaces the recievers leader with one similar to the senders country
         }
 
         main.UpdateCountrySlots();

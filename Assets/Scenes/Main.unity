@@ -1613,7 +1613,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.45
+  m_fontSize: 18.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8952,6 +8952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02dfb36d879024893999d87d12eb84e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RelationChangeFromFocusDiffFactor: 0.1
+  RelationChangeFromPersonalityDiffFactor: 10
   cs_NonPlayers:
   - {fileID: 192234810}
   - {fileID: 375893735}
@@ -9008,9 +9010,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c8ddc586b00c33946b56496ed2715b26, type: 2}
   - {fileID: 11400000, guid: c7de29750c1e521488b7f7406d959915, type: 2}
   - {fileID: 11400000, guid: 0055a92d17f92403a93510e62ef5acba, type: 2}
-  focuses:
-  - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  Focuses:
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
+  - {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+  - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
 --- !u!114 &1737418790
 MonoBehaviour:
   m_ObjectHideFlags: 0

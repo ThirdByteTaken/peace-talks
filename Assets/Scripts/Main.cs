@@ -15,6 +15,10 @@ public class Main : MonoBehaviour
     public const int Default_Relation_Grace_Period = 5; // turns after a relation-changing action before relations start to drift
     public const int Default_Relation_Resting_Value = 0; // where range is centered on
     public const int Default_Relation_Resting_Range = 20; // size of range in either direction (value of 20 means range is -20 to 20)
+    [Range(0, 1)]
+    public float RelationChangeFromFocusDiffFactor;
+    [Range(0, 20)]
+    public float RelationChangeFromPersonalityDiffFactor;
 
     #region Variables
 
@@ -79,15 +83,18 @@ public class Main : MonoBehaviour
         s_noDeath = noDeath;
 
         s_TurnActions += UpdateCountryResources;
-        s_TurnActions += UpdateCountryRelations;
-
+        s_TurnActions += DriftCountryRelations;
+        s_TurnActions += UpdateInterCountryRelations;
+        print(ActionManager.focuses.Count);
         SetActionButtonsEnabled(false);
 
         Relation[] rel_PlayerNew = new Relation[cnt_NonPlayers.Length]; // makes new list of relations
         for (int i = 0; i < rel_PlayerNew.Length; i++) rel_PlayerNew[i] = new Relation(); // initializes each one   
 
         cnt_Player.Relations = rel_PlayerNew;
-
+        Relation[] rel_PlayerLeaderNew = (Relation[])rel_PlayerNew.Clone();
+        cnt_Player.Leader = new Leader("john", new Relation(), rel_PlayerLeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
+        cnt_Player.LeaderRelations = new Relation();
         for (int i = 0; i < cnt_NonPlayers.Length; i++) // Country initialization
         {
 
@@ -98,9 +105,21 @@ public class Main : MonoBehaviour
 
             cnt_NonPlayers[i].Relations = rel_New; // Reset all relations            
 
+
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
-            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].LeaderFocus);
+            cnt_NonPlayers[i].LeaderRelations = new Relation(); // Reset leader relations              
+            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
+
+            Relation[] rel_LeaderNew = (Relation[])rel_New.Clone();
+            cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
+            cnt_NonPlayers[i].FocusTendencies = new List<int>();
+            for (int j = 0; j < ActionManager.focuses.Count; j++) cnt_NonPlayers[i].FocusTendencies.Add(0);
+
+
+
+            cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] += 100;
+            s_TurnActions += cnt_NonPlayers[i].CountryStatsDrift;
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
@@ -141,7 +160,6 @@ public class Main : MonoBehaviour
         // If the sender/receiver and affected is the same, keep randomizing affected till they're not
         while (sender == newAffected || receiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
-
         Event newEvent = new Event(nextAction, sender, receiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));
@@ -169,7 +187,7 @@ public class Main : MonoBehaviour
         newEventSlot.Init();
         newEventSlot.transform.SetAsFirstSibling();
         newEventSlot.SetCountryName(currentEvent.sender.CountryName);
-        newEventSlot.SetLeaderName(currentEvent.sender.LeaderName);
+        newEventSlot.SetLeaderName(currentEvent.sender.Leader.Name);
         newEventSlot.SetAction(currentEvent.action.Name);
 
         go_CurrentEventSlots.Add(newEventSlot.gameObject);
@@ -235,8 +253,8 @@ public class Main : MonoBehaviour
     public void UpdateCountrySlots()
     {
         cs_Player.SetCountryName(cnt_Player.CountryName);
-        cs_Player.SetLeaderName(cnt_Player.LeaderName);
-        cs_Player.SetPersonality(cnt_Player.LeaderPersonality);
+        cs_Player.SetLeaderName(cnt_Player.Leader.Name);
+        cs_Player.SetPersonality(cnt_Player.Leader.Personality);
         cs_Player.SetMoney(cnt_Player.Money);
         cs_Player.SetWarPower(cnt_Player.WarPower);
         for (int i = 0; i < cs_NonPlayers.Length; i++)
@@ -245,8 +263,8 @@ public class Main : MonoBehaviour
             var cs = cs_NonPlayers[i];
             // CountrySlot.SetFlag(Country.Flag); Flags don't matter yet
             cs.SetCountryName(cnt.CountryName);
-            cs.SetLeaderName(cnt.LeaderName);
-            cs.SetPersonality(cnt.LeaderPersonality);
+            cs.SetLeaderName(cnt.Leader.Name);
+            cs.SetPersonality(cnt.Leader.Personality);
             cs.SetMoney(cnt.Money);
             cs.SetWarPower(cnt.WarPower);
             cs.SetRelation(cnt.PlayerRelations.Value); // Get relations toward the player country 
@@ -294,16 +312,16 @@ public class Main : MonoBehaviour
     {
         foreach (Country country in cnt_NonPlayers)
         {
-            country.Money += Default_Money_Gain + country.LeaderFocus.MoneyModifier;
-            country.WarPower += Default_WarPower_Gain + country.LeaderFocus.WarPowerModifier;
+            country.Money += Default_Money_Gain + country.Focus.MoneyModifier;
+            country.WarPower += Default_WarPower_Gain + country.Focus.WarPowerModifier;
             /*foreach (Relation relation in country.Relations)
             {
                 relation.Value += relation.DriftSpeed * ((relation.Value > relation.RestingValue) ? -1 : 1);
                 relation.GracePeriod--;
             }*/
         }
-        cnt_Player.Money += Default_Money_Gain + cnt_Player.LeaderFocus.MoneyModifier;
-        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.LeaderFocus.WarPowerModifier;
+        cnt_Player.Money += Default_Money_Gain + cnt_Player.Focus.MoneyModifier;
+        cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.Focus.WarPowerModifier;
     }
 
     private void UpdateActionCooldowns()
@@ -325,27 +343,81 @@ public class Main : MonoBehaviour
 
     }
 
-    private void UpdateCountryRelations()
+private void DriftCountryRelations()
     {
         foreach (Country cnt in cnt_NonPlayers)
         {
             foreach (Relation relation in cnt.Relations)
             {
-                relation.GracePeriod--;
+                relation.CurrentGracePeriod--;
                 if (relation.IsDrifting)
+                {
+                    int driftDirection = (relation.Value < relation.RestingMin) ? 1 : -1;
                     relation.Value += (relation.Value < relation.RestingMin) ? 1 : -1 * relation.DriftSpeed; // If greater than resting range, decrease relations, otherwise increase them               
+                    relation.Value = (driftDirection == 1) ? Mathf.Min(relation.Value, relation.RestingMin) : Mathf.Max(relation.Value, relation.RestingMax);
+                }
 
 
             }
-            cnt.PlayerRelations.GracePeriod--;
+            cnt.PlayerRelations.CurrentGracePeriod--;
             if (cnt.PlayerRelations.IsDrifting)
             {
                 int driftDirection = (cnt.PlayerRelations.Value < cnt.PlayerRelations.RestingMin) ? 1 : -1;
                 cnt.PlayerRelations.Value += driftDirection * cnt.PlayerRelations.DriftSpeed; // If greater than resting range, decrease cnt.PlayerRelationss, otherwise increase them               
                 cnt.PlayerRelations.Value = (driftDirection == 1) ? Mathf.Min(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMin) : Mathf.Max(cnt.PlayerRelations.Value, cnt.PlayerRelations.RestingMax);
             }
+            cnt.LeaderRelations.Value += Mathf.RoundToInt(cnt.LeaderRelations.DriftSpeed * (cnt.FocusTendencies[cnt.Leader.Focus.ID] - (float)cnt.FocusTendencies.Average()));
         }
 
+    }
+
+    private void UpdateInterCountryRelations()
+    {
+        print("TURN " + GameInfo.s_TurnCount + ":");
+        for (int i = 0; i < cnt_NonPlayers.Length; i++)
+        {
+            for (int j = 0; j < cnt_NonPlayers.Length; j++)
+            {
+                if (i == j) continue;
+                print("\tCOUNTRY " + i + " to COUNTRY " + j + ":");
+
+                int focusTendencyDiff = Mathf.Abs(cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] - cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[i].Focus.ID]);
+
+                print("\t\tFocusTendencyDiff: " + focusTendencyDiff + " (first country -> " + cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] + " second country -> " + cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[i].Focus.ID] + ")");
+
+                int compareFocusTendencyDiff = Mathf.Abs(cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[j].Focus.ID] - cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[j].Focus.ID]);
+
+                print("\t\tCompareFocusTendencyDiff: " + compareFocusTendencyDiff + " (first country -> " + cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[j].Focus.ID] + " second country -> " + cnt_NonPlayers[j].FocusTendencies[cnt_NonPlayers[j].Focus.ID] + ")");
+
+                int averageFocusTendencyDiff = ((focusTendencyDiff + compareFocusTendencyDiff) / 2);
+
+                print("\t\tAverage: " + averageFocusTendencyDiff);
+
+                int focusTendencyDiffEffect = Mathf.RoundToInt(cnt_NonPlayers[i].FocusDifferenceHarshness * RelationChangeFromFocusDiffFactor * averageFocusTendencyDiff);
+
+                print("\t\tfocusTendencyDiffEffect: " + focusTendencyDiffEffect + " (harshness -> " + cnt_NonPlayers[i].FocusDifferenceHarshness + " factor -> " + RelationChangeFromFocusDiffFactor + ")");
+
+                int personalityDiff = Mathf.Abs((int)cnt_NonPlayers[i].Leader.Personality - (int)cnt_NonPlayers[j].Leader.Personality);
+
+                print("\t\tPersonalityDiff: " + personalityDiff + " (first country -> " + cnt_NonPlayers[i].Leader.Personality + " second country -> " + cnt_NonPlayers[j].Leader.Personality + ")");
+
+                int personalityDiffEffect = Mathf.RoundToInt(cnt_NonPlayers[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff);
+
+                print("\t\tPersonalityDiffEffect: " + personalityDiffEffect + " (harshness -> " + cnt_NonPlayers[i].PersonalityDifferenceHarshness + " factor -> " + RelationChangeFromPersonalityDiffFactor + ")");
+
+                int ideologicalDifference = personalityDiffEffect + focusTendencyDiffEffect;
+
+                print("\t\tideologicalDifference: " + ideologicalDifference);
+
+                int restingValue = (-ideologicalDifference + 15) * 2; // converts range of 0 - 30 to a range of -30 to 30
+
+                print("\t\trestingValue: " + restingValue);
+
+                cnt_NonPlayers[i].Relations[j].RestingValue = restingValue;
+
+
+            }
+        }
     }
 
     #endregion
