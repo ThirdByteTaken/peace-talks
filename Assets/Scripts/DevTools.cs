@@ -45,7 +45,30 @@ public class DevTools : MonoBehaviour
 
     public static string GenerateLeaderName()
     {
-        return "";
+        List<string[]> nameSets = new List<string[]>();
+        if (Random.Range(0, 2) == 1)
+        {
+            nameSets.Add(NewLeaderTitles);
+            if (Random.Range(0, 2) == 1)
+                nameSets.Add(NewLeaderLastNames);
+            else
+            {
+                nameSets.Add((Random.Range(0, 2) == 1) ? NewLeaderFirstNamesBoy : NewLeaderFirstNamesGirl);
+                if (Random.Range(0, 2) == 1)
+                    nameSets.Add(NewLeaderLastNames);
+            }
+        }
+        else
+        {
+            nameSets.Add((Random.Range(0, 2) == 1) ? NewLeaderFirstNamesBoy : NewLeaderFirstNamesGirl);
+            if (Random.Range(0, 2) == 1)
+                nameSets.Add(NewLeaderLastNames);
+        }
+
+        string newName = "";
+        nameSets.ForEach(x => newName += RandomListValue<string>(x.ToList()));
+        print(newName);
+        return newName;
     }
 }
 
