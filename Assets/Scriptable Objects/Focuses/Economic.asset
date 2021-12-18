@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce691f32d925c497f9ab56e3521ef626, type: 3}
   m_Name: Economic
   m_EditorClassIdentifier: 
-  MoneyModifier: 50
-  WarPowerModifier: 0
-  RelationDriftModifier: 99
+  MoneyModifier: 25
+  WarPowerModifier: -25
+  RelationDriftModifier: 0
   RelationGracePeriodModifier: 0
   RelationRestingValueModifier: 0
   RelationRestingRangeModifier: 0

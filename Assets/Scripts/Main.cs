@@ -140,19 +140,27 @@ public class Main : MonoBehaviour
 
     #region Actions
 
-    public void RunEvent(Country Sender)
+    public void RunEvent(Country sender)
     {
-        Action newActionType = actionManager.actions[Random.Range(0, actionManager.actions.Count)];
-        int newReceiverID = Random.Range(0, cnt_NonPlayers.Length);
-        Country newReceiver = (newReceiverID == Sender.ID) ? cnt_Player : cnt_NonPlayers[newReceiverID];
-        // if it is a disagreement, get another country to be the affected country
-        Country newAffected = (newActionType.Name == "Disagreement") ? cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)] : null;
-        // if the sender/receiver and affected is the same, keep randomizing affected till they're not
-        while (Sender == newAffected || newReceiver == newAffected)
+        Country receiver = AIManager.BestCountry(sender);
+        if (receiver == null)
+        {
+            int rand = Random.Range(0, cnt_NonPlayers.Length);
+            receiver = (rand == sender.ID) ? cnt_Player : cnt_NonPlayers[rand];
+        }
+
+        Action nextAction = AIManager.BestAction(sender, receiver);
+        if (nextAction == null) return;
+
+        sender.cnt_RecentlyInteracted.Remove(receiver);
+
+        // If it is a disagreement, get another country to be the affected country
+        Country newAffected = (nextAction.Name == "Disagreement") ? cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)] : null;
+
+        // If the sender/receiver and affected is the same, keep randomizing affected till they're not
+        while (sender == newAffected || receiver == newAffected)
             newAffected = cnt_NonPlayers[Random.Range(0, cnt_NonPlayers.Length)];
-        //if (newReceiver == cnt_Player)
-        //print(newActionType + " " + Sender + " " + newReceiver + " " + newAffected);
-        Event newEvent = new Event(newActionType, Sender, newReceiver, newAffected);
+        Event newEvent = new Event(nextAction, sender, receiver, newAffected);
         if (newEvent.receiver.IsPlayerCountry)
             ce_Player.Add((newEvent));
         else
@@ -168,7 +176,6 @@ public class Main : MonoBehaviour
         }
         actionManager.RunAction(currentEvent);
 
-        //TODO would decide receiver response and run it
         actionManager.RunResponse(AIManager.BestResponse(currentEvent, currentEvent.sender));
         UpdateCountrySlots();
 
@@ -273,6 +280,7 @@ public class Main : MonoBehaviour
     {
         GameInfo.s_TurnCount++;
         UpdateCountrySlots();
+        UpdateActionCooldowns();
 
         SetActionButtonsEnabled(false);
 
@@ -286,10 +294,10 @@ public class Main : MonoBehaviour
         cnt_NonPlayers[0].Relations[0].Value = GameInfo.s_TurnCount;
 
 
+
         foreach (Country country in cnt_NonPlayers)
         {
-            if (Random.Range(1, 100) > 0)// 25%
-                RunEvent(country);
+            RunEvent(country);
         }
 
         ce_NonPlayer.ForEach(x => SendAction(x)); // Run events in proper order so nonplayer events go first
@@ -316,7 +324,26 @@ public class Main : MonoBehaviour
         cnt_Player.WarPower += Default_WarPower_Gain + cnt_Player.Focus.WarPowerModifier;
     }
 
-    private void DriftCountryRelations()
+    private void UpdateActionCooldowns()
+    {
+        foreach (Country country in cnt_NonPlayers)
+        {
+            foreach (Action action in country.ActionCooldowns.Keys.ToList())
+            {
+                country.ActionCooldowns[action]--;
+                if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
+            }
+        }
+
+        foreach (Action action in cnt_Player.ActionCooldowns.Keys.ToList())
+        {
+            cnt_Player.ActionCooldowns[action]--;
+            if (cnt_Player.ActionCooldowns[action] <= 0) cnt_Player.ActionCooldowns.Remove(action);
+        }
+
+    }
+
+private void DriftCountryRelations()
     {
         foreach (Country cnt in cnt_NonPlayers)
         {

@@ -85,6 +85,8 @@ public class Country : ScriptableObject
         }
     }
 
+    public List<Country> cnt_RecentlyInteracted;
+
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
 
@@ -212,5 +214,9 @@ public class Country : ScriptableObject
         Leader = new Leader("john"/*Leader Name Generator*/, rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
+
+    }
+
+    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
 }
 

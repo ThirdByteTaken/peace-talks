@@ -10,6 +10,20 @@ public class Action : ScriptableObject
     public string PlayerDisplayMessage;
     public List<Response> Responses;
     public Sprite NoticeSymbol;
+    public int Cooldown;
+
+    [Header("Requirements")]
+    public int MinRelation;
+    public int MaxRelation;
+    public int MinMoney;
+    public int MinWarPower;
+
+    [Header("AI Settings")]
+    public List<Focus> FittingFocuses;
+    public List<Focus> NonfittingFocuses;
+    public Likelihood FittingFocusChance;
+    public Likelihood NeutralChance;
+    public Likelihood NonfittingFocusChance;
 }
 
 [System.Serializable]
@@ -23,6 +37,10 @@ public class Response
     public int MaxRelation;
     public int MinMoney;
     public int MinWarPower;
+
+    [Header("AI Settings")]
+    public Focus[] FittingFocuses;
+    public Likelihood FittingFocusChance;
 
     public bool RequireStrongerSender;
 
@@ -45,4 +63,14 @@ public class Response
     [Tooltip("Whole world's opinion change towards the receiver")]
     public int WorldReceiverOpinion;
 
+}
+
+public enum Likelihood
+{
+    Lowest,
+    Lower,
+    Low,
+    Middle,
+    High,
+    Highest
 }

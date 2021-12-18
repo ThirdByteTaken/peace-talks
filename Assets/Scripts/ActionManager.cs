@@ -9,7 +9,9 @@ public class ActionManager : MonoBehaviour
 
     public Event CurrentEvent = new Event();
 
-    public List<Action> actions = new List<Action>();
+    [SerializeField]
+    private List<Action> actions = new List<Action>();
+    public static List<Action> s_actions = new List<Action>();
 
 
     public static List<Focus> focuses = new List<Focus>();
@@ -27,6 +29,7 @@ public class ActionManager : MonoBehaviour
         focuses = Focuses;
         print("n" + focuses.Count);
         main = GetComponent<Main>();
+        s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
         Main.s_TurnActions += DeselectCurrentCountrySlot;
     }
@@ -72,6 +75,11 @@ public class ActionManager : MonoBehaviour
     {
         var sender = CurrentEvent.sender;
         var receiver = CurrentEvent.receiver;
+        if (main.cnt_Player.ActionCooldowns.Keys.Contains(action))
+        {
+            print("Cooldown");
+            return;
+        }
         RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
         RunResponse(AIManager.BestResponse(CurrentEvent, main.cnt_Player));
         DeselectCurrentCountrySlot();
@@ -93,6 +101,7 @@ public class ActionManager : MonoBehaviour
 
     public void RunResponse(Response Response)
     {
+        CurrentEvent.receiver.cnt_RecentlyInteracted.Add(CurrentEvent.sender);
         if (CurrentEvent.receiver.IsPlayerCountry) // Receiver is player
         {
             CurrentEvent.sender.PlayerRelations.Value += Response.SenderOpinion;
@@ -129,6 +138,7 @@ public class ActionManager : MonoBehaviour
             }
         }
 
+        CurrentEvent.sender.ActionCooldowns.Add(CurrentEvent.action, CurrentEvent.action.Cooldown);
         CurrentEvent.sender.Money += Response.SenderMoney;
         CurrentEvent.sender.WarPower += Response.SenderWarPower;
         CurrentEvent.receiver.Money += Response.ReceiverMoney;
