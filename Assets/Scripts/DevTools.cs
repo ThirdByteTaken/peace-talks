@@ -35,6 +35,9 @@ public class DevTools : MonoBehaviour
         return "<#" + ColorUtility.ToHtmlStringRGB(country.textColor) + ">";
     }
 
-
+    public static string GenerateLeaderName()
+    {
+        return "";
+    }
 }
 
