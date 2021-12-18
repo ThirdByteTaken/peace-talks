@@ -5,6 +5,10 @@ using System.Linq;
 
 public class DevTools : MonoBehaviour
 {
+    private static readonly string[] NewLeaderTitles = { };
+    private static readonly string[] NewLeaderFirstNames = { };
+    private static readonly string[] NewLeaderLastNames = { };
+
     public static T RandomEnumValue<T>()
     {
         var v = System.Enum.GetValues(typeof(T));
