@@ -48,9 +48,11 @@ public class DevTools : MonoBehaviour
     public static string GenerateLeaderName()
     {
         List<string[]> nameSets = new List<string[]>();
-        if (Random.Range(0, 2) == 1)
+        bool isMale = (Random.Range(0, 2) == 1);
+
+        if (Random.Range(0, 5) >= 2) // 60% chance for title
         {
-            nameSets.Add(NewLeaderTitlesMale);
+            nameSets.Add((isMale) ? NewLeaderTitlesMale : NewLeaderTitlesFemale);
             if (Random.Range(0, 2) == 1)
                 nameSets.Add(NewLeaderLastNames);
             else
@@ -60,10 +62,10 @@ public class DevTools : MonoBehaviour
                     nameSets.Add(NewLeaderLastNames);
             }
         }
-        else
+        else // 40% for no title
         {
-            nameSets.Add((Random.Range(0, 2) == 1) ? NewLeaderFirstNamesMale : NewLeaderFirstNamesFemale);
-            if (Random.Range(0, 2) == 1)
+            nameSets.Add((isMale) ? NewLeaderFirstNamesMale : NewLeaderFirstNamesFemale);
+            if (Random.Range(0, 5) >= 1) // 80% chance for a last name            
                 nameSets.Add(NewLeaderLastNames);
         }
 
