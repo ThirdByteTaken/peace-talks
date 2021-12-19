@@ -73,11 +73,7 @@ public class Main : MonoBehaviour
 
     #endregion
 
-    #region Initialization
-    public void f()
-    {
-        DevTools.GenerateLeaderName();
-    }
+    #region Initialization    
 
 
     private void Start()
