@@ -18,6 +18,8 @@ public class Country : ScriptableObject
             return "<material=\"LiberationSans SDF - Outline\">" + DevTools.ColorCountryText(this) + countryName + "</color>" + "</material>";
         }
     }
+    public Leader previousLeader;
+
     public Leader Leader;
 
     public bool IsPlayerCountry;
@@ -211,6 +213,7 @@ public class Country : ScriptableObject
         Debug.Log("\tnewrelations:");
         rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\tnewfocus: " + foc_New.name);
+        previousLeader = Leader;
         Leader = new Leader(TextGenerator.LeaderName(), rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }

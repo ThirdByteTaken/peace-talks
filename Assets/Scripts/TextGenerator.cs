@@ -41,7 +41,6 @@ public class TextGenerator : MonoBehaviour
 
         string newName = "";
         nameSets.ForEach(x => newName += DevTools.RandomListValue<string>(x.ToList()) + " ");
-        print(newName);
         return newName.Trim(" ".ToCharArray());
     }
 }
