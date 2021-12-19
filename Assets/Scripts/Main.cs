@@ -74,6 +74,11 @@ public class Main : MonoBehaviour
     #endregion
 
     #region Initialization
+    public void f()
+    {
+        DevTools.GenerateLeaderName();
+    }
+
 
     private void Start()
     {
@@ -85,7 +90,6 @@ public class Main : MonoBehaviour
         s_TurnActions += UpdateCountryResources;
         s_TurnActions += DriftCountryRelations;
         s_TurnActions += UpdateInterCountryRelations;
-        print(ActionManager.focuses.Count);
         SetActionButtonsEnabled(false);
 
         Relation[] rel_PlayerNew = new Relation[cnt_NonPlayers.Length]; // makes new list of relations
@@ -343,7 +347,7 @@ public class Main : MonoBehaviour
 
     }
 
-private void DriftCountryRelations()
+    private void DriftCountryRelations()
     {
         foreach (Country cnt in cnt_NonPlayers)
         {

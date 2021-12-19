@@ -25,9 +25,7 @@ public class ActionManager : MonoBehaviour
     }
     private void Start()
     {
-        print(Focuses.Count);
         focuses = Focuses;
-        print("n" + focuses.Count);
         main = GetComponent<Main>();
         s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
