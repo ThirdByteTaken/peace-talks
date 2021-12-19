@@ -211,7 +211,7 @@ public class Country : ScriptableObject
         Debug.Log("\tnewrelations:");
         rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\tnewfocus: " + foc_New.name);
-        Leader = new Leader("john"/*Leader Name Generator*/, rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
+        Leader = new Leader(TextGenerator.LeaderName(), rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
 

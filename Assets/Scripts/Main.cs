@@ -93,7 +93,7 @@ public class Main : MonoBehaviour
 
         cnt_Player.Relations = rel_PlayerNew;
         Relation[] rel_PlayerLeaderNew = (Relation[])rel_PlayerNew.Clone();
-        cnt_Player.Leader = new Leader("john", new Relation(), rel_PlayerLeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
+        cnt_Player.Leader = new Leader(TextGenerator.LeaderName(), new Relation(), rel_PlayerLeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
         cnt_Player.LeaderRelations = new Relation();
         for (int i = 0; i < cnt_NonPlayers.Length; i++) // Country initialization
         {
@@ -112,7 +112,7 @@ public class Main : MonoBehaviour
             cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
 
             Relation[] rel_LeaderNew = (Relation[])rel_New.Clone();
-            cnt_NonPlayers[i].Leader = new Leader("john", new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
+            cnt_NonPlayers[i].Leader = new Leader(TextGenerator.LeaderName(), new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
             cnt_NonPlayers[i].FocusTendencies = new List<int>();
             for (int j = 0; j < ActionManager.focuses.Count; j++) cnt_NonPlayers[i].FocusTendencies.Add(0);
 
