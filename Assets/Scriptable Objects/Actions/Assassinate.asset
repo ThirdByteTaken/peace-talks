@@ -17,7 +17,7 @@ MonoBehaviour:
   Responses:
   - DisplayMessage: Publicize News
     NoticeDisplayMessage: Receiver has published news that Sender has assassinated
-      their leader, ReceiverLeader.
+      their leader, ReceiverOldLeader. They have been replaced by Receiver Leader.
     MinRelation: -100
     MaxRelation: 100
     MinMoney: 0
