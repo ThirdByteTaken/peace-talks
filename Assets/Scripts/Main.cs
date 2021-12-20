@@ -33,6 +33,8 @@ public class Main : MonoBehaviour
     [SerializeField]
     private Notice notice;
 
+    public Camera mainCamera;
+
     public GameObject go_Actions;
 
     [SerializeField]

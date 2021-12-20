@@ -13,6 +13,8 @@ public class ActionManager : MonoBehaviour
     private List<Action> actions = new List<Action>();
     public static List<Action> s_actions = new List<Action>();
 
+    public static Action s_hoveredAction;
+
     public List<Focus> focuses = new List<Focus>();
 
     private Main main;
@@ -64,6 +66,11 @@ public class ActionManager : MonoBehaviour
         CountrySlot.SetCurrentlyHovered(true);
     }
 
+    public void ActionHover(Action action)
+    {
+        s_hoveredAction = action;
+    }
+
     public void ReturnToCategories()
     {
         go_CategoryButtons.SetActive(true);
@@ -81,7 +88,6 @@ public class ActionManager : MonoBehaviour
         var receiver = CurrentEvent.receiver;
         if (main.cnt_Player.ActionCooldowns.Keys.Contains(action))
         {
-            print("Cooldown");
             return;
         }
         RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
