@@ -15,7 +15,7 @@ MonoBehaviour:
   Name: Money Loan
   PlayerDisplayMessage: Sender is asking for a gift of money.
   Responses:
-  - DisplayMessage: Accept Loan
+  - DisplayMessage: Approve Loan
     NoticeDisplayMessage: Receiver has agreed to give Sender a gift of money.
     MinRelation: 30
     MaxRelation: 100
@@ -33,7 +33,7 @@ MonoBehaviour:
     ChangeLeader: 0
     WorldSenderOpinion: 0
     WorldReceiverOpinion: 0
-  - DisplayMessage: Decline Loan
+  - DisplayMessage: Refuse Loan
     NoticeDisplayMessage: Receiver has declined to give Sender a gift of money.
     MinRelation: -100
     MaxRelation: 100

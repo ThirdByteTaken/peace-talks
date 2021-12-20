@@ -13,16 +13,24 @@ public class ActionManager : MonoBehaviour
     private List<Action> actions = new List<Action>();
     public static List<Action> s_actions = new List<Action>();
 
+    public static Action s_hoveredAction;
 
     public static List<Focus> focuses = new List<Focus>();
     public List<Focus> Focuses;
 
     private Main main;
 
+    [SerializeField]
+    private GameObject go_CategoryButtons;
+
+    [SerializeField]
+    private GameObject[] go_Categories;
+
     void Awake()
     {
         focuses = Focuses;
     }
+
     private void Start()
     {
         print(Focuses.Count);
@@ -40,6 +48,7 @@ public class ActionManager : MonoBehaviour
         //currentResponses = CurrentAction.Responses.OfType<Response>().ToList(); // Convert response array to list    
 
     }
+
     public void SelectCountrySlot(CountrySlot CountrySlot)
     {
         if (main.actionTaken)
@@ -66,6 +75,17 @@ public class ActionManager : MonoBehaviour
         CountrySlot.SetCurrentlyHovered(true);
     }
 
+    public void ActionHover(Action action)
+    {
+        s_hoveredAction = action;
+    }
+
+    public void ReturnToCategories()
+    {
+        go_CategoryButtons.SetActive(true);
+        foreach (GameObject obj in go_Categories) obj.SetActive(false);
+    }
+
     public void DeselectCurrentCountrySlot()
     {
         if (CurrentEvent.receiver != null && CurrentEvent.receiver.ID != -1) SelectCountrySlot(main.cs_NonPlayers[CurrentEvent.receiver.ID]);
@@ -77,13 +97,13 @@ public class ActionManager : MonoBehaviour
         var receiver = CurrentEvent.receiver;
         if (main.cnt_Player.ActionCooldowns.Keys.Contains(action))
         {
-            print("Cooldown");
             return;
         }
         RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
         RunResponse(AIManager.BestResponse(CurrentEvent, main.cnt_Player));
         DeselectCurrentCountrySlot();
         SetCountrySlotButtonsUninteractable();
+        ReturnToCategories();
         main.actionTaken = true;
     }
 

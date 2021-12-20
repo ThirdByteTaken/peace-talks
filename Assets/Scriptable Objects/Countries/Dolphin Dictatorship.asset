@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7d58fd24baab24518a9cf9bb525a210a, type: 3}
-  m_Name: Country1
+  m_Name: Dolphin Dictatorship
   m_EditorClassIdentifier: 
   countryName: Dolphin Dictatorship
+  LeaderName: New Leader
   IsPlayerCountry: 0
   ID: 0
-  money: 28545
-  warPower: 14495
-  MoneyGain: 100
+  money: 1000
+  warPower: 100
+  cnt_RecentlyInteracted: []
+  MoneyGain: 50
   WarPowerGain: 50
-  focus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
-  FocusTendencies: 49000000010000000100000019000000
-  PersonalityDifferenceHarshness: 1
-  FocusDifferenceHarshness: 1
+  LeaderPersonality: 2
+  leaderFocus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   Flag: {fileID: 0}
   textColor: {r: 1, g: 0, b: 0, a: 1}

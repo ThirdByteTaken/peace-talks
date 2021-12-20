@@ -27,9 +27,8 @@ public class GameInfo : MonoBehaviour
 
     public void OnEnable()
     {
-        go_NextTurn = transform.Find("Pass Turn").gameObject;
+        go_NextTurn = transform.Find("Next Turn").gameObject;
         txt_TurnCount = transform.Find("Turn Count").GetComponent<TextMeshProUGUI>();
-
     }
 
     #region  Setters
