@@ -20,7 +20,7 @@ public class AIManager : MonoBehaviour
             if (ce.receiver.WarPower < response.MinWarPower) continue;
             if (response.RequireStrongerSender && ce.sender.WarPower < ce.receiver.WarPower) continue;
 
-            if (response.FittingFocuses.Contains(ce.receiver.LeaderFocus))
+            if (response.FittingFocuses.Contains(ce.receiver.Focus))
                 bestResponses[response.FittingFocusChance].Add(response);
             else
                 bestResponses[Likelihood.Middle].Add(response); // Add response to be moderately likely
@@ -48,8 +48,8 @@ public class AIManager : MonoBehaviour
             if (sender.WarPower < action.MinWarPower) continue;
             if (sender.ActionCooldowns.ContainsKey(action)) continue;
 
-            if (action.FittingFocuses.Contains(sender.LeaderFocus)) { bestActions[action.FittingFocusChance].Add(action); }
-            else if (action.NonfittingFocuses.Contains(sender.LeaderFocus)) bestActions[action.NonfittingFocusChance].Add(action);
+            if (action.FittingFocuses.Contains(sender.Focus)) { bestActions[action.FittingFocusChance].Add(action); }
+            else if (action.NonfittingFocuses.Contains(sender.Focus)) bestActions[action.NonfittingFocusChance].Add(action);
             else bestActions[action.FittingFocusChance].Add(action);
 
         }

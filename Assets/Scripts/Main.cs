@@ -39,6 +39,8 @@ public class Main : MonoBehaviour
 
     public GameObject go_Actions;
 
+    public Camera mainCamera;
+
     [SerializeField]
     private List<GameObject> go_CurrentEventSlots = new List<GameObject>();
 
@@ -343,7 +345,7 @@ public class Main : MonoBehaviour
 
     }
 
-private void DriftCountryRelations()
+    private void DriftCountryRelations()
     {
         foreach (Country cnt in cnt_NonPlayers)
         {

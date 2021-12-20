@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: Dove Democracy
   m_EditorClassIdentifier: 
   countryName: Dove Democracy
-  LeaderName: Leader Name
   IsPlayerCountry: 0
   ID: 3
   money: 1000
@@ -21,7 +20,9 @@ MonoBehaviour:
   cnt_RecentlyInteracted: []
   MoneyGain: 50
   WarPowerGain: 50
-  LeaderPersonality: 2
-  leaderFocus: {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+  focus: {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+  FocusTendencies: 
+  PersonalityDifferenceHarshness: 0
+  FocusDifferenceHarshness: 0
   Flag: {fileID: 0}
   textColor: {r: 0, g: 0.9407029, b: 1, a: 0}

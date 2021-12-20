@@ -215,7 +215,6 @@ public class Country : ScriptableObject
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
 
-    }
 
     public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
 }

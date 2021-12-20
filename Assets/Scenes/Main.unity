@@ -12621,6 +12621,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02dfb36d879024893999d87d12eb84e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RelationChangeFromFocusDiffFactor: 0
+  RelationChangeFromPersonalityDiffFactor: 0
   cs_NonPlayers:
   - {fileID: 192234810}
   - {fileID: 375893735}
@@ -12635,13 +12637,8 @@ MonoBehaviour:
   cs_Player: {fileID: 1272718480}
   eventSlot: {fileID: 758442335}
   notice: {fileID: 1700556814}
-  mainCamera: {fileID: 1485134247}
   go_Actions: {fileID: 1953953674}
-  go_ActionCategories:
-  - {fileID: 1407164123}
-  - {fileID: 1074453422}
-  - {fileID: 813690935}
-  - {fileID: 337678130}
+  mainCamera: {fileID: 1485134247}
   go_CurrentEventSlots: []
   go_CurrentNotices: []
   actionTaken: 0
@@ -12686,8 +12683,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c8ddc586b00c33946b56496ed2715b26, type: 2}
   - {fileID: 11400000, guid: c7de29750c1e521488b7f7406d959915, type: 2}
   - {fileID: 11400000, guid: 0055a92d17f92403a93510e62ef5acba, type: 2}
-  focuses:
+  Focuses:
+  - {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
   - {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
+  - {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
   - {fileID: 11400000, guid: 92997ee127155413fb220f656bf3de2a, type: 2}
   go_CategoryButtons: {fileID: 1407164123}
   go_Categories:
@@ -14238,8 +14237,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 441510969}
   m_HandleRect: {fileID: 441510968}
   m_Direction: 2
-  m_Value: 1.0000005
-  m_Size: 0.76666665
+  m_Value: 1
+  m_Size: 0.7666666
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
