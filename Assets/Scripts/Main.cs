@@ -68,7 +68,6 @@ public class Main : MonoBehaviour
     public delegate void TurnAction();
     public static event TurnAction s_TurnActions;
 
-
     #endregion
 
 
@@ -106,6 +105,7 @@ public class Main : MonoBehaviour
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
             cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].LeaderFocus);
+            cnt_NonPlayers[i].cnt_RecentlyInteracted.Clear();
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
