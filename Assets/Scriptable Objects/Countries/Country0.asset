@@ -15,15 +15,14 @@ MonoBehaviour:
   countryName: Penguin Principality
   IsPlayerCountry: 1
   ID: -1
-
-  money: 12095
-  warPower: 14195
-
-  MoneyGain: 50
-  WarPowerGain: 50
-  focus: {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
+  money: 25
+  warPower: 75
+  cnt_RecentlyInteracted: []
+  MoneyGain: 10
+  WarPowerGain: 10
+  focus: {fileID: 11400000, guid: 0874813dea252479583c43b378fccbd1, type: 2}
   FocusTendencies: 
-  PersonalityDifferenceHarshness: 1
-  FocusDifferenceHarshness: 1
+  PersonalityDifferenceHarshness: 0
+  FocusDifferenceHarshness: 0
   Flag: {fileID: 0}
-  textColor: {r: 0.70980394, g: 0.0627451, b: 0.7647059, a: 1}
+  textColor: {r: 0.70980394, g: 0.05882353, b: 0.7607843, a: 1}
