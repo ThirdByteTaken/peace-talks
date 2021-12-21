@@ -33,9 +33,7 @@ public class ActionManager : MonoBehaviour
 
     private void Start()
     {
-        print(Focuses.Count);
         focuses = Focuses;
-        print("n" + focuses.Count);
         main = GetComponent<Main>();
         s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
@@ -165,10 +163,8 @@ public class ActionManager : MonoBehaviour
         CurrentEvent.receiver.WarPower += Response.ReceiverWarPower;
 
         if (Response.ChangeLeader)
-        {
-
             CurrentEvent.receiver.ChangeLeader(CurrentEvent.sender); // replaces the recievers leader with one similar to the senders country
-        }
+
 
         main.UpdateCountrySlots();
 
