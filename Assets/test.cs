@@ -7,13 +7,21 @@ public class test : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        int vertexCount = Random.Range(3, 6);
         Mesh mesh = new Mesh();
-        Vector3[] vertices = new Vector3[] { new Vector3(-100, 0), new Vector3(0, 100), new Vector3(100, 0), new Vector3(0, -100) };
-        Vector2[] uvs = new Vector2[] { new Vector2(0, 0.5f), new Vector2(0.5f, 1), new Vector2(1, 0.5f), new Vector2(0.5f, 0) };
-        int[] triangles = new int[] { 0, 1, 2, 1, 2, 3 };
+        Vector3[] vertices = new Vector3[vertexCount];
+        Vector2[] uvs = new Vector2[vertexCount];
+        int[] triangles = new int[vertexCount];
 
 
-
+        Vector3[] PossVertices = new Vector3[vertexCount];
+        for (int i = 0; i < PossVertices.Length; i++)
+        {
+            PossVertices[i] = new Vector3(Random.Range(-100, 101), Random.Range(-100, 101));
+            vertices[i] = PossVertices[i];
+            uvs[i] = new Vector2((PossVertices[i].x + 100) / 200f, (PossVertices[i].y + 100) / 200f);
+            triangles[i] = i;
+        }
         mesh.vertices = vertices;
         mesh.uv = uvs;
         mesh.triangles = triangles;
