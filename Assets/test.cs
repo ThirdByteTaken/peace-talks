@@ -61,9 +61,9 @@ public class test : MonoBehaviour
         originalImage.transform.parent.localPosition = -center;
 
     }
-    void Update()
-    {
-        originalImage.transform.parent.localScale += new Vector3(1, 1) * ScrollSpeed * Input.GetAxis("Mouse ScrollWheel");
-    }
+    //void Update()
+    //{
+    //    originalImage.transform.parent.parent.localScale += new Vector3(1, 1) * ScrollSpeed * Input.GetAxis("Mouse ScrollWheel");
+    //}
 
 }
