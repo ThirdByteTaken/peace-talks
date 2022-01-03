@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
 
-public class test : MonoBehaviour
+public class MapManager : MonoBehaviour
 {
     // Start is called before the first frame update
     /*private static Vector3[] hexoffsets = new Vector3[]
@@ -67,36 +67,17 @@ public class test : MonoBehaviour
             {
                 GameObject newGameobject = GameObject.Instantiate(originalImage, rowParent);
                 newGameobject.transform.localPosition = rowPos;
-                map[i].Add(new Hex() { X = i, Y = j, GameObject = newGameobject, Terrain = (Mathf.Min(i, j) == 0 || height - i == 1 || width - j == 1) ? terrainTypes["Water"] : terrainTypes["Land"], Image = newGameobject.GetComponent<Image>() });
+                map[i].Add(new Hex(i, j, newGameobject, (Mathf.Min(i, j) == 0 || height - i == 1 || width - j == 1) ? terrainTypes["Water"] : terrainTypes["Land"]));
                 rowPos.x += imageSize.x;
             }
             rowStart = new Vector3(rowStart.x + (((i % 2 == 1) ? -1 : 1) * imageSize.x / 2), rowStart.y += .75f * imageSize.y);
         }
         originalImage.SetActive(false);
-        ColorMap();
-    }
-
-    private void ColorMap()
-    {
-        foreach (List<Hex> row in map)
-        {
-            foreach (Hex hex in row)
-            {
-                hex.Image.color = hex.Terrain.Color;
-            }
-        }
     }
 }
 
-[System.Serializable]
-public class Hex
-{
-    public int X;
-    public int Y;
-    public GameObject GameObject;
-    public TerrainType Terrain;
-    public Image Image;
-}
+
+
 
 
 
