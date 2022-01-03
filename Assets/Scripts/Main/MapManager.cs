@@ -22,7 +22,7 @@ public class MapManager : MonoBehaviour
     public List<TerrainType> TerrainTypes;
     public static Dictionary<string, TerrainType> terrainTypes = new Dictionary<string, TerrainType>();
 
-
+    public int TerritoriesPerCountry;
 
 
     private Vector3 imageSize;
@@ -33,7 +33,7 @@ public class MapManager : MonoBehaviour
 
     private List<List<Hex>> map = new List<List<Hex>>();
 
-    public Main main;
+    private Main main;
     void Start()
     {
         main = GetComponent<Main>();
@@ -52,8 +52,8 @@ public class MapManager : MonoBehaviour
         {
             GameObject.Destroy(mapObject.GetChild(i).gameObject);
         }
-        int height = Random.Range(1, 20);
-        int width = Random.Range(1, 20);
+        int height = Random.Range(5, 20);
+        int width = Random.Range(5, 20);
         Vector3 sizeRequired = new Vector3((width + .5f) * imageSize.x, ((height * .75f) + .25f) * imageSize.y);
         float scaleFactor = Mathf.Min(rect_mapFrame.sizeDelta.x / sizeRequired.x, rect_mapFrame.sizeDelta.y / sizeRequired.y); // Finds the scale that allows map to fit both ways
         mapObject.localScale = new Vector3(scaleFactor, scaleFactor);
@@ -71,7 +71,7 @@ public class MapManager : MonoBehaviour
             {
                 GameObject newGameobject = GameObject.Instantiate(originalImage, rowParent);
                 newGameobject.transform.localPosition = rowPos;
-                map[i].Add(new Hex(i, j, newGameobject, (Mathf.Min(i, j) == 0 || height - i == 1 || width - j == 1) ? terrainTypes["Water"] : terrainTypes["Land"]));
+                map[i].Add(new Hex(j, i, newGameobject, (Mathf.Min(i, j) == 0 || height - i == 1 || width - j == 1) ? terrainTypes["Water"] : terrainTypes["Land"]));
                 rowPos.x += imageSize.x;
             }
             rowStart = new Vector3(rowStart.x + (((i % 2 == 1) ? -1 : 1) * imageSize.x / 2), rowStart.y += .75f * imageSize.y);
@@ -85,19 +85,26 @@ public class MapManager : MonoBehaviour
         float tilesBetweenCountryStarts = perimeter / (main.cnt_NonPlayers.Count() + 1);
         List<Country> totalCountries = main.cnt_NonPlayers.ToList();
         totalCountries.Add(main.cnt_Player);
+        totalCountries.ForEach(x => x.TerritoriesOwned = 0);
+        List<Hex>[] ownedOutsideTerritories = new List<Hex>[totalCountries.Count];
         int totalCountryCount = totalCountries.Count;
         int spawnedCountries = 0;
+        int totalPerimeterDistance = 0;
         (int, int) previousHexPosition = (int.MaxValue, 0);
-        (int, int) currentHexPosition = (0, 0); // TODO choose random position on perimeter
+        (int, int) currentHexPosition = (Random.Range(0, map[0].Count), 0); // TODO choose random position on perimeter
         (int, int) change = (1, 0);
+        List<Country> unSpawnedCountries = new List<Country>(totalCountries);
         while (spawnedCountries < totalCountryCount)
         {
-            if (Mathf.Abs(previousHexPosition.Item1 - currentHexPosition.Item1) + Mathf.Abs(previousHexPosition.Item2 - currentHexPosition.Item2) >= tilesBetweenCountryStarts)
+            if (totalPerimeterDistance >= tilesBetweenCountryStarts * (spawnedCountries + 1))
             {
-                Country newOwnerCountry = totalCountries[Random.Range(0, totalCountries.Count - 1)];
+                int newOwnerCountryIndex = Random.Range(0, unSpawnedCountries.Count - 1);
+                Country newOwnerCountry = unSpawnedCountries[newOwnerCountryIndex];
                 map[currentHexPosition.Item2][currentHexPosition.Item1].Owner = newOwnerCountry;
-                map[currentHexPosition.Item2][currentHexPosition.Item1].Image.color = Color.black;
-                totalCountries.Remove(newOwnerCountry);
+                map[currentHexPosition.Item2][currentHexPosition.Item1].Image.color = Color.white;
+                ownedOutsideTerritories[totalCountries.IndexOf(newOwnerCountry)] = new List<Hex>();
+                ownedOutsideTerritories[totalCountries.IndexOf(newOwnerCountry)].Add(map[currentHexPosition.Item2][currentHexPosition.Item1]);
+                unSpawnedCountries.Remove(newOwnerCountry);
                 spawnedCountries++;
                 previousHexPosition = currentHexPosition;
             }
@@ -127,13 +134,69 @@ public class MapManager : MonoBehaviour
                     currentHexPosition.Item1 += change.Item1;
                 }
             }
+            totalPerimeterDistance++;
         }
+        TerritoriesPerCountry = (map.Count * map[0].Count) / (2 * totalCountryCount);
+        while (totalCountries.Min(x => x.TerritoriesOwned) < TerritoriesPerCountry)
+        {
+            for (int i = 0; i < totalCountries.Count; i++)
+            {
+                if (totalCountries[i].TerritoriesOwned > TerritoriesPerCountry) continue;
+                List<Hex> borderedHexes = new List<Hex>();
+                foreach (Hex hex in ownedOutsideTerritories[i])
+                {
+                    if (hex.X + 1 < map[0].Count)
+                    {
+                        borderedHexes.Add(map[hex.Y][hex.X + 1]);
+                        if (hex.Y % 2 == 1)
+                        {
+                            if (hex.Y + 1 < map.Count)
+                                borderedHexes.Add(map[hex.Y + 1][hex.X + 1]);
+                            if (hex.Y - 1 > -1)
+                                borderedHexes.Add(map[hex.Y - 1][hex.X + 1]);
+                        }
+                    }
+                    if (hex.X - 1 > -1)
+                    {
+                        borderedHexes.Add(map[hex.Y][hex.X - 1]);
+                        if (hex.Y % 2 == 0)
+                        {
+                            if (hex.Y + 1 < map.Count)
+                                borderedHexes.Add(map[hex.Y + 1][hex.X - 1]);
+                            if (hex.Y - 1 > -1)
+                                borderedHexes.Add(map[hex.Y - 1][hex.X - 1]);
+                        }
+                    }
+                    if (hex.Y - 1 > -1)
+                        borderedHexes.Add(map[hex.Y - 1][hex.X]);
+                    if (hex.Y + 1 < map.Count)
+                        borderedHexes.Add(map[hex.Y + 1][hex.X]);
+                }
+                ownedOutsideTerritories[i].Clear();
+                while (borderedHexes.Count > 0)
+                {
+                    if (totalCountries[i].TerritoriesOwned > TerritoriesPerCountry) break;
+                    Hex borderHex = borderedHexes[Random.Range(0, borderedHexes.Count)];
+                    if (borderHex.Owner == null)
+                    {
+                        borderHex.Owner = totalCountries[i];
+                        borderHex.Image.color = borderHex.Owner.textColor;
+                        ownedOutsideTerritories[i].Add(borderHex);
+                        totalCountries[i].TerritoriesOwned++;
+                    }
+                    borderedHexes.Remove(borderHex);
+                }
 
 
+
+
+
+            }
+        }
     }
 }
 
-
+// even left odd right
 
 
 
@@ -176,4 +239,6 @@ public void Generate()
 
 }    
 */
+
+
 

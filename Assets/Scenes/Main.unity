@@ -13254,6 +13254,7 @@ MonoBehaviour:
   TerrainTypes:
   - {fileID: 11400000, guid: 6bd898e63067de64eb0843ce7cb1feb5, type: 2}
   - {fileID: 11400000, guid: 40a3f752bf3c1104ba3519c9182ebef9, type: 2}
+  TerritoriesPerCountry: 10
 --- !u!1 &1758530301
 GameObject:
   m_ObjectHideFlags: 0
