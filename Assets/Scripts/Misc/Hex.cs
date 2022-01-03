@@ -10,6 +10,7 @@ public class Hex
     public GameObject GameObject;
     public TerrainType Terrain;
     public Image Image;
+    public Country Owner;
     public Hex(int _x, int _y, GameObject _gameObject, TerrainType _terrain)
     {
         X = _x;

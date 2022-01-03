@@ -32,8 +32,11 @@ public class MapManager : MonoBehaviour
 
 
     private List<List<Hex>> map = new List<List<Hex>>();
+
+    public Main main;
     void Start()
     {
+        main = GetComponent<Main>();
         foreach (TerrainType terrain in TerrainTypes)
             terrainTypes.Add(terrain.Name, terrain);
         Image image = originalImage.GetComponent<Image>();
@@ -42,6 +45,7 @@ public class MapManager : MonoBehaviour
     }
     public void GenerateHexGrid()
     {
+        map.Clear();
         originalImage.SetActive(true);
         Transform mapObject = originalImage.transform.parent;
         for (int i = mapObject.childCount - 1; i > 0; i--)
@@ -73,6 +77,59 @@ public class MapManager : MonoBehaviour
             rowStart = new Vector3(rowStart.x + (((i % 2 == 1) ? -1 : 1) * imageSize.x / 2), rowStart.y += .75f * imageSize.y);
         }
         originalImage.SetActive(false);
+        SetCountryOwnerships();
+    }
+    private void SetCountryOwnerships()
+    {
+        float perimeter = (2 * map.Count) + (2 * map[0].Count) - 4;
+        float tilesBetweenCountryStarts = perimeter / (main.cnt_NonPlayers.Count() + 1);
+        List<Country> totalCountries = main.cnt_NonPlayers.ToList();
+        totalCountries.Add(main.cnt_Player);
+        int totalCountryCount = totalCountries.Count;
+        int spawnedCountries = 0;
+        (int, int) previousHexPosition = (int.MaxValue, 0);
+        (int, int) currentHexPosition = (0, 0); // TODO choose random position on perimeter
+        (int, int) change = (1, 0);
+        while (spawnedCountries < totalCountryCount)
+        {
+            if (Mathf.Abs(previousHexPosition.Item1 - currentHexPosition.Item1) + Mathf.Abs(previousHexPosition.Item2 - currentHexPosition.Item2) >= tilesBetweenCountryStarts)
+            {
+                Country newOwnerCountry = totalCountries[Random.Range(0, totalCountries.Count - 1)];
+                map[currentHexPosition.Item2][currentHexPosition.Item1].Owner = newOwnerCountry;
+                map[currentHexPosition.Item2][currentHexPosition.Item1].Image.color = Color.black;
+                totalCountries.Remove(newOwnerCountry);
+                spawnedCountries++;
+                previousHexPosition = currentHexPosition;
+            }
+            if (change.Item1 != 0)
+            {
+                int newXPos = currentHexPosition.Item1 + change.Item1;
+                if (newXPos < map[0].Count && newXPos > -1)
+                {
+                    currentHexPosition.Item1 = newXPos;
+                }
+                else
+                {
+                    change = (0, change.Item1);
+                    currentHexPosition.Item2 += change.Item2;
+                }
+            }
+            else
+            {
+                int newYPos = currentHexPosition.Item2 + change.Item2;
+                if (newYPos < map.Count && newYPos > -1)
+                {
+                    currentHexPosition.Item2 = newYPos;
+                }
+                else
+                {
+                    change = (-change.Item2, 0);
+                    currentHexPosition.Item1 += change.Item1;
+                }
+            }
+        }
+
+
     }
 }
 
