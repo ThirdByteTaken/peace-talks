@@ -5052,7 +5052,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!222 &702916435
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5068,18 +5068,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 702916433}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0.000043630065, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2015448586}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0.005}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -640, y: 512}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1000, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &702916437
 MonoBehaviour:
@@ -5101,7 +5101,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 934959483a9e9be4d8beab22aba98036, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c5d84d0417043b24f98c316792150335, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -13251,6 +13251,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   originalImage: {fileID: 702916433}
+  TerrainTypes:
+  - {fileID: 11400000, guid: 6bd898e63067de64eb0843ce7cb1feb5, type: 2}
+  - {fileID: 11400000, guid: 40a3f752bf3c1104ba3519c9182ebef9, type: 2}
 --- !u!1 &1758530301
 GameObject:
   m_ObjectHideFlags: 0

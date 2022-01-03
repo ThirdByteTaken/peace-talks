@@ -19,19 +19,28 @@ public class test : MonoBehaviour
 
 
     public GameObject originalImage;
+    public List<TerrainType> TerrainTypes;
+    public static Dictionary<string, TerrainType> terrainTypes = new Dictionary<string, TerrainType>();
+
+
+
 
     private Vector3 imageSize;
     private Vector3 mapFrameSize;
     private RectTransform rect_mapFrame;
 
+
+
     private List<List<Hex>> map = new List<List<Hex>>();
     void Start()
     {
+        foreach (TerrainType terrain in TerrainTypes)
+            terrainTypes.Add(terrain.Name, terrain);
         Image image = originalImage.GetComponent<Image>();
         imageSize = new Vector3(image.sprite.rect.width, image.sprite.rect.height);
         rect_mapFrame = originalImage.transform.parent.parent.GetComponent<RectTransform>();
     }
-    public void GenerateHexGrid()//int height, int width)
+    public void GenerateHexGrid()
     {
         originalImage.SetActive(true);
         Transform mapObject = originalImage.transform.parent;
@@ -42,12 +51,8 @@ public class test : MonoBehaviour
         int height = Random.Range(1, 20);
         int width = Random.Range(1, 20);
         Vector3 sizeRequired = new Vector3((width + .5f) * imageSize.x, ((height * .75f) + .25f) * imageSize.y);
-        float scaleFactor = Mathf.Min(rect_mapFrame.sizeDelta.x / sizeRequired.x, rect_mapFrame.sizeDelta.y / sizeRequired.y);
+        float scaleFactor = Mathf.Min(rect_mapFrame.sizeDelta.x / sizeRequired.x, rect_mapFrame.sizeDelta.y / sizeRequired.y); // Finds the scale that allows map to fit both ways
         mapObject.localScale = new Vector3(scaleFactor, scaleFactor);
-        //if (sizeRequired.x > mapObject.localScale.x) mapObject.localScale = new Vector3(rect_mapFrame.sizeDelta.x / sizeRequired.x, rect_mapFrame.sizeDelta.x / sizeRequired.x);
-        //if (sizeRequired.y > mapObject.localScale.y) mapObject.localScale = new Vector3(rect_mapFrame.sizeDelta.y / sizeRequired.y, rect_mapFrame.sizeDelta.y / sizeRequired.y);
-
-        print(rect_mapFrame.sizeDelta + " / " + sizeRequired + " = " + rect_mapFrame.localScale);
         mapFrameSize = sizeRequired;
         Vector3 rowStart = new Vector3(-((mapFrameSize.x / 2) - (imageSize.x / 2)), -((mapFrameSize.y / 2) - (imageSize.y / 2)));
         for (int i = 0; i < height; i++)
@@ -62,23 +67,41 @@ public class test : MonoBehaviour
             {
                 GameObject newGameobject = GameObject.Instantiate(originalImage, rowParent);
                 newGameobject.transform.localPosition = rowPos;
-                map[i].Add(new Hex() { x = i, y = j, gameObject = newGameobject });
+                map[i].Add(new Hex() { X = i, Y = j, GameObject = newGameobject, Terrain = (Mathf.Min(i, j) == 0 || height - i == 1 || width - j == 1) ? terrainTypes["Water"] : terrainTypes["Land"], Image = newGameobject.GetComponent<Image>() });
                 rowPos.x += imageSize.x;
             }
             rowStart = new Vector3(rowStart.x + (((i % 2 == 1) ? -1 : 1) * imageSize.x / 2), rowStart.y += .75f * imageSize.y);
         }
         originalImage.SetActive(false);
+        ColorMap();
     }
 
-
+    private void ColorMap()
+    {
+        foreach (List<Hex> row in map)
+        {
+            foreach (Hex hex in row)
+            {
+                hex.Image.color = hex.Terrain.Color;
+            }
+        }
+    }
 }
 
+[System.Serializable]
 public class Hex
 {
-    public int x;
-    public int y;
-    public GameObject gameObject;
+    public int X;
+    public int Y;
+    public GameObject GameObject;
+    public TerrainType Terrain;
+    public Image Image;
 }
+
+
+
+
+
 /*
 public void Generate()
 {
