@@ -91,7 +91,7 @@ public class Country : ScriptableObject
 
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
-    public int TerritoriesOwned;
+    public List<Hex> OwnedTerritories;
 
     [SerializeField]
     private Focus focus;

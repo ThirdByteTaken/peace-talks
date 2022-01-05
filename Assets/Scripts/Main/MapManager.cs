@@ -85,7 +85,7 @@ public class MapManager : MonoBehaviour
         float tilesBetweenCountryStarts = perimeter / (main.cnt_NonPlayers.Count() + 1);
         List<Country> totalCountries = main.cnt_NonPlayers.ToList();
         totalCountries.Add(main.cnt_Player);
-        totalCountries.ForEach(x => x.TerritoriesOwned = 0);
+        totalCountries.ForEach(x => x.OwnedTerritories = new List<Hex>());
         List<Hex>[] ownedOutsideTerritories = new List<Hex>[totalCountries.Count];
         int totalCountryCount = totalCountries.Count;
         int spawnedCountries = 0;
@@ -104,6 +104,7 @@ public class MapManager : MonoBehaviour
                 map[currentHexPosition.Item2][currentHexPosition.Item1].Image.color = Color.white;
                 ownedOutsideTerritories[totalCountries.IndexOf(newOwnerCountry)] = new List<Hex>();
                 ownedOutsideTerritories[totalCountries.IndexOf(newOwnerCountry)].Add(map[currentHexPosition.Item2][currentHexPosition.Item1]);
+                newOwnerCountry.OwnedTerritories.Add(map[currentHexPosition.Item2][currentHexPosition.Item1]);
                 unSpawnedCountries.Remove(newOwnerCountry);
                 spawnedCountries++;
                 previousHexPosition = currentHexPosition;
@@ -137,11 +138,11 @@ public class MapManager : MonoBehaviour
             totalPerimeterDistance++;
         }
         TerritoriesPerCountry = (map.Count * map[0].Count) / (2 * totalCountryCount);
-        while (totalCountries.Min(x => x.TerritoriesOwned) < TerritoriesPerCountry)
+        while (totalCountries.Min(x => x.OwnedTerritories.Count) < TerritoriesPerCountry)
         {
             for (int i = 0; i < totalCountries.Count; i++)
             {
-                if (totalCountries[i].TerritoriesOwned > TerritoriesPerCountry) continue;
+                if (totalCountries[i].OwnedTerritories.Count > TerritoriesPerCountry) continue;
                 List<Hex> borderedHexes = new List<Hex>();
                 foreach (Hex hex in ownedOutsideTerritories[i])
                 {
@@ -175,14 +176,14 @@ public class MapManager : MonoBehaviour
                 ownedOutsideTerritories[i].Clear();
                 while (borderedHexes.Count > 0)
                 {
-                    if (totalCountries[i].TerritoriesOwned > TerritoriesPerCountry) break;
+                    if (totalCountries[i].OwnedTerritories.Count > TerritoriesPerCountry) break;
                     Hex borderHex = borderedHexes[Random.Range(0, borderedHexes.Count)];
                     if (borderHex.Owner == null)
                     {
                         borderHex.Owner = totalCountries[i];
                         borderHex.Image.color = borderHex.Owner.textColor;
                         ownedOutsideTerritories[i].Add(borderHex);
-                        totalCountries[i].TerritoriesOwned++;
+                        totalCountries[i].OwnedTerritories.Add(borderHex);
                     }
                     borderedHexes.Remove(borderHex);
                 }
