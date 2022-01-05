@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Hex
+public class Territory
 {
     public int X;
     public int Y;
@@ -11,7 +11,7 @@ public class Hex
     public TerrainType Terrain;
     public Image Image;
     public Country Owner;
-    public Hex(int _x, int _y, GameObject _gameObject, TerrainType _terrain)
+    public Territory(int _x, int _y, GameObject _gameObject, TerrainType _terrain)
     {
         X = _x;
         Y = _y;

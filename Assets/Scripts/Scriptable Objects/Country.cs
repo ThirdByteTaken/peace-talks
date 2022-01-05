@@ -91,7 +91,7 @@ public class Country : ScriptableObject
 
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
-    public List<Hex> OwnedTerritories;
+    public List<Territory> OwnedTerritories;
 
     [SerializeField]
     private Focus focus;
@@ -238,7 +238,7 @@ public class Country : ScriptableObject
     {
         MoneyGain = Focus.MoneyModifier;
         WarPowerGain = Focus.WarPowerModifier;
-        foreach (Hex territory in OwnedTerritories)
+        foreach (Territory territory in OwnedTerritories)
         {
             MoneyGain += territory.Terrain.MoneyProduction;
             WarPowerGain += territory.Terrain.WarPowerProduction;
