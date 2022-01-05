@@ -111,16 +111,17 @@ public class Main : MonoBehaviour
             // AI-Player Setup
             cnt_NonPlayers[i].PlayerRelations = new Relation(); // Reset player relations              
             cnt_NonPlayers[i].LeaderRelations = new Relation(); // Reset leader relations              
-            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
 
             Relation[] rel_LeaderNew = (Relation[])rel_New.Clone();
             cnt_NonPlayers[i].Leader = new Leader(TextGenerator.LeaderName(), new Relation(), rel_LeaderNew, DevTools.RandomEnumValue<PersonalityTypes>(), DevTools.RandomListValue<Focus>(ActionManager.focuses));
-            cnt_NonPlayers[i].FocusTendencies = new List<int>();
-            for (int j = 0; j < ActionManager.focuses.Count; j++) cnt_NonPlayers[i].FocusTendencies.Add(0);
+            cnt_NonPlayers[i].Focus = cnt_NonPlayers[i].Leader.Focus;
+            cnt_NonPlayers[i].FocusTendencies = new int[ActionManager.focuses.Count];
 
 
 
             cnt_NonPlayers[i].FocusTendencies[cnt_NonPlayers[i].Focus.ID] += 100;
+            cnt_NonPlayers[i].UpdateFocusModifiers(cnt_NonPlayers[i].Focus);
+
             s_TurnActions += cnt_NonPlayers[i].CountryStatsDrift;
         }
 

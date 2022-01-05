@@ -194,6 +194,10 @@ public class MapManager : MonoBehaviour
 
             }
         }
+        foreach (Country country in totalCountries)
+            country.UpdateTerritoryBenefits();
+
+
     }
 }
 

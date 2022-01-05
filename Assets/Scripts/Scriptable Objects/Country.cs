@@ -105,7 +105,7 @@ public class Country : ScriptableObject
         }
     }
 
-    public List<int> FocusTendencies; // how much the country values each focus
+    public int[] FocusTendencies; // how much the country values each focus
     [Range(0, 2)]
     public float PersonalityDifferenceHarshness; // affects how much their relations decrease each turn because of a personality mismatch with the other country
     [Range(0, 2)]
@@ -113,6 +113,10 @@ public class Country : ScriptableObject
 
     public Sprite Flag;
     public Color textColor;
+
+    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
+
+    #region Focuses
 
     public void UpdateFocusModifiers(Focus value)
     {
@@ -136,7 +140,11 @@ public class Country : ScriptableObject
 
     public void CountryStatsDrift() // Country focus shifts towards leader focus
     {
-        List<float> FocusValues = FocusTendencies.ConvertAll(x => (float)x);
+        List<float> FocusValues = new List<float>();
+        for (int i = 0; i < FocusTendencies.Length; i++)
+            FocusValues.Add(FocusTendencies[i]);
+
+
         FocusValues.RemoveAt(Leader.Focus.ID);
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
@@ -176,9 +184,15 @@ public class Country : ScriptableObject
         Debug.Log("Focus Values: (should be same)");
 
         FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));*/
-        Focus = ActionManager.focuses[FocusTendencies.IndexOf(FocusTendencies.Max())];
+        Focus = ActionManager.focuses[System.Array.IndexOf(FocusTendencies, (FocusTendencies.Max()))];
 
     }
+
+    #endregion
+
+    #region Leaders
+
+
 
     public void PopulationRevolt()
     {
@@ -217,7 +231,21 @@ public class Country : ScriptableObject
         Leader = new Leader(TextGenerator.LeaderName(), rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
+    #endregion
 
-    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
+    #region Territories
+    public void UpdateTerritoryBenefits()
+    {
+        MoneyGain = Focus.MoneyModifier;
+        WarPowerGain = Focus.WarPowerModifier;
+        foreach (Hex territory in OwnedTerritories)
+        {
+            MoneyGain += territory.Terrain.MoneyProduction;
+            WarPowerGain += territory.Terrain.WarPowerProduction;
+        }
+    }
+
+    #endregion
+
 }
 
