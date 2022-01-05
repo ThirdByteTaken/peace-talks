@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Land
   Color: {r: 0.5943396, g: 0.5230862, b: 0.25044495, a: 1}
+  MoneyProduction: 10
+  WarPowerProduction: 10

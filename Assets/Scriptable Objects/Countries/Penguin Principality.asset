@@ -18,10 +18,9 @@ MonoBehaviour:
   money: 0
   warPower: 0
   cnt_RecentlyInteracted: []
-  MoneyGain: 10
-  WarPowerGain: 10
-  TerritoriesOwned: 11
-  focus: {fileID: 0}
+  MoneyGain: 155
+  WarPowerGain: 105
+  focus: {fileID: 11400000, guid: 52555fffdf7da4d8d80d031e09157747, type: 2}
   FocusTendencies: 
   PersonalityDifferenceHarshness: 0
   FocusDifferenceHarshness: 0

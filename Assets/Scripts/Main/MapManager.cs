@@ -30,7 +30,6 @@ public class MapManager : MonoBehaviour
     private RectTransform rect_mapFrame;
 
 
-
     private List<List<Territory>> map = new List<List<Territory>>();
 
     private Main main;
@@ -101,7 +100,7 @@ public class MapManager : MonoBehaviour
                 int newOwnerCountryIndex = Random.Range(0, unSpawnedCountries.Count - 1);
                 Country newOwnerCountry = unSpawnedCountries[newOwnerCountryIndex];
                 map[currentHexPosition.Item2][currentHexPosition.Item1].Owner = newOwnerCountry;
-                map[currentHexPosition.Item2][currentHexPosition.Item1].Image.color = Color.white;
+                map[currentHexPosition.Item2][currentHexPosition.Item1].Image.color = newOwnerCountry.textColor;
                 ownedOutsideTerritories[totalCountries.IndexOf(newOwnerCountry)] = new List<Territory>();
                 ownedOutsideTerritories[totalCountries.IndexOf(newOwnerCountry)].Add(map[currentHexPosition.Item2][currentHexPosition.Item1]);
                 newOwnerCountry.OwnedTerritories.Add(map[currentHexPosition.Item2][currentHexPosition.Item1]);

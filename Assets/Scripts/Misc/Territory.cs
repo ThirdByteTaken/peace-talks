@@ -10,6 +10,7 @@ public class Territory
     public GameObject GameObject;
     public TerrainType Terrain;
     public Image Image;
+    public Button Button;
     public Country Owner;
     public Territory(int _x, int _y, GameObject _gameObject, TerrainType _terrain)
     {
@@ -19,5 +20,12 @@ public class Territory
         Terrain = _terrain;
         Image = GameObject.GetComponent<Image>();
         Image.color = Terrain.Color;
+        Button = GameObject.GetComponent<Button>();
+        Button.onClick.AddListener(OpenOwnerView);
+    }
+
+    public void OpenOwnerView()
+    {
+        Debug.Log("opened owner view of " + Owner.name);
     }
 }
