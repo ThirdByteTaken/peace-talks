@@ -19,16 +19,17 @@ public class MapManager : MonoBehaviour
 
 
     public GameObject originalImage;
+    private static Transform mapObject;
     public List<TerrainType> TerrainTypes;
     public static Dictionary<string, TerrainType> terrainTypes = new Dictionary<string, TerrainType>();
 
     public int TerritoriesPerCountry;
 
 
-    private Vector3 imageSize;
-    private Vector3 mapFrameSize;
-    private RectTransform rect_mapFrame;
-
+    private static Vector3 imageSize;
+    private static Vector3 mapFrameSize;
+    private static RectTransform rect_mapFrame;
+    private static Image TerritoryStatIndicator;
 
     private List<List<Territory>> map = new List<List<Territory>>();
 
@@ -41,12 +42,13 @@ public class MapManager : MonoBehaviour
         Image image = originalImage.GetComponent<Image>();
         imageSize = new Vector3(image.sprite.rect.width, image.sprite.rect.height);
         rect_mapFrame = originalImage.transform.parent.parent.GetComponent<RectTransform>();
+        TerritoryStatIndicator = originalImage.transform.parent.parent.GetChild(1).GetComponent<Image>();
     }
     public void GenerateHexGrid()
     {
         map.Clear();
-        originalImage.SetActive(true);
-        Transform mapObject = originalImage.transform.parent;
+
+        mapObject = originalImage.transform.parent;
         for (int i = mapObject.childCount - 1; i > 0; i--)
         {
             GameObject.Destroy(mapObject.GetChild(i).gameObject);
@@ -70,12 +72,12 @@ public class MapManager : MonoBehaviour
             {
                 GameObject newGameobject = GameObject.Instantiate(originalImage, rowParent);
                 newGameobject.transform.localPosition = rowPos;
+                newGameobject.SetActive(true);
                 map[i].Add(new Territory(j, i, newGameobject, (Mathf.Min(i, j) == 0 || height - i == 1 || width - j == 1) ? terrainTypes["Water"] : terrainTypes["Land"]));
                 rowPos.x += imageSize.x;
             }
             rowStart = new Vector3(rowStart.x + (((i % 2 == 1) ? -1 : 1) * imageSize.x / 2), rowStart.y += .75f * imageSize.y);
         }
-        originalImage.SetActive(false);
         SetCountryOwnerships();
     }
     private void SetCountryOwnerships()
@@ -198,9 +200,21 @@ public class MapManager : MonoBehaviour
 
 
     }
+
+    public static void MoveStatIndicator(Territory territory)
+    {
+        float mapSizeFactor = mapObject.localScale.x;
+        TerritoryStatIndicator.rectTransform.sizeDelta = new Vector3(imageSize.x * 1.5f, imageSize.y * .75f) * mapSizeFactor;
+        Vector3 statIndicatorSize = TerritoryStatIndicator.rectTransform.sizeDelta;
+        Vector3 territoryPosition = territory.GameObject.transform.localPosition * mapSizeFactor;
+        bool indicatorExtendsOverTop = territoryPosition.y + statIndicatorSize.y > rect_mapFrame.sizeDelta.y / 2;
+        bool indicatorExtendsOverSide = territoryPosition.x + statIndicatorSize.x > rect_mapFrame.sizeDelta.x / 2;
+        TerritoryStatIndicator.transform.localPosition = territoryPosition + new Vector3((indicatorExtendsOverSide ? -1 : 1) * statIndicatorSize.x / 2, (indicatorExtendsOverTop ? -1 : 1) * statIndicatorSize.y / 2);
+
+    }
 }
 
-// even left odd right
+
 
 
 
