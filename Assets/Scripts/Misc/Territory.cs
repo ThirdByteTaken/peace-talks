@@ -11,19 +11,7 @@ public class Territory
     public TerrainType Terrain;
     public Image Image;
     public Button Button;
-    private Country owner;
-    public Country Owner
-    {
-        get
-        {
-            return owner;
-        }
-        set
-        {
-            if (owner == null) Button.onClick.AddListener(OpenOwnerView);
-            owner = value;
-        }
-    }
+    public Country Owner;
     public Territory(int _x, int _y, GameObject _gameObject, TerrainType _terrain)
     {
         X = _x;
@@ -33,12 +21,11 @@ public class Territory
         Image = GameObject.GetComponent<Image>();
         Image.color = Terrain.Color;
         Button = GameObject.GetComponent<Button>();
-
+        Button.onClick.AddListener(OpenStatBox);
     }
 
-    public void OpenOwnerView()
+    public void OpenStatBox()
     {
-        Debug.Log("opened owner view of " + Owner.name);
-        MapManager.MoveStatIndicator(this);
+        MapManager.MoveStatBox(this);
     }
 }

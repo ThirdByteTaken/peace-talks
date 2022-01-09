@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using TMPro;
 
 public class MapManager : MonoBehaviour
 {
@@ -29,7 +30,8 @@ public class MapManager : MonoBehaviour
     private static Vector3 imageSize;
     private static Vector3 mapFrameSize;
     private static RectTransform rect_mapFrame;
-    private static Image TerritoryStatIndicator;
+    private static Image TerritoryStatBox;
+    private static Dictionary<string, TMP_Text> StatBoxTexts = new Dictionary<string, TMP_Text>();
 
     private List<List<Territory>> map = new List<List<Territory>>();
 
@@ -42,7 +44,15 @@ public class MapManager : MonoBehaviour
         Image image = originalImage.GetComponent<Image>();
         imageSize = new Vector3(image.sprite.rect.width, image.sprite.rect.height);
         rect_mapFrame = originalImage.transform.parent.parent.GetComponent<RectTransform>();
-        TerritoryStatIndicator = originalImage.transform.parent.parent.GetChild(1).GetComponent<Image>();
+        TerritoryStatBox = originalImage.transform.parent.parent.GetChild(1).GetComponent<Image>();
+        for (int i = 0; i < TerritoryStatBox.transform.childCount; i++)
+        {
+            var child = TerritoryStatBox.transform.GetChild(i);
+            TMP_Text textComponent;
+            if (child.TryGetComponent<TMP_Text>(out textComponent)) StatBoxTexts.Add(child.name, textComponent);
+        }
+
+
     }
     public void GenerateHexGrid()
     {
@@ -201,16 +211,23 @@ public class MapManager : MonoBehaviour
 
     }
 
-    public static void MoveStatIndicator(Territory territory)
+    public static void MoveStatBox(Territory territory)
     {
         float mapSizeFactor = mapObject.localScale.x;
-        TerritoryStatIndicator.rectTransform.sizeDelta = new Vector3(imageSize.x * 1.5f, imageSize.y * .75f) * mapSizeFactor;
-        Vector3 statIndicatorSize = TerritoryStatIndicator.rectTransform.sizeDelta;
+        TerritoryStatBox.rectTransform.sizeDelta = new Vector3(imageSize.x * 1.5f, imageSize.y * .75f) * mapSizeFactor;
+        Vector3 statBoxSize = TerritoryStatBox.rectTransform.sizeDelta;
         Vector3 territoryPosition = territory.GameObject.transform.localPosition * mapSizeFactor;
-        bool indicatorExtendsOverTop = territoryPosition.y + statIndicatorSize.y > rect_mapFrame.sizeDelta.y / 2;
-        bool indicatorExtendsOverSide = territoryPosition.x + statIndicatorSize.x > rect_mapFrame.sizeDelta.x / 2;
-        TerritoryStatIndicator.transform.localPosition = territoryPosition + new Vector3((indicatorExtendsOverSide ? -1 : 1) * statIndicatorSize.x / 2, (indicatorExtendsOverTop ? -1 : 1) * statIndicatorSize.y / 2);
+        bool boxExtendsOverTop = territoryPosition.y + statBoxSize.y > rect_mapFrame.sizeDelta.y / 2;
+        bool boxExtendsOverSide = territoryPosition.x + statBoxSize.x > rect_mapFrame.sizeDelta.x / 2;
+        TerritoryStatBox.transform.localPosition = territoryPosition + new Vector3((boxExtendsOverSide ? -1 : 1) * statBoxSize.x / 2, (boxExtendsOverTop ? -1 : 1) * statBoxSize.y / 2);
+        PopulateStatBoxInfo(territory);
 
+    }
+    private static void PopulateStatBoxInfo(Territory territory)
+    {
+        StatBoxTexts["Money"].text = "+" + territory.Terrain.MoneyProduction.ToString();
+        StatBoxTexts["War Power"].text = "+" + territory.Terrain.WarPowerProduction.ToString();
+        StatBoxTexts["Owner"].text = (territory.Owner == null) ? "Currently Unowned" : "Owned by: " + territory.Owner.CountryName;
     }
 }
 
