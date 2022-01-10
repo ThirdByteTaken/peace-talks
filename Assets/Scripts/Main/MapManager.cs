@@ -32,6 +32,7 @@ public class MapManager : MonoBehaviour
     private static RectTransform rect_mapFrame;
     private static Image TerritoryStatBox;
     private static Dictionary<string, TMP_Text> StatBoxTexts = new Dictionary<string, TMP_Text>();
+    private static Button StatBoxOwnerButton;
 
     private List<List<Territory>> map = new List<List<Territory>>();
 
@@ -51,7 +52,7 @@ public class MapManager : MonoBehaviour
             TMP_Text textComponent;
             if (child.TryGetComponent<TMP_Text>(out textComponent)) StatBoxTexts.Add(child.name, textComponent);
         }
-
+        StatBoxOwnerButton = StatBoxTexts["Owner"].GetComponent<Button>();
 
     }
     public void GenerateHexGrid()
@@ -227,7 +228,19 @@ public class MapManager : MonoBehaviour
     {
         StatBoxTexts["Money"].text = "+" + territory.Terrain.MoneyProduction.ToString();
         StatBoxTexts["War Power"].text = "+" + territory.Terrain.WarPowerProduction.ToString();
-        StatBoxTexts["Owner"].text = (territory.Owner == null) ? "Currently Unowned" : "Owned by: " + territory.Owner.CountryName;
+        if (territory.Owner == null)
+        {
+            StatBoxTexts["Owner"].text = "Currently Unowned";
+            StatBoxTexts["Owner"].raycastTarget = false;
+            StatBoxOwnerButton.onClick.RemoveAllListeners();
+        }
+        else
+        {
+            StatBoxTexts["Owner"].text = "Owned by: " + territory.Owner.CountryName;
+            StatBoxTexts["Owner"].raycastTarget = true;
+            StatBoxOwnerButton.onClick.AddListener(territory.OpenLeaderView);
+        }
+
     }
 }
 

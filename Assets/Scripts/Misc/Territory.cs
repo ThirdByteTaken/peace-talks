@@ -28,4 +28,9 @@ public class Territory
     {
         MapManager.MoveStatBox(this);
     }
+
+    public void OpenLeaderView()
+    {
+        Debug.Log("open " + Owner.CountryName);
+    }
 }
