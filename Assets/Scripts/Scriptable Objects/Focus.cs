@@ -9,7 +9,7 @@ public class Focus : ScriptableObject
     {
         get
         {
-            return ActionManager.focuses.IndexOf(this);
+            return ActionManager.s_Focuses.IndexOf(this);
         }
     }
     [Header("Resource Modifiers")]

@@ -35,6 +35,11 @@ public class Main : MonoBehaviour
     [SerializeField]
     private EventSlot eventSlot;
 
+    public static CountryView s_CountryView;
+
+    [SerializeField]
+    private CountryView CountryView;
+
     [SerializeField]
     private Notice notice;
 
@@ -80,17 +85,23 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
+
         // Reference Variables
         actionManager = GetComponent<ActionManager>();
 
+        // Static Assignments 
         s_noDeath = noDeath;
+        s_CountryView = CountryView;
 
+        // TurnActions Subscriptions
         s_TurnActions += UpdateCountryResources;
         s_TurnActions += DriftCountryRelations;
         s_TurnActions += UpdateInterCountryRelations;
-        SetActionButtonsEnabled(false);
+
+
+        // Country initialization
         cnt_Player = cnt_Players.Find(x => x.IsPlayerCountry);
-        for (int i = 0; i < cnt_Players.Count; i++) // Country initialization
+        for (int i = 0; i < cnt_Players.Count; i++)
         {
 
             cnt_Players[i].ID = i; // Set all cnt_NonPlayers[i]; IDs
@@ -104,32 +115,32 @@ public class Main : MonoBehaviour
             // AI-Player Setup            
             cnt_Players[i].LeaderRelations = new Relation(); // Reset leader relations              
 
-            var newFocus = DevTools.RandomListValue<Focus>(ActionManager.focuses);
+            var newFocus = DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
             rel_New.Add(new Relation()); // Corresponds with leaders country
-            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), new List<Relation>(rel_New), DevTools.RandomEnumValue<PersonalityTypes>(), newFocus);
+            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), new List<Relation>(rel_New), DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), newFocus);
             cnt_Players[i].Focus = newFocus;
 
 
-            cnt_Players[i].FocusTendencies = new int[ActionManager.focuses.Count];
+            cnt_Players[i].FocusTendencies = new int[ActionManager.s_Focuses.Count];
             cnt_Players[i].FocusTendencies[newFocus.ID] += 100;
             cnt_Players[i].UpdateFocusModifiers(cnt_Players[i].Focus);
 
             s_TurnActions += cnt_Players[i].CountryStatsDrift;
-
-
-
         }
 
+        // UI Initializations
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
         {
             cs.Init();
             cs.SetColorBlock(cb_CountrySlotColors[0]);
         }
-
         cs_Player.Init();
+        eventSlot.Init();
+        s_CountryView.Init();
+
         // Game Setup
         GameInfo.s_TurnCount = 0;
-        eventSlot.Init();
+        SetActionButtonsEnabled(false);
         UpdateCountrySlots();
     }
 
@@ -380,7 +391,7 @@ public class Main : MonoBehaviour
 
                 print("\t\tfocusTendencyDiffEffect: " + focusTendencyDiffEffect + " (harshness -> " + cnt_Players[i].FocusDifferenceHarshness + " factor -> " + RelationChangeFromFocusDiffFactor + ")");
 
-                int personalityDiff = Mathf.Abs((int)cnt_Players[i].Leader.Personality - (int)cnt_Players[j].Leader.Personality);
+                int personalityDiff = Mathf.Abs(cnt_Players[i].Leader.Personality.ID - cnt_Players[j].Leader.Personality.ID);
 
                 print("\t\tPersonalityDiff: " + personalityDiff + " (first country -> " + cnt_Players[i].Leader.Personality + " second country -> " + cnt_Players[j].Leader.Personality + ")");
 

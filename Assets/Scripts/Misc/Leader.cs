@@ -8,10 +8,10 @@ public class Leader
 
     public List<Relation> Relations; // Relations with other countries    
 
-    public PersonalityTypes Personality;
+    public PersonalityType Personality;
     public Focus Focus;
 
-    public Leader(string name, List<Relation> relations, PersonalityTypes personality, Focus focus)
+    public Leader(string name, List<Relation> relations, PersonalityType personality, Focus focus)
     {
         Name = name;
         Relations = new List<Relation>(relations);
@@ -23,10 +23,4 @@ public class Leader
     {
 
     }
-}
-public enum PersonalityTypes
-{
-    Angry,
-    Neutral,
-    Peaceful
 }
