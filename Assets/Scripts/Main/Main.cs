@@ -25,6 +25,7 @@ public class Main : MonoBehaviour
     public CountrySlot[] cs_NonPlayers;
 
     public List<Country> cnt_Players = new List<Country>();
+    public static List<Country> s_cnt_Players;
 
     [HideInInspector]
     public Country cnt_Player;
@@ -92,6 +93,7 @@ public class Main : MonoBehaviour
         // Static Assignments 
         s_noDeath = noDeath;
         s_CountryView = CountryView;
+        s_cnt_Players = cnt_Players;
 
         // TurnActions Subscriptions
         s_TurnActions += UpdateCountryResources;
@@ -137,6 +139,7 @@ public class Main : MonoBehaviour
         cs_Player.Init();
         eventSlot.Init();
         s_CountryView.Init();
+        s_CountryView.OpenCountry(DevTools.RandomListValue<Country>(cnt_Players));
 
         // Game Setup
         GameInfo.s_TurnCount = 0;

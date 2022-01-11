@@ -18,7 +18,7 @@ public class ActionManager : MonoBehaviour
     public static List<Focus> s_Focuses = new List<Focus>();
     public List<Focus> Focuses;
 
-    public static List<PersonalityType> s_PersonalityTypes = new List<PersonalityType>();
+    public static List<PersonalityType> s_PersonalityTypes;
     public List<PersonalityType> PersonalityTypes;
 
     private Main main;
@@ -35,12 +35,11 @@ public class ActionManager : MonoBehaviour
     void Awake()
     {
         s_Focuses = Focuses;
+        s_PersonalityTypes = PersonalityTypes;
     }
 
     private void Start()
     {
-        s_Focuses = Focuses;
-        s_PersonalityTypes = PersonalityTypes;
         main = GetComponent<Main>();
         s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
