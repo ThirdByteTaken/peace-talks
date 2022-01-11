@@ -6,16 +6,14 @@ public class Leader
 {
     public string Name;
 
-    public Relation PlayerRelations;
     public Relation[] Relations; // Relations with other countries    
 
     public PersonalityTypes Personality;
     public Focus Focus;
 
-    public Leader(string name, Relation playerRelations, Relation[] relations, PersonalityTypes personality, Focus focus)
+    public Leader(string name, Relation[] relations, PersonalityTypes personality, Focus focus)
     {
         Name = name;
-        PlayerRelations = playerRelations;
         Relations = relations;
         Personality = personality;
         Focus = focus;

@@ -94,9 +94,9 @@ public class MapManager : MonoBehaviour
     private void SetCountryOwnerships()
     {
         float perimeter = (2 * map.Count) + (2 * map[0].Count) - 4;
-        float tilesBetweenCountryStarts = perimeter / (main.cnt_NonPlayers.Count() + 1);
-        List<Country> totalCountries = main.cnt_NonPlayers.ToList();
-        totalCountries.Add(main.cnt_Player);
+
+        var totalCountries = new List<Country>(main.cnt_Players);
+        float tilesBetweenCountryStarts = perimeter / (totalCountries.Count() + 1);
         totalCountries.ForEach(x => x.OwnedTerritories = new List<Territory>());
         List<Territory>[] ownedOutsideTerritories = new List<Territory>[totalCountries.Count];
         int totalCountryCount = totalCountries.Count;

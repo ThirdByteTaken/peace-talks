@@ -20,6 +20,9 @@ public class ActionManager : MonoBehaviour
 
     private Main main;
 
+    [HideInInspector]
+    public bool actionTaken; // if an action has already been taken by the player this turn
+
     [SerializeField]
     private GameObject go_CategoryButtons;
 
@@ -49,17 +52,17 @@ public class ActionManager : MonoBehaviour
 
     public void SelectCountrySlot(CountrySlot CountrySlot)
     {
-        if (main.actionTaken)
+        if (actionTaken)
         {
             print("Action already made this turn. Cannot select another country.");
             return;
         }
-        CountrySlot oldSelected = (CurrentEvent.receiver == null || CurrentEvent.receiver == main.cnt_Player) ? null : main.cs_NonPlayers[CurrentEvent.receiver.ID];
+        CountrySlot oldSelected = (CurrentEvent.receiver == null || CurrentEvent.receiver.IsPlayerCountry) ? null : main.cs_NonPlayers[CurrentEvent.receiver.ID];
         bool diffAsLast = (oldSelected != CountrySlot); // if button clicked was NOT the same as previously selected country       
 
         if (oldSelected != null) oldSelected.SetButtonSelected(false);
         CountrySlot.SetButtonSelected(diffAsLast);
-        CurrentEvent.receiver = (diffAsLast) ? main.cnt_NonPlayers[System.Array.IndexOf(main.cs_NonPlayers, CountrySlot)] : null; // sets receiver to corrsponsing country of clicked country slot
+        CurrentEvent.receiver = (diffAsLast) ? main.cnt_Players[System.Array.IndexOf(main.cs_NonPlayers, CountrySlot)] : null; // sets receiver to corresponsing country of clicked country slot
         main.SetActionButtonsEnabled(diffAsLast);
     }
 
@@ -86,7 +89,7 @@ public class ActionManager : MonoBehaviour
 
     public void DeselectCurrentCountrySlot()
     {
-        if (CurrentEvent.receiver != null && CurrentEvent.receiver.ID != -1) SelectCountrySlot(main.cs_NonPlayers[CurrentEvent.receiver.ID]);
+        if (CurrentEvent.receiver != null && CurrentEvent.receiver.IsPlayerCountry) SelectCountrySlot(main.cs_NonPlayers[CurrentEvent.receiver.ID]);
     }
 
     public void RunPlayerAction(Action action)
@@ -102,7 +105,7 @@ public class ActionManager : MonoBehaviour
         DeselectCurrentCountrySlot();
         SetCountrySlotButtonsUninteractable();
         ReturnToCategories();
-        main.actionTaken = true;
+        actionTaken = true;
     }
 
     public void SetCountrySlotButtonsInteractable()
@@ -120,40 +123,15 @@ public class ActionManager : MonoBehaviour
     public void RunResponse(Response Response)
     {
         CurrentEvent.receiver.cnt_RecentlyInteracted.Add(CurrentEvent.sender);
-        if (CurrentEvent.receiver.IsPlayerCountry) // Receiver is player
-        {
-            CurrentEvent.sender.PlayerRelations.Value += Response.SenderOpinion;
-            CurrentEvent.receiver.Relations[CurrentEvent.sender.ID].Value += Response.ReceiverOpinion;
-            foreach (Country country in main.cnt_NonPlayers)
-            {
-                country.PlayerRelations.Value += Response.WorldReceiverOpinion;
-                if (country != CurrentEvent.sender)
-                    country.Relations[CurrentEvent.sender.ID].Value += Response.WorldSenderOpinion;
-            }
-        }
-        else if (CurrentEvent.sender.IsPlayerCountry) // Sender is player
-        {
-            CurrentEvent.sender.Relations[CurrentEvent.receiver.ID].Value += Response.SenderOpinion;
-            CurrentEvent.receiver.PlayerRelations.Value += Response.ReceiverOpinion;
-            foreach (Country country in main.cnt_NonPlayers)
-            {
-                country.PlayerRelations.Value += Response.WorldSenderOpinion;
-                if (country != CurrentEvent.receiver)
-                    country.Relations[CurrentEvent.receiver.ID].Value += Response.WorldReceiverOpinion;
-            }
-        }
-        else // No player involvement
-        {
 
-            CurrentEvent.sender.Relations[CurrentEvent.receiver.ID].Value += Response.SenderOpinion;
-            CurrentEvent.receiver.Relations[CurrentEvent.sender.ID].Value += Response.ReceiverOpinion;
-            foreach (Country country in main.cnt_NonPlayers)
-            {
-                if (country != CurrentEvent.sender)
-                    country.Relations[CurrentEvent.sender.ID].Value += Response.WorldSenderOpinion;
-                if (country != CurrentEvent.receiver)
-                    country.Relations[CurrentEvent.receiver.ID].Value += Response.WorldReceiverOpinion;
-            }
+        CurrentEvent.sender.Relations[CurrentEvent.receiver.ID].Value += Response.SenderOpinion;
+        CurrentEvent.receiver.Relations[CurrentEvent.sender.ID].Value += Response.ReceiverOpinion;
+        foreach (Country country in main.cnt_Players)
+        {
+            if (country != CurrentEvent.sender)
+                country.Relations[CurrentEvent.sender.ID].Value += Response.WorldSenderOpinion;
+            if (country != CurrentEvent.receiver)
+                country.Relations[CurrentEvent.receiver.ID].Value += Response.WorldReceiverOpinion;
         }
 
         CurrentEvent.sender.ActionCooldowns.Add(CurrentEvent.action, CurrentEvent.action.Cooldown);

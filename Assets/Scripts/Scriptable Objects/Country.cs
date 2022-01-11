@@ -24,7 +24,7 @@ public class Country : ScriptableObject
 
     public bool IsPlayerCountry;
 
-    public int ID; // Used to access it within cnt_Countries array
+    public int ID;
 
     [SerializeField]
     private int money;
@@ -56,21 +56,6 @@ public class Country : ScriptableObject
         }
     }
 
-    private Relation playerRelations;
-    public Relation PlayerRelations
-    {
-        get
-        {
-            return playerRelations;
-        }
-        set
-        {
-            if (value.Value <= -100) DeathManager.GameOver("War", "War has broken out");
-            playerRelations = value;
-        }
-    }
-
-
     public Relation[] Relations;
 
     private Relation leaderRelations;
@@ -82,7 +67,7 @@ public class Country : ScriptableObject
         }
         set
         {
-            //if (value.Value <= -100) PopulationRevolt();
+            if (value.Value <= -100) PopulationRevolt();
             leaderRelations = value;
         }
     }
@@ -128,13 +113,6 @@ public class Country : ScriptableObject
             Relation.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
             Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
             Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
-        }
-        if (ID != -1)
-        {
-            PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
-            PlayerRelations.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
-            PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
-            PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
     }
 
@@ -209,9 +187,6 @@ public class Country : ScriptableObject
             if (modelCountry != null)
                 rel_New[j].Value = Random.Range(modelCountry.Relations[j].Value - 20, modelCountry.Relations[j].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
         }
-        Relation rel_newPlayer = new Relation();
-        if (modelCountry == null)
-            rel_newPlayer.Value = Random.Range(modelCountry.PlayerRelations.Value - 20, modelCountry.PlayerRelations.Value + 20);
         // TODO Replace with new DevTools function 
         var TotalRatio = modelCountry.FocusTendencies.Sum();
         int rand = Random.Range(0, TotalRatio + 1);
@@ -223,12 +198,11 @@ public class Country : ScriptableObject
         }
         Focus foc_New = (modelCountry != null) ? ActionManager.focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.focuses);
         Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
-        Debug.Log("\tnewplayerrelation: " + rel_newPlayer.Value);
         Debug.Log("\tnewrelations:");
         rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\tnewfocus: " + foc_New.name);
         previousLeader = Leader;
-        Leader = new Leader(TextGenerator.LeaderName(), rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
+        Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
     #endregion
