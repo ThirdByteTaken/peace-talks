@@ -56,7 +56,7 @@ public class Country : ScriptableObject
         }
     }
 
-    public Relation[] Relations;
+    public List<Relation> Relations;
 
     private Relation leaderRelations;
     public Relation LeaderRelations
@@ -180,10 +180,10 @@ public class Country : ScriptableObject
 
     public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
     {
-        Relation[] rel_New = new Relation[Relations.Length]; // makes new list of relations
-        for (int j = 0; j < rel_New.Length; j++)
+        var rel_New = new List<Relation>(); // makes new list of relations
+        for (int j = 0; j < Relations.Count; j++)
         {
-            rel_New[j] = new Relation(); // initializes each one   
+            rel_New.Add(new Relation()); // initializes each one   
             if (modelCountry != null)
                 rel_New[j].Value = Random.Range(modelCountry.Relations[j].Value - 20, modelCountry.Relations[j].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
         }
@@ -221,5 +221,26 @@ public class Country : ScriptableObject
 
     #endregion
 
+    #region Utility
+    public void PrintInfo()
+    {
+        Debug.Log("---------NEW COUNTRY-----------------");
+        Debug.Log("\t" + name);
+        Debug.Log("\tID:\t " + ID);
+        Debug.Log("\tPlayer Country?\t" + IsPlayerCountry);
+        Debug.Log("\t----------LEADER---------- ");
+        Debug.Log("\t\tName:\t" + Leader.Name);
+        Debug.Log("\t\tFocus:\t" + Leader.Focus.name);
+        Debug.Log("\t\tPersonality:\t" + Leader.Personality);
+        Debug.Log("\t\t--------LEADER RELATIONS--------");
+        Leader.Relations.ForEach(x => Debug.Log("\t\t\t" + x.Value));
+        Debug.Log("\t\t--------END LEADER RELATIONS--------");
+        Debug.Log("\t----------END LEADER---------- ");
+        Debug.Log("\t-------------RELATIONS-------------");
+        Relations.ForEach(x => Debug.Log("\t\t" + x.Value));
+        Debug.Log("\t-------------END RELATIONS-------------");
+        Debug.Log("---------END NEW COUNTRY-----------------");
+    }
+    #endregion
 }
 

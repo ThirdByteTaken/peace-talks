@@ -95,18 +95,18 @@ public class Main : MonoBehaviour
 
             cnt_Players[i].ID = i; // Set all cnt_NonPlayers[i]; IDs
 
-            Relation[] rel_New = new Relation[cnt_Players.Count - 1]; // makes new list of relations
-            for (int j = 0; j < rel_New.Length; j++) rel_New[j] = new Relation(); // initializes each one   
+            var rel_New = new List<Relation>(); // makes new list of relations
+            for (int j = 0; j < cnt_Players.Count - 1; j++) rel_New.Add(new Relation()); // initializes each one   
 
-            cnt_Players[i].Relations = rel_New; // Reset all relations            
+            cnt_Players[i].Relations = new List<Relation>(rel_New); // Reset all relations            
 
 
             // AI-Player Setup            
             cnt_Players[i].LeaderRelations = new Relation(); // Reset leader relations              
 
             var newFocus = DevTools.RandomListValue<Focus>(ActionManager.focuses);
-
-            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), (Relation[])rel_New.Clone(), DevTools.RandomEnumValue<PersonalityTypes>(), newFocus);
+            rel_New.Add(new Relation()); // Corresponds with leaders country
+            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), new List<Relation>(rel_New), DevTools.RandomEnumValue<PersonalityTypes>(), newFocus);
             cnt_Players[i].Focus = newFocus;
 
 
@@ -115,6 +115,9 @@ public class Main : MonoBehaviour
             cnt_Players[i].UpdateFocusModifiers(cnt_Players[i].Focus);
 
             s_TurnActions += cnt_Players[i].CountryStatsDrift;
+
+
+
         }
 
         foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
