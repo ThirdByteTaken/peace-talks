@@ -13,6 +13,8 @@ public class CountryView : MonoBehaviour
     private TextMeshProUGUI txt_CountryName, txt_LeaderName, txt_LeaderPersonality, txt_WarPower, txt_Money;
 
     private Transform trfm_Relation;
+
+    private Button btn_Close;
     #endregion
 
     public void Init()
@@ -27,12 +29,12 @@ public class CountryView : MonoBehaviour
         txt_WarPower = transform.Find("Resources").Find("War Power").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_Money = transform.Find("Resources").Find("Money").Find("Text").GetComponent<TextMeshProUGUI>();
 
+        btn_Close = transform.Find("Close").GetComponent<Button>();
+        btn_Close.onClick.AddListener(Close);
     }
 
     public void OpenCountry(Country country)
     {
-
-
         img_Flag.sprite = country.Flag;
         img_LeaderPersonality.sprite = country.Leader.Personality.Sprite;
 
@@ -40,7 +42,7 @@ public class CountryView : MonoBehaviour
 
         Transform relationsParent = transform.Find("Relations");
         for (int i = relationsParent.childCount - 1; i > 1; i--) // Destroys all extra relations (not original object or title)
-            GameObject.Destroy(relationsParent.GetChild(i));
+            GameObject.Destroy(relationsParent.GetChild(i).gameObject);
         var txt_relationValues = new List<TextMeshProUGUI>();
         var txt_relationCountries = new List<TextMeshProUGUI>();
         var relationCount = country.Relations.Count;
@@ -72,6 +74,11 @@ public class CountryView : MonoBehaviour
         txt_LeaderPersonality.text = country.Leader.Personality.Name;
         txt_WarPower.text = (country.WarPower + $" ({((country.WarPowerGain > 0) ? "+" : "")}{country.WarPowerGain})");
         txt_Money.text = (country.MoneyGain + $" ({((country.MoneyGain > 0) ? "+" : "")}{country.MoneyGain})");
+        gameObject.SetActive(true);
     }
 
+    public void Close()
+    {
+        gameObject.SetActive(false);
+    }
 }

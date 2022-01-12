@@ -139,7 +139,6 @@ public class Main : MonoBehaviour
         cs_Player.Init();
         eventSlot.Init();
         s_CountryView.Init();
-        s_CountryView.OpenCountry(DevTools.RandomListValue<Country>(cnt_Players));
 
         // Game Setup
         GameInfo.s_TurnCount = 0;
