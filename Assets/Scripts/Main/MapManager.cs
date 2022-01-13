@@ -96,7 +96,7 @@ public class MapManager : MonoBehaviour
         float perimeter = (2 * map.Count) + (2 * map[0].Count) - 4;
 
         var totalCountries = new List<Country>(main.cnt_Players);
-        float tilesBetweenCountryStarts = perimeter / (totalCountries.Count() + 1);
+        float tilesBetweenCountryStarts = perimeter / (totalCountries.Count());
         totalCountries.ForEach(x => x.OwnedTerritories = new List<Territory>());
         List<Territory>[] ownedOutsideTerritories = new List<Territory>[totalCountries.Count];
         int totalCountryCount = totalCountries.Count;
@@ -209,7 +209,7 @@ public class MapManager : MonoBehaviour
         foreach (Country country in totalCountries)
             country.UpdateTerritoryBenefits();
 
-
+        rect_mapFrame.gameObject.SetActive(true);
     }
 
     public static void MoveStatBox(Territory territory)
@@ -221,6 +221,10 @@ public class MapManager : MonoBehaviour
         bool boxExtendsOverTop = territoryPosition.y + statBoxSize.y > rect_mapFrame.sizeDelta.y / 2;
         bool boxExtendsOverSide = territoryPosition.x + statBoxSize.x > rect_mapFrame.sizeDelta.x / 2;
         TerritoryStatBox.transform.localPosition = territoryPosition + new Vector3((boxExtendsOverSide ? -1 : 1) * statBoxSize.x / 2, (boxExtendsOverTop ? -1 : 1) * statBoxSize.y / 2);
+        var territoryColor = territory.Image.color;
+        var territoryLuminance = ((0.2126 * territoryColor.r) + (0.7152 * territoryColor.g) + (0.0722 * territoryColor.b));
+        TerritoryStatBox.color = (territoryLuminance > .5f) ? Color.black : Color.white;
+        TerritoryStatBox.GetComponentsInChildren<TextMeshProUGUI>().ToList().ForEach(x => x.color = (TerritoryStatBox.color == Color.black) ? Color.white : Color.black);
         PopulateStatBoxInfo(territory);
 
     }
