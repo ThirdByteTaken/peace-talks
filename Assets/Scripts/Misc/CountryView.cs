@@ -14,7 +14,7 @@ public class CountryView : MonoBehaviour
 
     private Transform trfm_Relation;
 
-    private Button btn_Close;
+    private Button btn_Close, btn_BackgroundClose;
     #endregion
 
     public void Init()
@@ -31,6 +31,9 @@ public class CountryView : MonoBehaviour
 
         btn_Close = transform.Find("Close").GetComponent<Button>();
         btn_Close.onClick.AddListener(Close);
+
+        btn_BackgroundClose = transform.Find("Background Close").GetComponent<Button>();
+        btn_BackgroundClose.onClick.AddListener(Close);
     }
 
     public void OpenCountry(Country country)
