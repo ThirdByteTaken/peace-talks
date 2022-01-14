@@ -71,7 +71,7 @@ public class CountryView : MonoBehaviour
         for (int i = 0; i < relationCountries.Count; i++)
         {
             txt_relationCountries[i].text = $"{relationCountries[i].CountryName}:";
-            txt_relationValues[i].text = $"{country.Relations[i].Value}/100";
+            txt_relationValues[i].text = $"{country.Relations[relationCountries[i]].Value}/100";
         }
         txt_LeaderName.text = country.Leader.Name;
         txt_LeaderPersonality.text = country.Leader.Personality.Name;

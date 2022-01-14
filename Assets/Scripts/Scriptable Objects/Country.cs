@@ -56,7 +56,7 @@ public class Country : ScriptableObject
         }
     }
 
-    public List<Relation> Relations;
+    public Dictionary<Country, Relation> Relations;
 
     private Relation leaderRelations;
     public Relation LeaderRelations
@@ -107,7 +107,7 @@ public class Country : ScriptableObject
     {
         MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
         WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
-        foreach (Relation Relation in Relations)
+        foreach (Relation Relation in Relations.Values)
         {
             Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
             Relation.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
@@ -180,12 +180,12 @@ public class Country : ScriptableObject
 
     public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
     {
-        var rel_New = new List<Relation>(); // makes new list of relations
-        for (int j = 0; j < Relations.Count; j++)
+        var rel_New = new Dictionary<Country, Relation>(); // makes new list of relations
+        for (int j = 0; j < Main.s_cnt_Players.Count; j++)
         {
-            rel_New.Add(new Relation()); // initializes each one   
+            rel_New.Add(Main.s_cnt_Players[j], new Relation()); // initializes each one   
             if (modelCountry != null)
-                rel_New[j].Value = Random.Range(modelCountry.Relations[j].Value - 20, modelCountry.Relations[j].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
+                rel_New[Main.s_cnt_Players[j]].Value = Random.Range(modelCountry.Relations[Main.s_cnt_Players[j]].Value - 20, modelCountry.Relations[Main.s_cnt_Players[j]].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
         }
         // TODO Replace with new DevTools function 
         var TotalRatio = modelCountry.FocusTendencies.Sum();
@@ -233,11 +233,11 @@ public class Country : ScriptableObject
         Debug.Log("\t\tFocus:\t" + Leader.Focus.name);
         Debug.Log("\t\tPersonality:\t" + Leader.Personality);
         Debug.Log("\t\t--------LEADER RELATIONS--------");
-        Leader.Relations.ForEach(x => Debug.Log("\t\t\t" + x.Value));
+        Leader.Relations.Values.ToList().ForEach(x => Debug.Log("\t\t\t" + x.Value));
         Debug.Log("\t\t--------END LEADER RELATIONS--------");
         Debug.Log("\t----------END LEADER---------- ");
         Debug.Log("\t-------------RELATIONS-------------");
-        Relations.ForEach(x => Debug.Log("\t\t" + x.Value));
+        Relations.Values.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\t-------------END RELATIONS-------------");
         Debug.Log("---------END NEW COUNTRY-----------------");
     }

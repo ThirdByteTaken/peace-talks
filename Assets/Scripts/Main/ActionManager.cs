@@ -127,14 +127,14 @@ public class ActionManager : MonoBehaviour
     {
         CurrentEvent.receiver.cnt_RecentlyInteracted.Add(CurrentEvent.sender);
 
-        CurrentEvent.sender.Relations[CurrentEvent.receiver.ID].Value += Response.SenderOpinion;
-        CurrentEvent.receiver.Relations[CurrentEvent.sender.ID].Value += Response.ReceiverOpinion;
+        CurrentEvent.sender.Relations[CurrentEvent.receiver].Value += Response.SenderOpinion;
+        CurrentEvent.receiver.Relations[CurrentEvent.sender].Value += Response.ReceiverOpinion;
         foreach (Country country in main.cnt_Players)
         {
             if (country != CurrentEvent.sender)
-                country.Relations[CurrentEvent.sender.ID].Value += Response.WorldSenderOpinion;
+                country.Relations[CurrentEvent.sender].Value += Response.WorldSenderOpinion;
             if (country != CurrentEvent.receiver)
-                country.Relations[CurrentEvent.receiver.ID].Value += Response.WorldReceiverOpinion;
+                country.Relations[CurrentEvent.receiver].Value += Response.WorldReceiverOpinion;
         }
 
         CurrentEvent.sender.ActionCooldowns.Add(CurrentEvent.action, CurrentEvent.action.Cooldown);

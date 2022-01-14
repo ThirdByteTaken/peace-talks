@@ -108,18 +108,21 @@ public class Main : MonoBehaviour
 
             cnt_Players[i].ID = i; // Set all cnt_NonPlayers[i]; IDs
 
-            var rel_New = new List<Relation>(); // makes new list of relations
-            for (int j = 0; j < cnt_Players.Count - 1; j++) rel_New.Add(new Relation()); // initializes each one   
+            var rel_LeaderNew = new Dictionary<Country, Relation>(); // makes new list of relations
+            for (int j = 0; j < cnt_Players.Count; j++) rel_LeaderNew.Add(cnt_Players[j], new Relation()); // initializes each one   
 
-            cnt_Players[i].Relations = new List<Relation>(rel_New); // Reset all relations            
 
+
+            var rel_New = new Dictionary<Country, Relation>(rel_LeaderNew);
+            rel_New.Remove(cnt_Players[i]);
+
+            cnt_Players[i].Relations = new Dictionary<Country, Relation>(rel_New); // Reset all relations            
 
             // AI-Player Setup            
             cnt_Players[i].LeaderRelations = new Relation(); // Reset leader relations              
 
             var newFocus = DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
-            rel_New.Add(new Relation()); // Corresponds with leaders country
-            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), new List<Relation>(rel_New), DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), newFocus);
+            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), rel_LeaderNew, DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), newFocus);
             cnt_Players[i].Focus = newFocus;
 
 
@@ -279,7 +282,7 @@ public class Main : MonoBehaviour
             cs.SetPersonality(cnt.Leader.Personality);
             cs.SetMoney(cnt.Money);
             cs.SetWarPower(cnt.WarPower);
-            cs.SetRelation(cnt.Relations[cnt_Player.ID].Value); // Get relations toward the player country 
+            cs.SetRelation(cnt.Relations[cnt_Player].Value); // Get relations toward the player country 
         }
     }
 
@@ -350,7 +353,7 @@ public class Main : MonoBehaviour
     {
         foreach (Country cnt in cnt_Players)
         {
-            foreach (Relation relation in cnt.Relations)
+            foreach (Relation relation in cnt.Relations.Values)
             {
                 relation.CurrentGracePeriod--;
                 if (relation.IsDrifting)
@@ -409,7 +412,7 @@ public class Main : MonoBehaviour
 
                 print("\t\trestingValue: " + restingValue);
 
-                cnt_Players[i].Relations[j].RestingValue = restingValue;
+                cnt_Players[i].Relations[cnt_Players[j]].RestingValue = restingValue;
 
 
             }

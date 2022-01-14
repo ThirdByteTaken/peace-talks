@@ -10,7 +10,7 @@ public class AIManager : MonoBehaviour
     public static Response BestResponse(Event ce, Country sender)
     {
         ResetResponseDictionary();
-        var relation = sender.Relations[ce.receiver.ID].Value;
+        var relation = sender.Relations[ce.receiver].Value;
 
         List<Response> AllPossibleResponses = new List<Response>();
         foreach (Response response in ce.action.Responses)
@@ -39,7 +39,7 @@ public class AIManager : MonoBehaviour
     {
         ResetActionDictionary();
         var relation = 0;
-        relation = sender.Relations[receiver.ID].Value;
+        relation = sender.Relations[receiver].Value;
 
         foreach (Action action in ActionManager.s_actions)
         {
