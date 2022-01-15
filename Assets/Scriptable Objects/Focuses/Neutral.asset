@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce691f32d925c497f9ab56e3521ef626, type: 3}
   m_Name: Neutral
   m_EditorClassIdentifier: 
+  Name: Balanced
+  Sprite: {fileID: 21300000, guid: 7e5b3b9b611b19e4c8c85f6d68abce49, type: 3}
   MoneyModifier: 0
   WarPowerModifier: 0
   RelationDriftModifier: 0

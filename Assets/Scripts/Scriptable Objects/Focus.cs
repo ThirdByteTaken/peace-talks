@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Focus : ScriptableObject
 {
+    public string Name;
     public int ID
     {
         get
@@ -12,6 +13,7 @@ public class Focus : ScriptableObject
             return ActionManager.s_Focuses.IndexOf(this);
         }
     }
+    public Sprite Sprite;
     [Header("Resource Modifiers")]
     public int MoneyModifier;
     public int WarPowerModifier;

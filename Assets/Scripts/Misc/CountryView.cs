@@ -8,9 +8,9 @@ public class CountryView : MonoBehaviour
 {
     #region Variables
 
-    private Image img_Flag, img_LeaderPersonality;
+    private Image img_Flag, img_LeaderPersonality, img_LeaderFocus;
 
-    private TextMeshProUGUI txt_CountryName, txt_LeaderName, txt_LeaderPersonality, txt_WarPower, txt_Money;
+    private TextMeshProUGUI txt_CountryName, txt_LeaderName, txt_LeaderPersonality, txt_LeaderFocus, txt_WarPower, txt_Money;
 
     private Transform trfm_Relation;
 
@@ -21,11 +21,15 @@ public class CountryView : MonoBehaviour
     {
         img_Flag = transform.Find("Flag").GetComponent<Image>();
         img_LeaderPersonality = transform.Find("Leader").Find("Personality").Find("Image").GetComponent<Image>();
+        img_LeaderFocus = transform.Find("Leader").Find("Focus").Find("Image").GetComponent<Image>();
+
+
 
         txt_CountryName = transform.Find("Country").GetComponent<TextMeshProUGUI>();
         trfm_Relation = transform.Find("Relations").Find("Relation");
         txt_LeaderName = transform.Find("Leader").Find("Name").GetComponent<TextMeshProUGUI>();
         txt_LeaderPersonality = transform.Find("Leader").Find("Personality").Find("Text").GetComponent<TextMeshProUGUI>();
+        txt_LeaderFocus = transform.Find("Leader").Find("Focus").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_WarPower = transform.Find("Resources").Find("War Power").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_Money = transform.Find("Resources").Find("Money").Find("Text").GetComponent<TextMeshProUGUI>();
 
@@ -40,6 +44,7 @@ public class CountryView : MonoBehaviour
     {
         img_Flag.sprite = country.Flag;
         img_LeaderPersonality.sprite = country.Leader.Personality.Sprite;
+        img_LeaderFocus.sprite = country.Leader.Focus.Sprite;
 
         txt_CountryName.text = country.CountryName;
 
@@ -75,6 +80,7 @@ public class CountryView : MonoBehaviour
         }
         txt_LeaderName.text = country.Leader.Name;
         txt_LeaderPersonality.text = country.Leader.Personality.Name;
+        txt_LeaderFocus.text = country.Leader.Focus.Name;
         txt_WarPower.text = (country.WarPower + $" ({((country.WarPowerGain > 0) ? "+" : "")}{country.WarPowerGain})");
         txt_Money.text = (country.MoneyGain + $" ({((country.MoneyGain > 0) ? "+" : "")}{country.MoneyGain})");
         gameObject.SetActive(true);

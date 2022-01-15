@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce691f32d925c497f9ab56e3521ef626, type: 3}
   m_Name: Economic
   m_EditorClassIdentifier: 
+  Name: Economic
+  Sprite: {fileID: 21300000, guid: 6ddf6840057b1d7428d38c169b9e23b7, type: 3}
   MoneyModifier: 25
   WarPowerModifier: -25
   RelationDriftModifier: 0
