@@ -12,7 +12,7 @@ public class CountryView : MonoBehaviour
 
     private TextMeshProUGUI txt_CountryName, txt_LeaderName, txt_LeaderPersonality, txt_LeaderFocus, txt_WarPower, txt_Money;
 
-    private Transform trfm_Relation;
+    private Transform trfm_Relation, trfm_Focus;
 
     private Button btn_Close, btn_BackgroundClose;
     #endregion
@@ -26,12 +26,15 @@ public class CountryView : MonoBehaviour
 
 
         txt_CountryName = transform.Find("Country").GetComponent<TextMeshProUGUI>();
-        trfm_Relation = transform.Find("Relations").Find("Relation");
         txt_LeaderName = transform.Find("Leader").Find("Name").GetComponent<TextMeshProUGUI>();
         txt_LeaderPersonality = transform.Find("Leader").Find("Personality").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_LeaderFocus = transform.Find("Leader").Find("Focus").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_WarPower = transform.Find("Resources").Find("War Power").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_Money = transform.Find("Resources").Find("Money").Find("Text").GetComponent<TextMeshProUGUI>();
+
+
+        trfm_Relation = transform.Find("Relations").Find("Relation");
+        trfm_Focus = transform.Find("Focuses").Find("Focus");
 
         btn_Close = transform.Find("Close").GetComponent<Button>();
         btn_Close.onClick.AddListener(Close);
@@ -47,7 +50,7 @@ public class CountryView : MonoBehaviour
         img_LeaderFocus.sprite = country.Leader.Focus.Sprite;
 
         txt_CountryName.text = country.CountryName;
-
+        #region Relations
         Transform relationsParent = transform.Find("Relations");
         for (int i = relationsParent.childCount - 1; i > 1; i--) // Destroys all extra relations (not original object or title)
             GameObject.Destroy(relationsParent.GetChild(i).gameObject);
@@ -78,6 +81,57 @@ public class CountryView : MonoBehaviour
             txt_relationCountries[i].text = $"{relationCountries[i].CountryName}:";
             txt_relationValues[i].text = $"{country.Relations[relationCountries[i]].Value}/100";
         }
+
+        #endregion
+
+        #region Focuses
+
+        trfm_Focus.gameObject.SetActive(true);
+
+        Transform focusesParent = transform.Find("Focuses");
+        for (int i = focusesParent.childCount - 1; i > 1; i--) // Destroys all extra focuses (not original object or title)
+            GameObject.Destroy(focusesParent.GetChild(i).gameObject);
+        var originalFocusRect = trfm_Focus.GetComponent<RectTransform>();
+        float totalAnchoredFocusSize = originalFocusRect.anchorMax.y - originalFocusRect.anchorMin.y;
+        var focusAnchoredPosition = originalFocusRect.anchorMin.y; // Stores highest filled position (anchored)
+        var focusCopy = new List<Focus>(ActionManager.s_Focuses);
+
+
+        for (int i = 0; i < focusCopy.Count; i++)
+        {
+            var newFocus = GameObject.Instantiate(trfm_Focus.gameObject, focusesParent);
+            var rect_newFocus = newFocus.GetComponent<RectTransform>();
+            var anchoredFocusSize = country.FocusTendencies[i] * totalAnchoredFocusSize / 100;
+            rect_newFocus.anchorMin = new Vector2(originalFocusRect.anchorMin.x, focusAnchoredPosition);
+            focusAnchoredPosition += anchoredFocusSize;
+            rect_newFocus.anchorMax = new Vector2(originalFocusRect.anchorMax.x, focusAnchoredPosition);
+            rect_newFocus.offsetMin = new Vector2(0, 0);
+            rect_newFocus.offsetMax = new Vector2(0, 0);
+
+            var anchorBoundsSize = ((2 / rect_newFocus.rect.width), (1 / rect_newFocus.rect.height));
+
+            var rect_background = newFocus.transform.GetChild(0).GetComponent<RectTransform>();
+            rect_background.anchorMin = new Vector2(anchorBoundsSize.Item1, anchorBoundsSize.Item2);
+            rect_background.anchorMax = new Vector2(1 - anchorBoundsSize.Item1, 1 - anchorBoundsSize.Item2);
+            rect_background.GetComponent<Image>().color = (country.Focus == focusCopy[i]) ? Color.yellow : focusesParent.GetComponent<Image>().color;
+
+
+            var trfm_focusName = newFocus.transform.GetChild(1);
+            trfm_focusName.GetComponent<TextMeshProUGUI>().text = focusCopy[i].Name;
+            var rect_focusName = trfm_focusName.GetComponent<RectTransform>();
+            rect_focusName.anchorMin = new Vector2(anchorBoundsSize.Item1, anchorBoundsSize.Item2);
+            rect_focusName.anchorMax = new Vector2(rect_focusName.anchorMax.x, 1 - anchorBoundsSize.Item2);
+
+            var trfm_focusPercent = newFocus.transform.GetChild(2);
+            trfm_focusPercent.GetComponent<TextMeshProUGUI>().text = $"{country.FocusTendencies[i]}%";
+            var rect_focusPercent = trfm_focusPercent.GetComponent<RectTransform>();
+            rect_focusPercent.anchorMin = new Vector2(rect_focusPercent.anchorMin.x, anchorBoundsSize.Item2);
+            rect_focusPercent.anchorMax = new Vector2(1 - anchorBoundsSize.Item1, 1 - anchorBoundsSize.Item2);
+            newFocus.transform.GetChild(3).GetComponent<Image>().sprite = focusCopy[i].Sprite; // Focus Sprite            
+
+        }
+        trfm_Focus.gameObject.SetActive(false);
+        #endregion
         txt_LeaderName.text = country.Leader.Name;
         txt_LeaderPersonality.text = country.Leader.Personality.Name;
         txt_LeaderFocus.text = country.Leader.Focus.Name;
