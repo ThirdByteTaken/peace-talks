@@ -7,6 +7,9 @@ using System.Linq;
 
 public class Main : MonoBehaviour
 {
+
+    public static Main Instance;
+
     public const int Max_Action_Reactions = 3; // should be updated for the largest number of responses for a single action
     public const int Default_Money_Gain = 50;
     public const int Default_WarPower_Gain = 50;
@@ -86,6 +89,7 @@ public class Main : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
 
         // Reference Variables
         actionManager = GetComponent<ActionManager>();

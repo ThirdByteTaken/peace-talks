@@ -39,7 +39,7 @@ public class MapManager : MonoBehaviour
     private Main main;
     void Start()
     {
-        main = GetComponent<Main>();
+        main = Main.Instance;
         foreach (TerrainType terrain in TerrainTypes)
             terrainTypes.Add(terrain.Name, terrain);
         Image image = originalImage.GetComponent<Image>();

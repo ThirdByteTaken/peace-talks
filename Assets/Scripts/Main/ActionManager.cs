@@ -40,7 +40,7 @@ public class ActionManager : MonoBehaviour
 
     private void Start()
     {
-        main = GetComponent<Main>();
+        main = Main.Instance;
         s_actions = new List<Action>(actions);
         Main.s_TurnActions += SetCountrySlotButtonsInteractable;
         Main.s_TurnActions += DeselectCurrentCountrySlot;
