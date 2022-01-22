@@ -14,7 +14,6 @@ public class CountrySlot : MonoBehaviour
 
     private Button btn_select; // the entry in the country list that is clicked to select this country
 
-    public bool currentlyHovered; // if the mouse is on the country slot currently
     #endregion
 
     public void Init()
@@ -59,25 +58,13 @@ public class CountrySlot : MonoBehaviour
     public void SetPersonality(PersonalityType Personality)
     { txt_Personality.text = Personality.Name; }
 
-    public void SetCurrentlyHovered(bool CurrentlyHovered)
-    { currentlyHovered = CurrentlyHovered; }
 
     public void SetButtonSelected(bool selected)
     {
         ColorBlock newColorBlock = btn_select.colors;
-        Color newColor = (selected) ? btn_select.colors.disabledColor : new Color((1.0f / 3), (1.0f / 3), (1.0f / 3));
+        Color newColor = (selected) ? btn_select.colors.disabledColor : new Color((1 / 3f), (1 / 3f), (1 / 3f));
         newColorBlock.normalColor = newColor;
-        newColorBlock.selectedColor = newColor;
-        if (currentlyHovered) newColorBlock.highlightedColor = newColor; // after they click the button, it immediately changes to the selected color not the highlighted color. Highlighted color reset later in ResetButtonHighlightedColor()
-        btn_select.colors = newColorBlock;
-    }
-
-    public void ResetButtonHighlightedColor() // sets button highlighted color back to the proper color
-    {
-        ColorBlock newColorBlock = btn_select.colors;
-        Color newColor = new Color();
-        ColorUtility.TryParseHtmlString("#ABAA4B", out newColor);
-        newColorBlock.highlightedColor = newColor;
+        newColorBlock.highlightedColor = (selected) ? UIManager.Instance.SelectedCountrySlotHighlightColor : UIManager.Instance.DeselectedCountrySlotHighlightColor;
         btn_select.colors = newColorBlock;
     }
 
