@@ -56,8 +56,8 @@ public class CountrySlot : MonoBehaviour
     { btn_select.colors = colorBlock; }
 
     // Other
-    public void SetPersonality(PersonalityTypes Personality)
-    { txt_Personality.text = Personality.ToString(); }
+    public void SetPersonality(PersonalityType Personality)
+    { txt_Personality.text = Personality.Name; }
 
     public void SetCurrentlyHovered(bool CurrentlyHovered)
     { currentlyHovered = CurrentlyHovered; }

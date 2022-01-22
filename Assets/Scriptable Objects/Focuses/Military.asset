@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce691f32d925c497f9ab56e3521ef626, type: 3}
   m_Name: Military
   m_EditorClassIdentifier: 
+  Name: Militaristic
+  Sprite: {fileID: 21300000, guid: 478ec32bc95cfd5499a641ca15b2c9bb, type: 3}
   MoneyModifier: -25
   WarPowerModifier: 25
   RelationDriftModifier: 0
   RelationGracePeriodModifier: 0
-  RelationRestingValueModifier: 0
+  RelationRestingValueModifier: -10
   RelationRestingRangeModifier: 0

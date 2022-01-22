@@ -24,7 +24,7 @@ public class Country : ScriptableObject
 
     public bool IsPlayerCountry;
 
-    public int ID; // Used to access it within cnt_Countries array
+    public int ID;
 
     [SerializeField]
     private int money;
@@ -56,22 +56,7 @@ public class Country : ScriptableObject
         }
     }
 
-    private Relation playerRelations;
-    public Relation PlayerRelations
-    {
-        get
-        {
-            return playerRelations;
-        }
-        set
-        {
-            if (value.Value <= -100) DeathManager.GameOver("War", "War has broken out");
-            playerRelations = value;
-        }
-    }
-
-
-    public Relation[] Relations;
+    public Dictionary<Country, Relation> Relations;
 
     private Relation leaderRelations;
     public Relation LeaderRelations
@@ -82,7 +67,7 @@ public class Country : ScriptableObject
         }
         set
         {
-            //if (value.Value <= -100) PopulationRevolt();
+            if (value.Value <= -100) PopulationRevolt();
             leaderRelations = value;
         }
     }
@@ -91,7 +76,7 @@ public class Country : ScriptableObject
 
     public int MoneyGain = 10;
     public int WarPowerGain = 10;
-
+    public List<Territory> OwnedTerritories;
 
     [SerializeField]
     private Focus focus;
@@ -105,7 +90,7 @@ public class Country : ScriptableObject
         }
     }
 
-    public List<int> FocusTendencies; // how much the country values each focus
+    public int[] FocusTendencies; // how much the country values each focus
     [Range(0, 2)]
     public float PersonalityDifferenceHarshness; // affects how much their relations decrease each turn because of a personality mismatch with the other country
     [Range(0, 2)]
@@ -114,29 +99,30 @@ public class Country : ScriptableObject
     public Sprite Flag;
     public Color textColor;
 
+    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
+
+    #region Focuses
+
     public void UpdateFocusModifiers(Focus value)
     {
         MoneyGain = Main.Default_Money_Gain + value.MoneyModifier;
         WarPowerGain = Main.Default_WarPower_Gain + value.WarPowerModifier;
-        foreach (Relation Relation in Relations)
+        foreach (Relation Relation in Relations.Values)
         {
             Relation.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
             Relation.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
             Relation.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
             Relation.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
         }
-        if (ID != -1)
-        {
-            PlayerRelations.DriftSpeed = Main.Default_Relation_Drift_Rate + value.RelationDriftModifier;
-            PlayerRelations.CurrentGracePeriod = Main.Default_Relation_Grace_Period + value.RelationGracePeriodModifier;
-            PlayerRelations.RestingValue = Main.Default_Relation_Resting_Value + value.RelationRestingValueModifier;
-            PlayerRelations.RestingRange = Main.Default_Relation_Resting_Range + value.RelationRestingRangeModifier;
-        }
     }
 
     public void CountryStatsDrift() // Country focus shifts towards leader focus
     {
-        List<float> FocusValues = FocusTendencies.ConvertAll(x => (float)x);
+        List<float> FocusValues = new List<float>();
+        for (int i = 0; i < FocusTendencies.Length; i++)
+            FocusValues.Add(FocusTendencies[i]);
+
+
         FocusValues.RemoveAt(Leader.Focus.ID);
         int oldWeight = 100 - FocusTendencies[Leader.Focus.ID];
         int newWeight = 100 - (FocusTendencies[Leader.Focus.ID] += 5);
@@ -176,9 +162,15 @@ public class Country : ScriptableObject
         Debug.Log("Focus Values: (should be same)");
 
         FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));*/
-        Focus = ActionManager.focuses[FocusTendencies.IndexOf(FocusTendencies.Max())];
+        Focus = ActionManager.s_Focuses[System.Array.IndexOf(FocusTendencies, (FocusTendencies.Max()))];
 
     }
+
+    #endregion
+
+    #region Leaders
+
+
 
     public void PopulationRevolt()
     {
@@ -188,16 +180,13 @@ public class Country : ScriptableObject
 
     public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
     {
-        Relation[] rel_New = new Relation[Relations.Length]; // makes new list of relations
-        for (int j = 0; j < rel_New.Length; j++)
+        var rel_New = new Dictionary<Country, Relation>(); // makes new list of relations
+        for (int j = 0; j < Main.s_cnt_Players.Count; j++)
         {
-            rel_New[j] = new Relation(); // initializes each one   
+            rel_New.Add(Main.s_cnt_Players[j], new Relation()); // initializes each one   
             if (modelCountry != null)
-                rel_New[j].Value = Random.Range(modelCountry.Relations[j].Value - 20, modelCountry.Relations[j].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
+                rel_New[Main.s_cnt_Players[j]].Value = Random.Range(modelCountry.Relations[Main.s_cnt_Players[j]].Value - 20, modelCountry.Relations[Main.s_cnt_Players[j]].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
         }
-        Relation rel_newPlayer = new Relation();
-        if (modelCountry == null)
-            rel_newPlayer.Value = Random.Range(modelCountry.PlayerRelations.Value - 20, modelCountry.PlayerRelations.Value + 20);
         // TODO Replace with new DevTools function 
         var TotalRatio = modelCountry.FocusTendencies.Sum();
         int rand = Random.Range(0, TotalRatio + 1);
@@ -207,17 +196,51 @@ public class Country : ScriptableObject
             if ((rand -= x) < 0) break;
             iteration++;
         }
-        Focus foc_New = (modelCountry != null) ? ActionManager.focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.focuses);
+        Focus foc_New = (modelCountry != null) ? ActionManager.s_Focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
         Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
-        Debug.Log("\tnewplayerrelation: " + rel_newPlayer.Value);
         Debug.Log("\tnewrelations:");
         rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\tnewfocus: " + foc_New.name);
         previousLeader = Leader;
-        Leader = new Leader(TextGenerator.LeaderName(), rel_newPlayer, rel_New, DevTools.RandomEnumValue<PersonalityTypes>(), foc_New);
+        Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
+    #endregion
 
-    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
+    #region Territories
+    public void UpdateTerritoryBenefits()
+    {
+        MoneyGain = Focus.MoneyModifier;
+        WarPowerGain = Focus.WarPowerModifier;
+        foreach (Territory territory in OwnedTerritories)
+        {
+            MoneyGain += territory.Terrain.MoneyProduction;
+            WarPowerGain += territory.Terrain.WarPowerProduction;
+        }
+    }
+
+    #endregion
+
+    #region Utility
+    public void PrintInfo()
+    {
+        Debug.Log("---------NEW COUNTRY-----------------");
+        Debug.Log("\t" + name);
+        Debug.Log("\tID:\t " + ID);
+        Debug.Log("\tPlayer Country?\t" + IsPlayerCountry);
+        Debug.Log("\t----------LEADER---------- ");
+        Debug.Log("\t\tName:\t" + Leader.Name);
+        Debug.Log("\t\tFocus:\t" + Leader.Focus.name);
+        Debug.Log("\t\tPersonality:\t" + Leader.Personality);
+        Debug.Log("\t\t--------LEADER RELATIONS--------");
+        Leader.Relations.Values.ToList().ForEach(x => Debug.Log("\t\t\t" + x.Value));
+        Debug.Log("\t\t--------END LEADER RELATIONS--------");
+        Debug.Log("\t----------END LEADER---------- ");
+        Debug.Log("\t-------------RELATIONS-------------");
+        Relations.Values.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
+        Debug.Log("\t-------------END RELATIONS-------------");
+        Debug.Log("---------END NEW COUNTRY-----------------");
+    }
+    #endregion
 }
 

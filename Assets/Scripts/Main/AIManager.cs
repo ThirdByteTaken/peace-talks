@@ -10,7 +10,7 @@ public class AIManager : MonoBehaviour
     public static Response BestResponse(Event ce, Country sender)
     {
         ResetResponseDictionary();
-        var relation = sender.Relations[ce.receiver.ID].Value;
+        var relation = sender.Relations[ce.receiver].Value;
 
         List<Response> AllPossibleResponses = new List<Response>();
         foreach (Response response in ce.action.Responses)
@@ -39,8 +39,7 @@ public class AIManager : MonoBehaviour
     {
         ResetActionDictionary();
         var relation = 0;
-        if (receiver.IsPlayerCountry) relation = sender.PlayerRelations.Value;
-        else relation = sender.Relations[receiver.ID].Value;
+        relation = sender.Relations[receiver].Value;
 
         foreach (Action action in ActionManager.s_actions)
         {
@@ -62,12 +61,7 @@ public class AIManager : MonoBehaviour
 
     public static Country BestCountry(Country sender)
     {
-        if (Random.Range(0, 3) == 1 || sender.cnt_RecentlyInteracted.Count > 0)
-        {
-            if (sender.cnt_RecentlyInteracted.Count == 0) return null;
-            return DevTools.RandomListValue(sender.cnt_RecentlyInteracted);
-        }
-        else return null;
+        return (sender.cnt_RecentlyInteracted.Count == 0) ? null : DevTools.RandomListValue(sender.cnt_RecentlyInteracted);
     }
 
     private static Dictionary<Likelihood, List<Action>> bestActions = new Dictionary<Likelihood, List<Action>>();

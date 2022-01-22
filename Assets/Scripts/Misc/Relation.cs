@@ -13,18 +13,14 @@ public class Relation
         {
             value = Mathf.Clamp(value, -100, 100);
             int changeValue = value - Value;
-            //Debug.Log("chng: " + changeValue);
+
             if (restingValue != 0)
-                //                Debug.Log(IsDrifting + " " + changeValue + " " + Value + " " + RestingMin);
-                if (!((IsDrifting) && (changeValue > 0) == (Value < RestingMin))) // Unless it is currently drifting in the direction of the change
-                {
-                    CurrentGracePeriod = ResetGracePeriod; // Reset the grace period
-                                                           //Debug.Log("Grace Period reset");
-                }
+                if (!((IsDrifting) && (changeValue > 0) == (Value < RestingMin))) // Unless it is currently drifting in the direction of the change                
+                    CurrentGracePeriod = ResetGracePeriod; // Reset the grace period                                    
+
             if (value <= -100)
-            {
                 DeathManager.GameOver("War", "War has broken out");
-            }
+
             _value = value;
         }
     }

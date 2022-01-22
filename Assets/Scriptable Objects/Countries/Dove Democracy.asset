@@ -18,11 +18,12 @@ MonoBehaviour:
   money: 1000
   warPower: 100
   cnt_RecentlyInteracted: []
-  MoneyGain: 50
-  WarPowerGain: 50
+  MoneyGain: 40
+  WarPowerGain: 40
+  TerritoriesOwned: 11
   focus: {fileID: 11400000, guid: 6cd0d0635052d634d88ee68d1a2d2231, type: 2}
-  FocusTendencies: 
+  FocusTendencies: 64000000000000000000000000000000
   PersonalityDifferenceHarshness: 0
   FocusDifferenceHarshness: 0
   Flag: {fileID: 0}
-  textColor: {r: 0, g: 0.9407029, b: 1, a: 0}
+  textColor: {r: 0, g: 0.9407029, b: 1, a: 1}

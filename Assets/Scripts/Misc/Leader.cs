@@ -6,17 +6,15 @@ public class Leader
 {
     public string Name;
 
-    public Relation PlayerRelations;
-    public Relation[] Relations; // Relations with other countries    
+    public Dictionary<Country, Relation> Relations; // Relations with other countries    
 
-    public PersonalityTypes Personality;
+    public PersonalityType Personality;
     public Focus Focus;
 
-    public Leader(string name, Relation playerRelations, Relation[] relations, PersonalityTypes personality, Focus focus)
+    public Leader(string name, Dictionary<Country, Relation> relations, PersonalityType personality, Focus focus)
     {
         Name = name;
-        PlayerRelations = playerRelations;
-        Relations = relations;
+        Relations = new Dictionary<Country, Relation>(relations);
         Personality = personality;
         Focus = focus;
     }
@@ -25,10 +23,4 @@ public class Leader
     {
 
     }
-}
-public enum PersonalityTypes
-{
-    Angry,
-    Neutral,
-    Peaceful
 }
