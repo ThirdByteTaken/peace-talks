@@ -86,10 +86,13 @@ public class Main : MonoBehaviour
 
     #region Initialization    
 
-
-    private void Start()
+    void Awake()
     {
         Instance = this;
+    }
+    private void Start()
+    {
+
 
         // Reference Variables
         actionManager = GetComponent<ActionManager>();

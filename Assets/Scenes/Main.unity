@@ -1989,7 +1989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHovered: 0
 --- !u!114 &192234811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2003,7 +2002,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -2034,8 +2033,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737418789}
-        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+      - m_Target: {fileID: 1737418793}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SelectCountrySlot
         m_Mode: 2
         m_Arguments:
@@ -3426,7 +3425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHovered: 0
 --- !u!114 &375893736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3440,7 +3438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3471,8 +3469,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737418789}
-        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+      - m_Target: {fileID: 1737418793}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SelectCountrySlot
         m_Mode: 2
         m_Arguments:
@@ -5188,7 +5186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHovered: 0
 --- !u!114 &524969837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5202,7 +5199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -5233,8 +5230,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737418789}
-        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+      - m_Target: {fileID: 1737418793}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SelectCountrySlot
         m_Mode: 2
         m_Arguments:
@@ -9265,8 +9262,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1737418789}
-          m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+        - m_Target: {fileID: 1737418793}
+          m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
           m_MethodName: ActionHover
           m_Mode: 2
           m_Arguments:
@@ -12223,7 +12220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHovered: 0
 --- !u!1 &1276652324
 GameObject:
   m_ObjectHideFlags: 0
@@ -16709,8 +16705,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1737418789}
-          m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+        - m_Target: {fileID: 1737418793}
+          m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
           m_MethodName: ActionHover
           m_Mode: 2
           m_Arguments:
@@ -17339,6 +17335,7 @@ GameObject:
   - component: {fileID: 1737418790}
   - component: {fileID: 1737418791}
   - component: {fileID: 1737418792}
+  - component: {fileID: 1737418793}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -17358,8 +17355,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02dfb36d879024893999d87d12eb84e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RelationChangeFromFocusDiffFactor: 0
-  RelationChangeFromPersonalityDiffFactor: 0
+  RelationChangeFromFocusDiffFactor: 0.25
+  RelationChangeFromPersonalityDiffFactor: 5
   cs_NonPlayers:
   - {fileID: 192234810}
   - {fileID: 375893735}
@@ -17430,11 +17427,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 19928520ebcaf044eb7a955ed4392373, type: 2}
   - {fileID: 11400000, guid: db9e6b05aa2ee68439c3ea09197d2203, type: 2}
   actionTaken: 0
-  go_CategoryButtons: {fileID: 1407164123}
-  go_Categories:
-  - {fileID: 1074453422}
-  - {fileID: 813690935}
-  - {fileID: 337678130}
 --- !u!114 &1737418790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17479,6 +17471,25 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6bd898e63067de64eb0843ce7cb1feb5, type: 2}
   - {fileID: 11400000, guid: 40a3f752bf3c1104ba3519c9182ebef9, type: 2}
   TerritoriesPerCountry: 10
+--- !u!114 &1737418793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1737418786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a7438b1b7b4ad14e8ee97fb984681e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  go_CategoryButtons: {fileID: 1407164123}
+  go_Categories:
+  - {fileID: 1074453422}
+  - {fileID: 813690935}
+  - {fileID: 337678130}
+  SelectedCountrySlotHighlightColor: {r: 0.8018868, g: 0.7939117, b: 0.13995194, a: 1}
+  DeselectedCountrySlotHighlightColor: {r: 0.67058825, g: 0.6666667, b: 0.29411766, a: 1}
 --- !u!1 &1758530301
 GameObject:
   m_ObjectHideFlags: 0
@@ -17918,7 +17929,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -17949,8 +17960,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1737418789}
-        m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+      - m_Target: {fileID: 1737418793}
+        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
         m_MethodName: SelectCountrySlot
         m_Mode: 2
         m_Arguments:
@@ -17973,7 +17984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentlyHovered: 0
 --- !u!114 &1783107940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20119,8 +20129,8 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 1737418789}
-          m_TargetAssemblyTypeName: ActionManager, Assembly-CSharp
+        - m_Target: {fileID: 1737418793}
+          m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
           m_MethodName: ActionHover
           m_Mode: 2
           m_Arguments:
