@@ -181,11 +181,16 @@ public class Country : ScriptableObject
     public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
     {
         var rel_New = new Dictionary<Country, Relation>(); // makes new list of relations
-        for (int j = 0; j < Main.s_cnt_Players.Count; j++)
+        foreach (Country relationCountry in Main.s_cnt_Players)
         {
-            rel_New.Add(Main.s_cnt_Players[j], new Relation()); // initializes each one   
+            rel_New.Add(relationCountry, new Relation()); // initializes each one   
             if (modelCountry != null)
-                rel_New[Main.s_cnt_Players[j]].Value = Random.Range(modelCountry.Relations[Main.s_cnt_Players[j]].Value - 20, modelCountry.Relations[Main.s_cnt_Players[j]].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
+            {
+                var modelCountryRelationValue = (modelCountry.Relations.ContainsKey(relationCountry)) ? modelCountry.Relations[relationCountry].Value : 35; // Models new relation off model country (for leader relation of model country, set to arbitrary value of 35)
+                var newRelationValue = Random.Range(modelCountryRelationValue - 20, modelCountryRelationValue + 20);
+                rel_New[relationCountry].RestingValue = newRelationValue; // makes new leaders opinions of other countries similar to the populations opinions of them
+                rel_New[relationCountry].Value = newRelationValue;
+            }
         }
         // TODO Replace with new DevTools function 
         var TotalRatio = modelCountry.FocusTendencies.Sum();

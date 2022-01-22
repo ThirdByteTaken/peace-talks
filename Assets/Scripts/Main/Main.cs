@@ -382,39 +382,39 @@ public class Main : MonoBehaviour
             for (int j = 0; j < cnt_Players.Count; j++)
             {
                 if (i == j) continue;
-                print("\tCOUNTRY " + i + " to COUNTRY " + j + ":");
+                // print("\tCOUNTRY " + i + " to COUNTRY " + j + ":");
 
                 int focusTendencyDiff = Mathf.Abs(cnt_Players[i].FocusTendencies[cnt_Players[i].Focus.ID] - cnt_Players[j].FocusTendencies[cnt_Players[i].Focus.ID]);
 
-                print("\t\tFocusTendencyDiff: " + focusTendencyDiff + " (first country -> " + cnt_Players[i].FocusTendencies[cnt_Players[i].Focus.ID] + " second country -> " + cnt_Players[j].FocusTendencies[cnt_Players[i].Focus.ID] + ")");
+                // print("\t\tFocusTendencyDiff: " + focusTendencyDiff + " (first country -> " + cnt_Players[i].FocusTendencies[cnt_Players[i].Focus.ID] + " second country -> " + cnt_Players[j].FocusTendencies[cnt_Players[i].Focus.ID] + ")");
 
                 int compareFocusTendencyDiff = Mathf.Abs(cnt_Players[j].FocusTendencies[cnt_Players[j].Focus.ID] - cnt_Players[i].FocusTendencies[cnt_Players[j].Focus.ID]);
 
-                print("\t\tCompareFocusTendencyDiff: " + compareFocusTendencyDiff + " (first country -> " + cnt_Players[i].FocusTendencies[cnt_Players[j].Focus.ID] + " second country -> " + cnt_Players[j].FocusTendencies[cnt_Players[j].Focus.ID] + ")");
+                // print("\t\tCompareFocusTendencyDiff: " + compareFocusTendencyDiff + " (first country -> " + cnt_Players[i].FocusTendencies[cnt_Players[j].Focus.ID] + " second country -> " + cnt_Players[j].FocusTendencies[cnt_Players[j].Focus.ID] + ")");
 
                 int averageFocusTendencyDiff = ((focusTendencyDiff + compareFocusTendencyDiff) / 2);
 
-                print("\t\tAverage: " + averageFocusTendencyDiff);
+                // print("\t\tAverage: " + averageFocusTendencyDiff);
 
                 int focusTendencyDiffEffect = Mathf.RoundToInt(cnt_Players[i].FocusDifferenceHarshness * RelationChangeFromFocusDiffFactor * averageFocusTendencyDiff);
 
-                print("\t\tfocusTendencyDiffEffect: " + focusTendencyDiffEffect + " (harshness -> " + cnt_Players[i].FocusDifferenceHarshness + " factor -> " + RelationChangeFromFocusDiffFactor + ")");
+                // print("\t\tfocusTendencyDiffEffect: " + focusTendencyDiffEffect + " (harshness -> " + cnt_Players[i].FocusDifferenceHarshness + " factor -> " + RelationChangeFromFocusDiffFactor + ")");
 
                 int personalityDiff = Mathf.Abs(cnt_Players[i].Leader.Personality.ID - cnt_Players[j].Leader.Personality.ID);
 
-                print("\t\tPersonalityDiff: " + personalityDiff + " (first country -> " + cnt_Players[i].Leader.Personality + " second country -> " + cnt_Players[j].Leader.Personality + ")");
+                // print("\t\tPersonalityDiff: " + personalityDiff + " (first country -> " + cnt_Players[i].Leader.Personality + " second country -> " + cnt_Players[j].Leader.Personality + ")");
 
                 int personalityDiffEffect = Mathf.RoundToInt(cnt_Players[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff);
 
-                print("\t\tPersonalityDiffEffect: " + personalityDiffEffect + " (harshness -> " + cnt_Players[i].PersonalityDifferenceHarshness + " factor -> " + RelationChangeFromPersonalityDiffFactor + ")");
+                // print("\t\tPersonalityDiffEffect: " + personalityDiffEffect + " (harshness -> " + cnt_Players[i].PersonalityDifferenceHarshness + " factor -> " + RelationChangeFromPersonalityDiffFactor + ")");
 
                 int ideologicalDifference = personalityDiffEffect + focusTendencyDiffEffect;
 
-                print("\t\tideologicalDifference: " + ideologicalDifference);
+                // print("\t\tideologicalDifference: " + ideologicalDifference);
 
                 int restingValue = (-ideologicalDifference + 15) * 2; // converts range of 0 - 30 to a range of -30 to 30
 
-                print("\t\trestingValue: " + restingValue);
+                // print("\t\trestingValue: " + restingValue);
 
                 cnt_Players[i].Relations[cnt_Players[j]].RestingValue = restingValue;
 
