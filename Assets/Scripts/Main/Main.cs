@@ -47,8 +47,6 @@ public class Main : MonoBehaviour
     [SerializeField]
     private Notice notice;
 
-    public GameObject go_Actions;
-
     public Camera mainCamera;
 
     [SerializeField]
@@ -93,7 +91,6 @@ public class Main : MonoBehaviour
     private void Start()
     {
 
-
         // Reference Variables
         actionManager = GetComponent<ActionManager>();
 
@@ -107,7 +104,6 @@ public class Main : MonoBehaviour
         s_TurnActions += DriftCountryRelations;
         s_TurnActions += UpdateInterCountryRelations;
 
-
         // Country initialization
         cnt_Player = cnt_Players.Find(x => x.IsPlayerCountry);
         for (int i = 0; i < cnt_Players.Count; i++)
@@ -117,8 +113,6 @@ public class Main : MonoBehaviour
 
             var rel_LeaderNew = new Dictionary<Country, Relation>(); // makes new list of relations
             for (int j = 0; j < cnt_Players.Count; j++) rel_LeaderNew.Add(cnt_Players[j], new Relation()); // initializes each one   
-
-
 
             var rel_New = new Dictionary<Country, Relation>(rel_LeaderNew);
             rel_New.Remove(cnt_Players[i]);
@@ -131,7 +125,6 @@ public class Main : MonoBehaviour
             var newFocus = DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
             cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), rel_LeaderNew, DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), newFocus);
             cnt_Players[i].Focus = newFocus;
-
 
             cnt_Players[i].FocusTendencies = new int[ActionManager.s_Focuses.Count];
             cnt_Players[i].FocusTendencies[newFocus.ID] += 100;
@@ -152,7 +145,7 @@ public class Main : MonoBehaviour
 
         // Game Setup
         GameInfo.s_TurnCount = 0;
-        SetActionButtonsEnabled(false);
+        UIManager.Instance.SetActionButtonsEnabled(false);
         UpdateCountrySlots();
     }
 
@@ -293,10 +286,7 @@ public class Main : MonoBehaviour
         }
     }
 
-    public void SetActionButtonsEnabled(bool enabled)
-    {
-        go_Actions.GetComponentsInChildren<Button>().ToList().ForEach(x => x.interactable = enabled);
-    }
+
 
     public void NextTurn()
     {
@@ -304,7 +294,7 @@ public class Main : MonoBehaviour
         UpdateCountrySlots();
         UpdateActionCooldowns();
 
-        SetActionButtonsEnabled(false);
+        UIManager.Instance.SetActionButtonsEnabled(false);
 
         go_CurrentNotices.ForEach(x => GameObject.Destroy(x.gameObject));
         go_CurrentNotices.Clear();

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using System.Linq;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,6 +16,8 @@ public class UIManager : MonoBehaviour
 
     [SerializeField]
     private GameObject[] go_Categories;
+
+    public GameObject go_Actions;
 
     [SerializeField]
     public Color SelectedCountrySlotHighlightColor;
@@ -44,7 +48,7 @@ public class UIManager : MonoBehaviour
         CountrySlot.SetButtonSelected(diffAsLast);
         SelectedCountry = (diffAsLast) ? main.cnt_Players[System.Array.IndexOf(main.cs_NonPlayers, CountrySlot)] : null; // sets receiver to corresponsing country of clicked country slot
         ActionManager.Instance.CurrentEvent.receiver = SelectedCountry;
-        main.SetActionButtonsEnabled(diffAsLast);
+        SetActionButtonsEnabled(diffAsLast);
     }
     public void ActionHover(Action action)
     {
@@ -71,4 +75,8 @@ public class UIManager : MonoBehaviour
         foreach (CountrySlot cs in main.cs_NonPlayers) cs.SetButtonInteractable(false);
     }
 
+    public void SetActionButtonsEnabled(bool enabled)
+    {
+        go_Actions.GetComponentsInChildren<Button>().ToList().ForEach(x => x.interactable = enabled);
+    }
 }
