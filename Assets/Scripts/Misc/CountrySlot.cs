@@ -14,6 +14,7 @@ public class CountrySlot : MonoBehaviour
 
     private Button btn_select; // the entry in the country list that is clicked to select this country
 
+    public Country Country;
     #endregion
 
     public void Init()
@@ -31,6 +32,16 @@ public class CountrySlot : MonoBehaviour
     }
 
     #region  Setters
+
+    public void UpdateSlot()
+    {
+        SetCountryName(Country.CountryName);
+        SetLeaderName(Country.Leader.Name);
+        SetPersonality(Country.Leader.Personality);
+        SetMoney(Country.Money);
+        SetWarPower(Country.WarPower);
+        if (!Country.IsPlayer) SetRelation(Country.Relations[Main.Instance.cnt_Player].Value);
+    }
 
     // Sprites
     public void SetFlag(Sprite Flag)
@@ -52,7 +63,10 @@ public class CountrySlot : MonoBehaviour
 
     // Color Block
     public void SetColorBlock(ColorBlock colorBlock)
-    { btn_select.colors = colorBlock; }
+    {
+        print(Country.CountryName);
+        btn_select.colors = colorBlock;
+    }
 
     // Other
     public void SetPersonality(PersonalityType Personality)
@@ -70,7 +84,7 @@ public class CountrySlot : MonoBehaviour
 
     public void SetButtonInteractable(bool interactable)
     {
-        if (interactable == btn_select.IsInteractable()) return;
+        if (Country.IsPlayer || interactable == btn_select.IsInteractable()) return;
         ColorBlock newColorBlock = btn_select.colors;
         newColorBlock.normalColor = btn_select.colors.disabledColor;
         newColorBlock.disabledColor = btn_select.colors.normalColor;

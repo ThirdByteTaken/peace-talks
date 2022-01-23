@@ -20,21 +20,20 @@ public class Main : MonoBehaviour
     public const int Default_Relation_Resting_Range = 20; // size of range in either direction (value of 20 means range is -20 to 20)
     [Range(0, 1)]
     public float RelationChangeFromFocusDiffFactor;
-    [Range(0, 20)]
+    [Range(0, 1)]
     public float RelationChangeFromPersonalityDiffFactor;
 
     #region Variables
 
-    public CountrySlot[] cs_NonPlayers;
+    [SerializeField]
+    private List<CountrySlot> cs_PlayersList;
+    public Dictionary<Country, CountrySlot> cs_Players = new Dictionary<Country, CountrySlot>();
 
     public List<Country> cnt_Players = new List<Country>();
     public static List<Country> s_cnt_Players;
 
     [HideInInspector]
     public Country cnt_Player;
-
-    [SerializeField]
-    private CountrySlot cs_Player;
 
     [SerializeField]
     private EventSlot eventSlot;
@@ -70,7 +69,7 @@ public class Main : MonoBehaviour
     public static bool s_noDeath;
     public bool noDeath;
 
-    public List<ColorBlock> cb_CountrySlotColors;
+
 
     //public Color co_csNormal, co_csHighlighted, co_csClicked, co_csSelected, co_csDisabled;
     public delegate void TurnAction();
@@ -105,7 +104,8 @@ public class Main : MonoBehaviour
         s_TurnActions += UpdateInterCountryRelations;
 
         // Country initialization
-        cnt_Player = cnt_Players.Find(x => x.IsPlayerCountry);
+        cnt_Player = cnt_Players.Find(x => x.IsPlayer);
+        cnt_Player.IsPlayer = true;
         for (int i = 0; i < cnt_Players.Count; i++)
         {
 
@@ -130,16 +130,17 @@ public class Main : MonoBehaviour
             cnt_Players[i].FocusTendencies[newFocus.ID] += 100;
             cnt_Players[i].UpdateFocusModifiers(cnt_Players[i].Focus);
 
+            cs_Players.Add(cnt_Players[i], cs_PlayersList[i]);
+            cs_PlayersList[i].Country = cnt_Players[i];
             s_TurnActions += cnt_Players[i].CountryStatsDrift;
         }
 
         // UI Initializations
-        foreach (CountrySlot cs in cs_NonPlayers) // Country slot setup
+        foreach (CountrySlot cs in cs_Players.Values) // Country slot setup
         {
             cs.Init();
-            cs.SetColorBlock(cb_CountrySlotColors[0]);
+            if (!cs.Country.IsPlayer) cs.SetColorBlock(UIManager.Instance.cb_CountrySlotColors[0]);
         }
-        cs_Player.Init();
         eventSlot.Init();
         s_CountryView.Init();
 
@@ -176,7 +177,7 @@ public class Main : MonoBehaviour
         while (sender == newAffected || receiver == newAffected)
             newAffected = cnt_Players[Random.Range(0, cnt_Players.Count)];
         Event newEvent = new Event(nextAction, sender, receiver, newAffected);
-        if (newEvent.receiver.IsPlayerCountry)
+        if (newEvent.receiver.IsPlayer)
             ce_Player.Add((newEvent));
         else
             ce_NonPlayer.Add(newEvent);
@@ -184,7 +185,7 @@ public class Main : MonoBehaviour
 
     private void SendAction(Event currentEvent)
     {
-        if (currentEvent.receiver.IsPlayerCountry)
+        if (currentEvent.receiver.IsPlayer)
         {
             ShowEventSlot(currentEvent);
             return;
@@ -267,23 +268,8 @@ public class Main : MonoBehaviour
 
     public void UpdateCountrySlots()
     {
-        cs_Player.SetCountryName(cnt_Player.CountryName);
-        cs_Player.SetLeaderName(cnt_Player.Leader.Name);
-        cs_Player.SetPersonality(cnt_Player.Leader.Personality);
-        cs_Player.SetMoney(cnt_Player.Money);
-        cs_Player.SetWarPower(cnt_Player.WarPower);
-        for (int i = 0; i < cs_NonPlayers.Length; i++)
-        {
-            var cnt = cnt_Players[i + 1]; // +1 to skip over player
-            var cs = cs_NonPlayers[i];
-            // CountrySlot.SetFlag(Country.Flag); Flags don't matter yet
-            cs.SetCountryName(cnt.CountryName);
-            cs.SetLeaderName(cnt.Leader.Name);
-            cs.SetPersonality(cnt.Leader.Personality);
-            cs.SetMoney(cnt.Money);
-            cs.SetWarPower(cnt.WarPower);
-            cs.SetRelation(cnt.Relations[cnt_Player].Value); // Get relations toward the player country 
-        }
+        foreach (CountrySlot cs in cs_Players.Values)
+            cs.UpdateSlot();
     }
 
 

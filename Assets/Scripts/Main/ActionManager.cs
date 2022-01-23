@@ -102,7 +102,7 @@ public class ActionManager : MonoBehaviour
 
         main.UpdateCountrySlots();
 
-        if (!CurrentEvent.receiver.IsPlayerCountry || true)
+        if (!CurrentEvent.receiver.IsPlayer || true)
             main.ShowNotice(CurrentEvent, Response);
     }
 }

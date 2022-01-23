@@ -22,7 +22,8 @@ public class Country : ScriptableObject
 
     public Leader Leader;
 
-    public bool IsPlayerCountry;
+    [HideInInspector]
+    public bool IsPlayer;
 
     public int ID;
 
@@ -36,7 +37,7 @@ public class Country : ScriptableObject
         }
         set
         {
-            if (value <= 0 && IsPlayerCountry) DeathManager.GameOver("Debt", "Your country ran out of money and simply couldn't exist anymore");
+            if (value <= 0 && IsPlayer) DeathManager.GameOver("Debt", "Your country ran out of money and simply couldn't exist anymore");
             money = value;
         }
     }
@@ -51,7 +52,7 @@ public class Country : ScriptableObject
         }
         set
         {
-            if (value <= 0 && IsPlayerCountry) DeathManager.GameOver("Anarchy", "Your war power was too low and your people resorted to anarchy.");
+            if (value <= 0 && IsPlayer) DeathManager.GameOver("Anarchy", "Your war power was too low and your people resorted to anarchy.");
             warPower = value;
         }
     }
@@ -174,7 +175,7 @@ public class Country : ScriptableObject
 
     public void PopulationRevolt()
     {
-        if (IsPlayerCountry) DeathManager.GameOver("Revolt", "The people of your country disliked you so much that they revolted against you");
+        if (IsPlayer) DeathManager.GameOver("Revolt", "The people of your country disliked you so much that they revolted against you");
         ChangeLeader(this);
     }
 
@@ -232,7 +233,7 @@ public class Country : ScriptableObject
         Debug.Log("---------NEW COUNTRY-----------------");
         Debug.Log("\t" + name);
         Debug.Log("\tID:\t " + ID);
-        Debug.Log("\tPlayer Country?\t" + IsPlayerCountry);
+        Debug.Log("\tPlayer Country?\t" + IsPlayer);
         Debug.Log("\t----------LEADER---------- ");
         Debug.Log("\t\tName:\t" + Leader.Name);
         Debug.Log("\t\tFocus:\t" + Leader.Focus.name);

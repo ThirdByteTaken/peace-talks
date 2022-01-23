@@ -19,6 +19,9 @@ public class UIManager : MonoBehaviour
 
     public GameObject go_Actions;
 
+
+    public List<ColorBlock> cb_CountrySlotColors;
+
     [SerializeField]
     public Color SelectedCountrySlotHighlightColor;
 
@@ -41,12 +44,12 @@ public class UIManager : MonoBehaviour
 
     public void SelectCountrySlot(CountrySlot CountrySlot)
     {
-        CountrySlot oldSelected = (SelectedCountry == null) ? null : main.cs_NonPlayers[SelectedCountry.ID];
+        CountrySlot oldSelected = (SelectedCountry == null) ? null : main.cs_Players[SelectedCountry];
         bool diffAsLast = (oldSelected != CountrySlot); // if button clicked was NOT the same as previously selected country       
 
         if (oldSelected != null) oldSelected.SetButtonSelected(false);
         CountrySlot.SetButtonSelected(diffAsLast);
-        SelectedCountry = (diffAsLast) ? main.cnt_Players[System.Array.IndexOf(main.cs_NonPlayers, CountrySlot)] : null; // sets receiver to corresponsing country of clicked country slot
+        SelectedCountry = (diffAsLast) ? CountrySlot.Country : null; // sets receiver to corresponsing country of clicked country slot
         ActionManager.Instance.CurrentEvent.receiver = SelectedCountry;
         SetActionButtonsEnabled(diffAsLast);
     }
@@ -63,16 +66,16 @@ public class UIManager : MonoBehaviour
 
     public void DeselectCurrentCountrySlot()
     {
-        if (SelectedCountry != null) SelectCountrySlot(main.cs_NonPlayers[SelectedCountry.ID]);
+        if (SelectedCountry != null) SelectCountrySlot(main.cs_Players[SelectedCountry]);
     }
 
     public void SetCountrySlotButtonsInteractable()
     {
-        foreach (CountrySlot cs in main.cs_NonPlayers) cs.SetButtonInteractable(true);
+        foreach (CountrySlot cs in main.cs_Players.Values) cs.SetButtonInteractable(true);
     }
     public void SetCountrySlotButtonsUninteractable()
     {
-        foreach (CountrySlot cs in main.cs_NonPlayers) cs.SetButtonInteractable(false);
+        foreach (CountrySlot cs in main.cs_Players.Values) cs.SetButtonInteractable(false);
     }
 
     public void SetActionButtonsEnabled(bool enabled)

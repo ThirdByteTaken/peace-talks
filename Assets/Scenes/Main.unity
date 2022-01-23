@@ -1989,6 +1989,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Country: {fileID: 0}
 --- !u!114 &192234811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3425,6 +3426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Country: {fileID: 0}
 --- !u!114 &375893736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5186,6 +5188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Country: {fileID: 0}
 --- !u!114 &524969837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12220,6 +12223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Country: {fileID: 0}
 --- !u!1 &1276652324
 GameObject:
   m_ObjectHideFlags: 0
@@ -17357,7 +17361,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RelationChangeFromFocusDiffFactor: 0.25
   RelationChangeFromPersonalityDiffFactor: 5
-  cs_NonPlayers:
+  cs_PlayersList:
+  - {fileID: 1272718480}
   - {fileID: 192234810}
   - {fileID: 375893735}
   - {fileID: 524969836}
@@ -17369,23 +17374,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b76957531de5e455b9bc9ea767f14c8c, type: 2}
   - {fileID: 11400000, guid: 447ce3f2b5008486d8594cec5f2552bb, type: 2}
   cnt_Player: {fileID: 11400000, guid: 85cd9d068cbf4b042b37193dcc0130ea, type: 2}
-  cs_Player: {fileID: 1272718480}
   eventSlot: {fileID: 758442335}
   CountryView: {fileID: 804774987}
   notice: {fileID: 1700556814}
-  go_Actions: {fileID: 1953953674}
   mainCamera: {fileID: 1485134247}
   go_CurrentEventSlots: []
   go_CurrentNotices: []
   noDeath: 1
-  cb_CountrySlotColors:
-  - m_NormalColor: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 1}
-    m_HighlightedColor: {r: 0.67058825, g: 0.6666667, b: 0.29411766, a: 1}
-    m_PressedColor: {r: 0.58431375, g: 0.61960787, b: 0.40784314, a: 1}
-    m_SelectedColor: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 1}
-    m_DisabledColor: {r: 0.74509805, g: 0.7372549, b: 0.16078432, a: 1}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
 --- !u!4 &1737418788
 Transform:
   m_ObjectHideFlags: 0
@@ -17488,6 +17483,15 @@ MonoBehaviour:
   - {fileID: 1074453422}
   - {fileID: 813690935}
   - {fileID: 337678130}
+  go_Actions: {fileID: 1953953674}
+  cb_CountrySlotColors:
+  - m_NormalColor: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 1}
+    m_HighlightedColor: {r: 0.74509805, g: 0.7372549, b: 0.16078432, a: 1}
+    m_PressedColor: {r: 0.58431375, g: 0.61960787, b: 0.40784314, a: 1}
+    m_SelectedColor: {r: 0.33333334, g: 0.33333334, b: 0.33333334, a: 1}
+    m_DisabledColor: {r: 0.74509805, g: 0.7372549, b: 0.16078432, a: 1}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0
   SelectedCountrySlotHighlightColor: {r: 0.8018868, g: 0.7939117, b: 0.13995194, a: 1}
   DeselectedCountrySlotHighlightColor: {r: 0.67058825, g: 0.6666667, b: 0.29411766, a: 1}
 --- !u!1 &1758530301
@@ -17984,6 +17988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Country: {fileID: 0}
 --- !u!114 &1783107940
 MonoBehaviour:
   m_ObjectHideFlags: 0
