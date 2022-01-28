@@ -1989,7 +1989,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Country: {fileID: 0}
 --- !u!114 &192234811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3426,7 +3425,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Country: {fileID: 0}
 --- !u!114 &375893736
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5188,7 +5186,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Country: {fileID: 0}
 --- !u!114 &524969837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12223,7 +12220,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Country: {fileID: 0}
 --- !u!1 &1276652324
 GameObject:
   m_ObjectHideFlags: 0
@@ -17360,7 +17356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RelationChangeFromFocusDiffFactor: 0.25
-  RelationChangeFromPersonalityDiffFactor: 5
+  RelationChangeFromPersonalityDiffFactor: 0.25
   cs_PlayersList:
   - {fileID: 1272718480}
   - {fileID: 192234810}
@@ -17988,7 +17984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e651ff174dd142709c194e73ac1f7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Country: {fileID: 0}
 --- !u!114 &1783107940
 MonoBehaviour:
   m_ObjectHideFlags: 0

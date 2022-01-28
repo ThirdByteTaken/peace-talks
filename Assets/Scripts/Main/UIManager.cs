@@ -9,7 +9,8 @@ public class UIManager : MonoBehaviour
     public static UIManager Instance;
     Main main;
 
-    public static Action s_hoveredAction;
+    [HideInInspector]
+    public Action hoveredAction;
 
     [SerializeField]
     private GameObject go_CategoryButtons;
@@ -55,7 +56,7 @@ public class UIManager : MonoBehaviour
     }
     public void ActionHover(Action action)
     {
-        s_hoveredAction = action;
+        hoveredAction = action;
     }
 
     public void ReturnToCategories()

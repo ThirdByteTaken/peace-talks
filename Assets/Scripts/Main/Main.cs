@@ -55,6 +55,7 @@ public class Main : MonoBehaviour
     #region Reference
 
     private ActionManager actionManager;
+    private UIManager uIManager;
 
     #endregion
 
@@ -86,7 +87,8 @@ public class Main : MonoBehaviour
     {
 
         // Reference Variables
-        actionManager = GetComponent<ActionManager>();
+        actionManager = ActionManager.Instance;
+        uIManager = UIManager.Instance;
 
         // TurnActions Subscriptions
         s_TurnActions += UpdateCountryResources;

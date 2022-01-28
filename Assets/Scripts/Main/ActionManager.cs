@@ -23,6 +23,7 @@ public class ActionManager : MonoBehaviour
     public List<PersonalityType> PersonalityTypes;
 
     private Main main;
+    private UIManager uIManager;
 
     [HideInInspector]
     public bool actionTaken; // if an action has already been taken by the player this turn
@@ -42,6 +43,7 @@ public class ActionManager : MonoBehaviour
     {
 
         main = Main.Instance;
+        uIManager = UIManager.Instance;
         s_actions = new List<Action>(actions);
 
 
@@ -67,9 +69,9 @@ public class ActionManager : MonoBehaviour
         }
         RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
         RunResponse(AIManager.BestResponse(CurrentEvent, main.cnt_Player));
-        UIManager.Instance.DeselectCurrentCountrySlot();
-        UIManager.Instance.SetCountrySlotButtonsUninteractable();
-        UIManager.Instance.ReturnToCategories();
+        uIManager.DeselectCurrentCountrySlot();
+        uIManager.SetCountrySlotButtonsUninteractable();
+        uIManager.ReturnToCategories();
         actionTaken = true;
     }
 

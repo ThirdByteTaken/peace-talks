@@ -32,7 +32,7 @@ public class CooldownTooltip : MonoBehaviour
     public void ShowToolTip()
     {
         var CurrentCooldowns = main.cnt_Player.ActionCooldowns;
-        var CurrentAction = UIManager.s_hoveredAction;
+        var CurrentAction = UIManager.Instance.hoveredAction;
 
         if (CurrentCooldowns == null) return;
         if (!CurrentCooldowns.ContainsKey(CurrentAction)) return;
