@@ -10,7 +10,6 @@ public class AIManager : MonoBehaviour
     public static Response BestResponse(Event ce, Country sender)
     {
         ResetResponseDictionary();
-        print(sender.name + "  " + ce.sender.name);
         var relation = sender.Relations[ce.receiver].Value;
 
         List<Response> AllPossibleResponses = new List<Response>();

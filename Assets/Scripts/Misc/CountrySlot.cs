@@ -64,7 +64,6 @@ public class CountrySlot : MonoBehaviour
     // Color Block
     public void SetColorBlock(ColorBlock colorBlock)
     {
-        print(Country.CountryName);
         btn_select.colors = colorBlock;
     }
 

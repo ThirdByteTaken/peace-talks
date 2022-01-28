@@ -355,7 +355,7 @@ public class Main : MonoBehaviour
 
     private void UpdateInterCountryRelations()
     {
-        print("TURN " + GameInfo.s_TurnCount + ":");
+        // print("TURN " + GameInfo.s_TurnCount + ":");
         for (int i = 0; i < cnt_Players.Count; i++)
         {
             for (int j = 0; j < cnt_Players.Count; j++)
