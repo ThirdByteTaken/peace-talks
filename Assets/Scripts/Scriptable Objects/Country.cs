@@ -191,7 +191,7 @@ public class Country : ScriptableObject
     public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
     {
         var rel_New = new Dictionary<Country, Relation>(); // makes new list of relations
-        foreach (Country relationCountry in Main.s_cnt_Players)
+        foreach (Country relationCountry in Main.Instance.cnt_Players)
         {
             rel_New.Add(relationCountry, new Relation()); // initializes each one   
             if (modelCountry != null)

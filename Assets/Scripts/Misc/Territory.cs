@@ -31,6 +31,6 @@ public class Territory
 
     public void OpenLeaderView()
     {
-        Main.s_CountryView.OpenCountry(Owner);
+        Main.Instance.CountryView.OpenCountry(Owner);
     }
 }

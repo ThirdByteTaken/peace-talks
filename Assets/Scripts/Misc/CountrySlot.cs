@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class CountrySlot : MonoBehaviour
 {
@@ -14,7 +15,13 @@ public class CountrySlot : MonoBehaviour
 
     private Button btn_select; // the entry in the country list that is clicked to select this country
 
-    public Country Country;
+    public Country Country
+    {
+        get
+        {
+            return (Main.Instance.cs_Players.FirstOrDefault(x => x.Value == this).Key); // Returns the key of the key value pair that has this as the value
+        }
+    }
     #endregion
 
     public void Init()

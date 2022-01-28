@@ -74,7 +74,7 @@ public class CountryView : MonoBehaviour
             maximumAnchorPosition += anchoredSpacePerRelation;
 
         }
-        var relationCountries = new List<Country>(Main.s_cnt_Players);
+        var relationCountries = new List<Country>(Main.Instance.cnt_Players);
         relationCountries.Remove(country);
         for (int i = 0; i < relationCountries.Count; i++)
         {

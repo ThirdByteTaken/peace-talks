@@ -30,17 +30,13 @@ public class Main : MonoBehaviour
     public Dictionary<Country, CountrySlot> cs_Players = new Dictionary<Country, CountrySlot>();
 
     public List<Country> cnt_Players = new List<Country>();
-    public static List<Country> s_cnt_Players;
 
     public Country cnt_Player;
 
     [SerializeField]
     private EventSlot eventSlot;
 
-    public static CountryView s_CountryView;
-
-    [SerializeField]
-    private CountryView CountryView;
+    public CountryView CountryView;
 
     [SerializeField]
     private Notice notice;
@@ -65,7 +61,7 @@ public class Main : MonoBehaviour
     #region Game Information
 
 
-    public static bool s_noDeath;
+
     public bool noDeath;
 
 
@@ -91,11 +87,6 @@ public class Main : MonoBehaviour
 
         // Reference Variables
         actionManager = GetComponent<ActionManager>();
-
-        // Static Assignments 
-        s_noDeath = noDeath;
-        s_CountryView = CountryView;
-        s_cnt_Players = cnt_Players;
 
         // TurnActions Subscriptions
         s_TurnActions += UpdateCountryResources;
@@ -126,7 +117,6 @@ public class Main : MonoBehaviour
             cnt_Players[i].UpdateFocusModifiers(cnt_Players[i].Focus);
 
             cs_Players.Add(cnt_Players[i], cs_PlayersList[i]);
-            cs_PlayersList[i].Country = cnt_Players[i];
             s_TurnActions += cnt_Players[i].CountryStatsDrift;
         }
 
@@ -137,7 +127,7 @@ public class Main : MonoBehaviour
             if (!cs.Country.IsPlayer) cs.SetColorBlock(UIManager.Instance.cb_CountrySlotColors[0]);
         }
         eventSlot.Init();
-        s_CountryView.Init();
+        CountryView.Init();
 
         // Game Setup
         GameInfo.s_TurnCount = 0;
