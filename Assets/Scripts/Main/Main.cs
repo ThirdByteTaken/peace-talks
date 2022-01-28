@@ -32,7 +32,6 @@ public class Main : MonoBehaviour
     public List<Country> cnt_Players = new List<Country>();
     public static List<Country> s_cnt_Players;
 
-    [HideInInspector]
     public Country cnt_Player;
 
     [SerializeField]
@@ -105,12 +104,8 @@ public class Main : MonoBehaviour
 
         // Country initialization
         cnt_Player = cnt_Players.Find(x => x.IsPlayer);
-        cnt_Player.IsPlayer = true;
         for (int i = 0; i < cnt_Players.Count; i++)
         {
-
-            cnt_Players[i].ID = i; // Set all cnt_NonPlayers[i]; IDs
-
             var rel_LeaderNew = new Dictionary<Country, Relation>(); // makes new list of relations
             for (int j = 0; j < cnt_Players.Count; j++) rel_LeaderNew.Add(cnt_Players[j], new Relation()); // initializes each one   
 

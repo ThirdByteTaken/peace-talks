@@ -23,9 +23,21 @@ public class Country : ScriptableObject
     public Leader Leader;
 
     [HideInInspector]
-    public bool IsPlayer;
+    public bool IsPlayer
+    {
+        get
+        {
+            return (this == Main.Instance.cnt_Player);
+        }
+    }
 
-    public int ID;
+    public int ID
+    {
+        get
+        {
+            return (Main.Instance.cnt_Players.IndexOf(this));
+        }
+    }
 
     [SerializeField]
     private int money;
@@ -46,10 +58,7 @@ public class Country : ScriptableObject
     private int warPower;
     public int WarPower
     {
-        get
-        {
-            return warPower;
-        }
+        get { return warPower; }
         set
         {
             if (value <= 0 && IsPlayer) DeathManager.GameOver("Anarchy", "Your war power was too low and your people resorted to anarchy.");
