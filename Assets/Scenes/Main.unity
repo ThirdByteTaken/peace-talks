@@ -16762,7 +16762,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1700556813
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17474,6 +17474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a7438b1b7b4ad14e8ee97fb984681e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoveredAction: {fileID: 0}
   go_CategoryButtons: {fileID: 1407164123}
   go_Categories:
   - {fileID: 1074453422}
