@@ -172,7 +172,7 @@ public class Country : ScriptableObject
         Debug.Log("Focus Values: (should be same)");
 
         FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));*/
-        Focus = ActionManager.s_Focuses[System.Array.IndexOf(FocusTendencies, (FocusTendencies.Max()))];
+        Focus = ActionManager.Instance.Focuses[System.Array.IndexOf(FocusTendencies, (FocusTendencies.Max()))];
 
     }
 
@@ -211,13 +211,13 @@ public class Country : ScriptableObject
             if ((rand -= x) < 0) break;
             iteration++;
         }
-        Focus foc_New = (modelCountry != null) ? ActionManager.s_Focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
+        Focus foc_New = (modelCountry != null) ? ActionManager.Instance.Focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.Instance.Focuses);
         Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
         Debug.Log("\tnewrelations:");
         rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\tnewfocus: " + foc_New.name);
         previousLeader = Leader;
-        Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), foc_New);
+        Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomListValue<PersonalityType>(ActionManager.Instance.PersonalityTypes), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
     #endregion

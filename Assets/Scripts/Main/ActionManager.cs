@@ -10,16 +10,10 @@ public class ActionManager : MonoBehaviour
     public static ActionManager Instance;
     public Event CurrentEvent = new Event();
 
-    [SerializeField]
-    private List<Action> actions = new List<Action>();
-    public static List<Action> s_actions = new List<Action>();
+    public List<Action> actions = new List<Action>();
 
 
-
-    public static List<Focus> s_Focuses = new List<Focus>();
     public List<Focus> Focuses;
-
-    public static List<PersonalityType> s_PersonalityTypes;
     public List<PersonalityType> PersonalityTypes;
 
     private Main main;
@@ -34,8 +28,6 @@ public class ActionManager : MonoBehaviour
 
     void Awake()
     {
-        s_Focuses = Focuses;
-        s_PersonalityTypes = PersonalityTypes;
         Instance = this;
     }
 
@@ -44,7 +36,6 @@ public class ActionManager : MonoBehaviour
 
         main = Main.Instance;
         uIManager = UIManager.Instance;
-        s_actions = new List<Action>(actions);
 
 
     }

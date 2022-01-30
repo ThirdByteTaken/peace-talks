@@ -13,7 +13,7 @@ public class PersonalityType : ScriptableObject
     {
         get
         {
-            return ActionManager.s_PersonalityTypes.IndexOf(this);
+            return ActionManager.Instance.PersonalityTypes.IndexOf(this);
         }
     }
 }

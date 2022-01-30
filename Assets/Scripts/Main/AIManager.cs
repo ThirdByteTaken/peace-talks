@@ -39,10 +39,10 @@ public class AIManager : MonoBehaviour
     public static Action BestAction(Country sender, Country receiver)
     {
         ResetActionDictionary();
-        var relation = 0;
-        relation = sender.Relations[receiver].Value;
+        var relation = sender.Relations[receiver].Value;
 
-        foreach (Action action in ActionManager.s_actions)
+
+        foreach (Action action in ActionManager.Instance.actions)
         {
             if (relation < action.MinRelation || relation > action.MaxRelation) continue;
             if (sender.Money < action.MinMoney) continue; // If the person being asked for a loan doesn't have enough money

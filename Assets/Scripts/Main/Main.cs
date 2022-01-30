@@ -110,11 +110,11 @@ public class Main : MonoBehaviour
             // AI-Player Setup            
             cnt_Players[i].LeaderRelations = new Relation(); // Reset leader relations              
 
-            var newFocus = DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
-            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), rel_LeaderNew, DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), newFocus);
+            var newFocus = DevTools.RandomListValue<Focus>(actionManager.Focuses);
+            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), rel_LeaderNew, DevTools.RandomListValue<PersonalityType>(actionManager.PersonalityTypes), newFocus);
             cnt_Players[i].Focus = newFocus;
 
-            cnt_Players[i].FocusTendencies = new int[ActionManager.s_Focuses.Count];
+            cnt_Players[i].FocusTendencies = new int[actionManager.Focuses.Count];
             cnt_Players[i].FocusTendencies[newFocus.ID] += 100;
             cnt_Players[i].UpdateFocusModifiers(cnt_Players[i].Focus);
 
