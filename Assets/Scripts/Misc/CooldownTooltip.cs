@@ -55,7 +55,6 @@ public class CooldownTooltip : MonoBehaviour
     {
         if (lockToMouse)
         {
-            print("Hello");
             Vector3 mousePos = main.mainCamera.ScreenToWorldPoint(Input.mousePosition);
             obj.transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
             rect.localPosition += new Vector3(rect.sizeDelta.x / 2, rect.sizeDelta.y / 2, 0f);

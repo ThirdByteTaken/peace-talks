@@ -47,15 +47,15 @@ public class DevTools : MonoBehaviour
     {
         var RatioTotal = ratio.Sum();
         int random = Random.Range(0, RatioTotal + 1);
-        ratio.ForEach(x => print(x));
-        print("rand - " + random);
+        // ratio.ForEach(x => print(x));
+        // print("rand - " + random);
         int index = 0;
         foreach (int ratioElement in ratio)
         {
             if ((random -= ratioElement) <= 0) break; // Determines if the random falls in the range corresponding to ratio[index] 
             index++;
         }
-        print("index " + index);
+        //print("index " + index);
         return index;/*
         switch (index)
         {

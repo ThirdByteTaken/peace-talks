@@ -212,10 +212,10 @@ public class Country : ScriptableObject
             iteration++;
         }
         Focus foc_New = (modelCountry != null) ? ActionManager.Instance.Focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.Instance.Focuses);
-        Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
-        Debug.Log("\tnewrelations:");
-        rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
-        Debug.Log("\tnewfocus: " + foc_New.name);
+        //        Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
+        // Debug.Log("\tnewrelations:");
+        // rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
+        //Debug.Log("\tnewfocus: " + foc_New.name);
         previousLeader = Leader;
         Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomListValue<PersonalityType>(ActionManager.Instance.PersonalityTypes), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;

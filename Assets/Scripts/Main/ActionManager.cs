@@ -43,8 +43,6 @@ public class ActionManager : MonoBehaviour
     public void RunAction(Event currentEvent)
     {
         CurrentEvent = currentEvent;
-        //currentResponses = CurrentAction.Responses.OfType<Response>().ToList(); // Convert response array to list    
-
     }
 
 
