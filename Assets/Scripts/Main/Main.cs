@@ -177,7 +177,7 @@ public class Main : MonoBehaviour
             ShowEventSlot(currentEvent);
             return;
         }
-        actionManager.RunAction(currentEvent);
+        actionManager.SetCurrentAction(currentEvent);
 
         actionManager.RunResponse(AIManager.BestResponse(currentEvent, currentEvent.sender));
         UpdateCountrySlots();
@@ -246,7 +246,7 @@ public class Main : MonoBehaviour
         if (go_CurrentEventSlots.Count == 0)
             GameInfo.ShowNextTurnButton(true);
         else
-            actionManager.RunAction(ce_Player[0]); // Show next response
+            actionManager.SetCurrentAction(ce_Player[0]); // Show next response
     }
 
     #endregion
@@ -289,7 +289,7 @@ public class Main : MonoBehaviour
         ce_Player.ForEach(x => ShowEventSlot(x)); // Player events go last
 
         if (ce_Player.Count > 0)
-            actionManager.RunAction(ce_Player[0]); // Set up first (displayed) player event
+            actionManager.SetCurrentAction(ce_Player[0]); // Set up first (displayed) player event
     }
 
     private void UpdateCountryResources() // runs every turn

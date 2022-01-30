@@ -33,20 +33,14 @@ public class ActionManager : MonoBehaviour
 
     private void Start()
     {
-
         main = Main.Instance;
         uIManager = UIManager.Instance;
-
-
     }
 
-    public void RunAction(Event currentEvent)
+    public void SetCurrentAction(Event currentEvent)
     {
         CurrentEvent = currentEvent;
     }
-
-
-
 
     public void RunPlayerAction(Action action)
     {
@@ -56,7 +50,7 @@ public class ActionManager : MonoBehaviour
         {
             return;
         }
-        RunAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
+        SetCurrentAction(new Event(action, main.cnt_Player, CurrentEvent.receiver, null));
         RunResponse(AIManager.BestResponse(CurrentEvent, main.cnt_Player));
         uIManager.DeselectCurrentCountrySlot();
         uIManager.SetCountrySlotButtonsUninteractable();
