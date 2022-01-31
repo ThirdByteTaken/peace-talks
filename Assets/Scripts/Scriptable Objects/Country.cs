@@ -22,9 +22,22 @@ public class Country : ScriptableObject
 
     public Leader Leader;
 
-    public bool IsPlayerCountry;
+    [HideInInspector]
+    public bool IsPlayer
+    {
+        get
+        {
+            return (this == Main.Instance.cnt_Player);
+        }
+    }
 
-    public int ID;
+    public int ID
+    {
+        get
+        {
+            return (Main.Instance.cnt_Players.IndexOf(this));
+        }
+    }
 
     [SerializeField]
     private int money;
@@ -36,7 +49,7 @@ public class Country : ScriptableObject
         }
         set
         {
-            if (value <= 0 && IsPlayerCountry) DeathManager.GameOver("Debt", "Your country ran out of money and simply couldn't exist anymore");
+            if (value <= 0 && IsPlayer) DeathManager.GameOver("Debt", "Your country ran out of money and simply couldn't exist anymore");
             money = value;
         }
     }
@@ -45,13 +58,10 @@ public class Country : ScriptableObject
     private int warPower;
     public int WarPower
     {
-        get
-        {
-            return warPower;
-        }
+        get { return warPower; }
         set
         {
-            if (value <= 0 && IsPlayerCountry) DeathManager.GameOver("Anarchy", "Your war power was too low and your people resorted to anarchy.");
+            if (value <= 0 && IsPlayer) DeathManager.GameOver("Anarchy", "Your war power was too low and your people resorted to anarchy.");
             warPower = value;
         }
     }
@@ -162,7 +172,7 @@ public class Country : ScriptableObject
         Debug.Log("Focus Values: (should be same)");
 
         FocusTendencies.ForEach(x => Debug.Log("focus value \t" + x));*/
-        Focus = ActionManager.s_Focuses[System.Array.IndexOf(FocusTendencies, (FocusTendencies.Max()))];
+        Focus = ActionManager.Instance.Focuses[System.Array.IndexOf(FocusTendencies, (FocusTendencies.Max()))];
 
     }
 
@@ -174,18 +184,23 @@ public class Country : ScriptableObject
 
     public void PopulationRevolt()
     {
-        if (IsPlayerCountry) DeathManager.GameOver("Revolt", "The people of your country disliked you so much that they revolted against you");
+        if (IsPlayer) DeathManager.GameOver("Revolt", "The people of your country disliked you so much that they revolted against you");
         ChangeLeader(this);
     }
 
     public void ChangeLeader(Country modelCountry = null) // modelCountry = the country the new leader is similar to - no value given = random leader
     {
         var rel_New = new Dictionary<Country, Relation>(); // makes new list of relations
-        for (int j = 0; j < Main.s_cnt_Players.Count; j++)
+        foreach (Country relationCountry in Main.Instance.cnt_Players)
         {
-            rel_New.Add(Main.s_cnt_Players[j], new Relation()); // initializes each one   
+            rel_New.Add(relationCountry, new Relation()); // initializes each one   
             if (modelCountry != null)
-                rel_New[Main.s_cnt_Players[j]].Value = Random.Range(modelCountry.Relations[Main.s_cnt_Players[j]].Value - 20, modelCountry.Relations[Main.s_cnt_Players[j]].Value + 20); // makes new leaders opinions of other countries similar to the populations opinions of them
+            {
+                var modelCountryRelationValue = (modelCountry.Relations.ContainsKey(relationCountry)) ? modelCountry.Relations[relationCountry].Value : 35; // Models new relation off model country (for leader relation of model country, set to arbitrary value of 35)
+                var newRelationValue = Random.Range(modelCountryRelationValue - 20, modelCountryRelationValue + 20);
+                rel_New[relationCountry].RestingValue = newRelationValue; // makes new leaders opinions of other countries similar to the populations opinions of them
+                rel_New[relationCountry].Value = newRelationValue;
+            }
         }
         // TODO Replace with new DevTools function 
         var TotalRatio = modelCountry.FocusTendencies.Sum();
@@ -196,13 +211,13 @@ public class Country : ScriptableObject
             if ((rand -= x) < 0) break;
             iteration++;
         }
-        Focus foc_New = (modelCountry != null) ? ActionManager.s_Focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.s_Focuses);
-        Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
-        Debug.Log("\tnewrelations:");
-        rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
-        Debug.Log("\tnewfocus: " + foc_New.name);
+        Focus foc_New = (modelCountry != null) ? ActionManager.Instance.Focuses[iteration] : DevTools.RandomListValue<Focus>(ActionManager.Instance.Focuses);
+        //        Debug.Log("New leader for country " + ID + "(model country: " + modelCountry + "):");
+        // Debug.Log("\tnewrelations:");
+        // rel_New.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
+        //Debug.Log("\tnewfocus: " + foc_New.name);
         previousLeader = Leader;
-        Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomListValue<PersonalityType>(ActionManager.s_PersonalityTypes), foc_New);
+        Leader = new Leader(TextGenerator.LeaderName(), rel_New, DevTools.RandomListValue<PersonalityType>(ActionManager.Instance.PersonalityTypes), foc_New);
         modelCountry.leaderRelations.Value = modelCountry.leaderRelations.RestingValue;
     }
     #endregion
@@ -227,7 +242,7 @@ public class Country : ScriptableObject
         Debug.Log("---------NEW COUNTRY-----------------");
         Debug.Log("\t" + name);
         Debug.Log("\tID:\t " + ID);
-        Debug.Log("\tPlayer Country?\t" + IsPlayerCountry);
+        Debug.Log("\tPlayer Country?\t" + IsPlayer);
         Debug.Log("\t----------LEADER---------- ");
         Debug.Log("\t\tName:\t" + Leader.Name);
         Debug.Log("\t\tFocus:\t" + Leader.Focus.name);

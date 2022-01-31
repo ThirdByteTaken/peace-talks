@@ -32,7 +32,7 @@ public class CooldownTooltip : MonoBehaviour
     public void ShowToolTip()
     {
         var CurrentCooldowns = main.cnt_Player.ActionCooldowns;
-        var CurrentAction = ActionManager.s_hoveredAction;
+        var CurrentAction = UIManager.Instance.hoveredAction;
 
         if (CurrentCooldowns == null) return;
         if (!CurrentCooldowns.ContainsKey(CurrentAction)) return;
@@ -55,7 +55,6 @@ public class CooldownTooltip : MonoBehaviour
     {
         if (lockToMouse)
         {
-            print("Hello");
             Vector3 mousePos = main.mainCamera.ScreenToWorldPoint(Input.mousePosition);
             obj.transform.position = new Vector3(mousePos.x, mousePos.y, 0f);
             rect.localPosition += new Vector3(rect.sizeDelta.x / 2, rect.sizeDelta.y / 2, 0f);

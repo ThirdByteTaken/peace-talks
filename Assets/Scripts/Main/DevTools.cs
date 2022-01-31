@@ -43,6 +43,31 @@ public class DevTools : MonoBehaviour
         vector3 *= roundFactor;
         return vector3;
     }
-
+    public static int WeightedRandom(List<int> ratio)
+    {
+        var RatioTotal = ratio.Sum();
+        int random = Random.Range(0, RatioTotal + 1);
+        // ratio.ForEach(x => print(x));
+        // print("rand - " + random);
+        int index = 0;
+        foreach (int ratioElement in ratio)
+        {
+            if ((random -= ratioElement) <= 0) break; // Determines if the random falls in the range corresponding to ratio[index] 
+            index++;
+        }
+        //print("index " + index);
+        return index;/*
+        switch (index)
+        {
+            case 0: return Likelihood.Highest;
+            case 1: return Likelihood.High;
+            case 2: return Likelihood.Middle;
+            case 3: return Likelihood.Low;
+            case 4: return Likelihood.Lower;
+            case 5: return Likelihood.Lowest;
+            default: return Likelihood.Highest;
+        }
+*/
+    }
 }
 

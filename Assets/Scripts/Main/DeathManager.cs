@@ -24,7 +24,7 @@ public class DeathManager : MonoBehaviour
 
     public static void GameOver(string Title, string Reason)
     {
-        if (Main.s_noDeath) return; // TODOremove later
+        if (Main.Instance.noDeath) return; // TODOremove later
         s_go_GameOver.SetActive(true);
         s_txt_GameOverTitle.text = Title;
         s_txt_GameOverReason.text = Reason;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class CountrySlot : MonoBehaviour
 {
@@ -14,7 +15,13 @@ public class CountrySlot : MonoBehaviour
 
     private Button btn_select; // the entry in the country list that is clicked to select this country
 
-    public bool currentlyHovered; // if the mouse is on the country slot currently
+    public Country Country
+    {
+        get
+        {
+            return (Main.Instance.cs_Players.FirstOrDefault(x => x.Value == this).Key); // Returns the key of the key value pair that has this as the value
+        }
+    }
     #endregion
 
     public void Init()
@@ -32,6 +39,16 @@ public class CountrySlot : MonoBehaviour
     }
 
     #region  Setters
+
+    public void UpdateSlot()
+    {
+        SetCountryName(Country.CountryName);
+        SetLeaderName(Country.Leader.Name);
+        SetPersonality(Country.Leader.Personality);
+        SetMoney(Country.Money);
+        SetWarPower(Country.WarPower);
+        if (!Country.IsPlayer) SetRelation(Country.Relations[Main.Instance.cnt_Player].Value);
+    }
 
     // Sprites
     public void SetFlag(Sprite Flag)
@@ -53,37 +70,27 @@ public class CountrySlot : MonoBehaviour
 
     // Color Block
     public void SetColorBlock(ColorBlock colorBlock)
-    { btn_select.colors = colorBlock; }
+    {
+        btn_select.colors = colorBlock;
+    }
 
     // Other
     public void SetPersonality(PersonalityType Personality)
     { txt_Personality.text = Personality.Name; }
 
-    public void SetCurrentlyHovered(bool CurrentlyHovered)
-    { currentlyHovered = CurrentlyHovered; }
 
     public void SetButtonSelected(bool selected)
     {
         ColorBlock newColorBlock = btn_select.colors;
-        Color newColor = (selected) ? btn_select.colors.disabledColor : new Color((1.0f / 3), (1.0f / 3), (1.0f / 3));
+        Color newColor = (selected) ? btn_select.colors.disabledColor : new Color((1 / 3f), (1 / 3f), (1 / 3f));
         newColorBlock.normalColor = newColor;
-        newColorBlock.selectedColor = newColor;
-        if (currentlyHovered) newColorBlock.highlightedColor = newColor; // after they click the button, it immediately changes to the selected color not the highlighted color. Highlighted color reset later in ResetButtonHighlightedColor()
-        btn_select.colors = newColorBlock;
-    }
-
-    public void ResetButtonHighlightedColor() // sets button highlighted color back to the proper color
-    {
-        ColorBlock newColorBlock = btn_select.colors;
-        Color newColor = new Color();
-        ColorUtility.TryParseHtmlString("#ABAA4B", out newColor);
-        newColorBlock.highlightedColor = newColor;
+        newColorBlock.highlightedColor = (selected) ? UIManager.Instance.SelectedCountrySlotHighlightColor : UIManager.Instance.DeselectedCountrySlotHighlightColor;
         btn_select.colors = newColorBlock;
     }
 
     public void SetButtonInteractable(bool interactable)
     {
-        if (interactable == btn_select.IsInteractable()) return;
+        if (Country.IsPlayer || interactable == btn_select.IsInteractable()) return;
         ColorBlock newColorBlock = btn_select.colors;
         newColorBlock.normalColor = btn_select.colors.disabledColor;
         newColorBlock.disabledColor = btn_select.colors.normalColor;

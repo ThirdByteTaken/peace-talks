@@ -74,7 +74,7 @@ public class CountryView : MonoBehaviour
             maximumAnchorPosition += anchoredSpacePerRelation;
 
         }
-        var relationCountries = new List<Country>(Main.s_cnt_Players);
+        var relationCountries = new List<Country>(Main.Instance.cnt_Players);
         relationCountries.Remove(country);
         for (int i = 0; i < relationCountries.Count; i++)
         {
@@ -94,7 +94,7 @@ public class CountryView : MonoBehaviour
         var originalFocusRect = trfm_Focus.GetComponent<RectTransform>();
         float totalAnchoredFocusSize = originalFocusRect.anchorMax.y - originalFocusRect.anchorMin.y;
         var focusAnchoredPosition = originalFocusRect.anchorMin.y; // Stores highest filled position (anchored)
-        var focusCopy = new List<Focus>(ActionManager.s_Focuses);
+        var focusCopy = new List<Focus>(ActionManager.Instance.Focuses);
 
 
         for (int i = 0; i < focusCopy.Count; i++)

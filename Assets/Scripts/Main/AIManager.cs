@@ -7,6 +7,7 @@ public class AIManager : MonoBehaviour
 {
 
     // Determines the receivers response to actions
+    static readonly List<int> LikelihoodRatio = new List<int> { 1, 2, 4, 8, 16, 32 };
     public static Response BestResponse(Event ce, Country sender)
     {
         ResetResponseDictionary();
@@ -29,7 +30,7 @@ public class AIManager : MonoBehaviour
             AllPossibleResponses.Add(response);
         }
 
-        Likelihood likelihood = WeightedRandomLikelihood();
+        Likelihood likelihood = (Likelihood)(DevTools.WeightedRandom(LikelihoodRatio));
         while (bestResponses[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
         if (bestResponses[likelihood].Count == 0) return DevTools.RandomListValue(AllPossibleResponses); // Return a random response
         return DevTools.RandomListValue(bestResponses[likelihood]);
@@ -38,10 +39,10 @@ public class AIManager : MonoBehaviour
     public static Action BestAction(Country sender, Country receiver)
     {
         ResetActionDictionary();
-        var relation = 0;
-        relation = sender.Relations[receiver].Value;
+        var relation = sender.Relations[receiver].Value;
 
-        foreach (Action action in ActionManager.s_actions)
+
+        foreach (Action action in ActionManager.Instance.actions)
         {
             if (relation < action.MinRelation || relation > action.MaxRelation) continue;
             if (sender.Money < action.MinMoney) continue; // If the person being asked for a loan doesn't have enough money
@@ -53,7 +54,7 @@ public class AIManager : MonoBehaviour
             else bestActions[action.FittingFocusChance].Add(action);
 
         }
-        Likelihood likelihood = WeightedRandomLikelihood();
+        Likelihood likelihood = (Likelihood)(DevTools.WeightedRandom(LikelihoodRatio));
         while (bestActions[likelihood].Count == 0 && likelihood != Likelihood.Highest) likelihood = (Likelihood)((int)likelihood + 1);
         if (bestActions[likelihood].Count == 0) return null;
         return DevTools.RandomListValue(bestActions[likelihood]);
@@ -88,28 +89,7 @@ public class AIManager : MonoBehaviour
         bestResponses.Add(Likelihood.Highest, new List<Response>());
     }
 
-    static readonly List<int> LikelihoodRatio = new List<int> { 32, 16, 8, 4, 2, 1 };
-    public static Likelihood WeightedRandomLikelihood()
-    {
-        var TotalRatio = LikelihoodRatio.Sum();
-        int rand = Random.Range(0, TotalRatio + 1);
-        int iteration = 0;
-        foreach (int x in LikelihoodRatio)
-        {
-            if ((rand -= x) < 0) break;
-            iteration++;
-        }
-        switch (iteration)
-        {
-            case 0: return Likelihood.Highest;
-            case 1: return Likelihood.High;
-            case 2: return Likelihood.Middle;
-            case 3: return Likelihood.Low;
-            case 4: return Likelihood.Lower;
-            case 5: return Likelihood.Lowest;
-            default: return Likelihood.Highest;
-        }
 
-    }
+
 
 }

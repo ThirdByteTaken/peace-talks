@@ -10,7 +10,7 @@ public class Focus : ScriptableObject
     {
         get
         {
-            return ActionManager.s_Focuses.IndexOf(this);
+            return ActionManager.Instance.Focuses.IndexOf(this);
         }
     }
     public Sprite Sprite;
