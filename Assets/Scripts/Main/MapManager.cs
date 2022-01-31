@@ -34,6 +34,8 @@ public class MapManager : MonoBehaviour
     private static Dictionary<string, TMP_Text> StatBoxTexts = new Dictionary<string, TMP_Text>();
     private static Button StatBoxOwnerButton;
 
+    private static Image OwnerBanner;
+
     private List<List<Territory>> map = new List<List<Territory>>();
 
     private Main main;
@@ -46,6 +48,7 @@ public class MapManager : MonoBehaviour
         imageSize = new Vector3(image.sprite.rect.width, image.sprite.rect.height);
         rect_mapFrame = originalImage.transform.parent.parent.GetComponent<RectTransform>();
         TerritoryStatBox = originalImage.transform.parent.parent.GetChild(1).GetComponent<Image>();
+        OwnerBanner = originalImage.transform.parent.parent.GetChild(2).GetComponent<Image>();
         for (int i = 0; i < TerritoryStatBox.transform.childCount; i++)
         {
             var child = TerritoryStatBox.transform.GetChild(i);
@@ -210,6 +213,8 @@ public class MapManager : MonoBehaviour
             country.UpdateTerritoryBenefits();
 
         rect_mapFrame.gameObject.SetActive(true);
+        OwnerBanner.rectTransform.sizeDelta = new Vector3(OwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>().textBounds.extents.x * 2, OwnerBanner.rectTransform.sizeDelta.y);
+        Debug.Log(OwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>().textBounds);
     }
 
     public static void MoveStatBox(Territory territory)
