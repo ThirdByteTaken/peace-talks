@@ -218,9 +218,17 @@ public class MapManager : MonoBehaviour
             go_countryOwnerBanner.gameObject.SetActive(true);
             go_countryOwnerBanner.localPosition = averageCountryTerritoryPosition;
             var img_countryOwnerBanner = go_countryOwnerBanner.GetComponent<Image>();
-            var rect_countryOwnerBanner = img_countryOwnerBanner.rectTransform;
             var txt_countryOwnerBanner = go_countryOwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>();
-            txt_countryOwnerBanner.text = country.CountryName;
+            var countryColor = country.textColor;
+            var countryLuminance = DevTools.ColorLuminance(countryColor);
+            if (countryLuminance < 0.5)
+            {
+                img_countryOwnerBanner.color = Color.white;
+                txt_countryOwnerBanner.color = Color.black;
+            }
+            var rect_countryOwnerBanner = img_countryOwnerBanner.rectTransform;
+
+            txt_countryOwnerBanner.text = country.name;
             txt_countryOwnerBanner.ForceMeshUpdate(); // needed to get extents            
             var terrritoryLength = (country.OwnedTerritories[0].Image.rectTransform.sizeDelta.x);
             img_countryOwnerBanner.rectTransform.sizeDelta = new Vector3(txt_countryOwnerBanner.textBounds.extents.x * 2, txt_countryOwnerBanner.textBounds.extents.y * 2);
@@ -242,7 +250,7 @@ public class MapManager : MonoBehaviour
         bool boxExtendsOverSide = territoryPosition.x + statBoxSize.x > rect_mapFrame.sizeDelta.x / 2;
         TerritoryStatBox.transform.localPosition = territoryPosition + new Vector3((boxExtendsOverSide ? -1 : 1) * statBoxSize.x / 2, (boxExtendsOverTop ? -1 : 1) * statBoxSize.y / 2);
         var territoryColor = territory.Image.color;
-        var territoryLuminance = ((0.2126 * territoryColor.r) + (0.7152 * territoryColor.g) + (0.0722 * territoryColor.b));
+        var territoryLuminance = DevTools.ColorLuminance(territoryColor);
         TerritoryStatBox.color = (territoryLuminance > .5f) ? Color.black : Color.white;
         TerritoryStatBox.GetComponentsInChildren<TextMeshProUGUI>().ToList().ForEach(x => x.color = (TerritoryStatBox.color == Color.black) ? Color.white : Color.black);
         PopulateStatBoxInfo(territory);

@@ -69,5 +69,9 @@ public class DevTools : MonoBehaviour
         }
 */
     }
+    public static double ColorLuminance(Color color)
+    {
+        return (0.2126 * color.r) + (0.7152 * color.g) + (0.0722 * color.b);
+    }
 }
 
