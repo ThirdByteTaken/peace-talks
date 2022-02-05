@@ -34,7 +34,7 @@ public class MapManager : MonoBehaviour
     private static Dictionary<string, TMP_Text> StatBoxTexts = new Dictionary<string, TMP_Text>();
     private static Button StatBoxOwnerButton;
 
-    private static Image OwnerBanner;
+    private static Transform OriginalOwnerBanner;
 
     private List<List<Territory>> map = new List<List<Territory>>();
 
@@ -48,7 +48,7 @@ public class MapManager : MonoBehaviour
         imageSize = new Vector3(image.sprite.rect.width, image.sprite.rect.height);
         rect_mapFrame = originalImage.transform.parent.parent.GetComponent<RectTransform>();
         TerritoryStatBox = originalImage.transform.parent.parent.GetChild(1).GetComponent<Image>();
-        OwnerBanner = originalImage.transform.parent.parent.GetChild(2).GetComponent<Image>();
+        OriginalOwnerBanner = originalImage.transform.parent.parent.GetChild(2);
         for (int i = 0; i < TerritoryStatBox.transform.childCount; i++)
         {
             var child = TerritoryStatBox.transform.GetChild(i);
@@ -153,7 +153,7 @@ public class MapManager : MonoBehaviour
             totalPerimeterDistance++;
         }
         TerritoriesPerCountry = (map.Count * map[0].Count) / (2 * totalCountryCount);
-        while (totalCountries.Min(x => x.OwnedTerritories.Count) < TerritoriesPerCountry)
+        while (totalCountries.Min(x => x.OwnedTerritories.Count) < TerritoriesPerCountry) // Runs until all countries have enough territories
         {
             for (int i = 0; i < totalCountries.Count; i++)
             {
@@ -209,12 +209,22 @@ public class MapManager : MonoBehaviour
 
             }
         }
+        totalCountries.ForEach(x => x.UpdateTerritoryBenefits());
         foreach (Country country in totalCountries)
-            country.UpdateTerritoryBenefits();
+        {
+            var averageCountryTerritoryPosition = new Vector2(country.OwnedTerritories.Average(x => x.GameObject.transform.position.x), country.OwnedTerritories.Average(x => x.GameObject.transform.position.y));
+            var go_countryOwnerBanner = GameObject.Instantiate(OriginalOwnerBanner, averageCountryTerritoryPosition, new Quaternion(), OriginalOwnerBanner.parent);
+            var img_countryOwnerBanner = go_countryOwnerBanner.GetComponent<Image>();
+            var txt_countryOwnerBanner = go_countryOwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>();
+            txt_countryOwnerBanner.text = country.CountryName;
+            txt_countryOwnerBanner.ForceMeshUpdate(); // needed to get extents
+            img_countryOwnerBanner.rectTransform.sizeDelta = new Vector3(txt_countryOwnerBanner.textBounds.extents.x * 2, img_countryOwnerBanner.rectTransform.sizeDelta.y);
+        }
+
 
         rect_mapFrame.gameObject.SetActive(true);
-        OwnerBanner.rectTransform.sizeDelta = new Vector3(OwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>().textBounds.extents.x * 2, OwnerBanner.rectTransform.sizeDelta.y);
-        Debug.Log(OwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>().textBounds);
+
+
     }
 
     public static void MoveStatBox(Territory territory)
