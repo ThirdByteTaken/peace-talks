@@ -73,5 +73,11 @@ public class DevTools : MonoBehaviour
     {
         return (0.2126 * color.r) + (0.7152 * color.g) + (0.0722 * color.b);
     }
+    public static Rect GetPositionedRect(RectTransform rt)
+    {
+        var width = rt.sizeDelta.x * rt.lossyScale.x;
+        var height = rt.sizeDelta.y * rt.lossyScale.y;
+        return new Rect(rt.position.x - width / 2f, rt.position.y - height / 2f, width, height);
+    }
 }
 
