@@ -264,8 +264,9 @@ public class MapManager : MonoBehaviour
     }
     private static void PopulateStatBoxInfo(Territory territory)
     {
-        StatBoxTexts["Money"].text = "+" + territory.Terrain.MoneyProduction.ToString();
-        StatBoxTexts["War Power"].text = "+" + territory.Terrain.WarPowerProduction.ToString();
+        StatBoxTexts["Money"].text = $"+ {territory.Terrain.MoneyProduction.ToString()}";
+        StatBoxTexts["War Power"].text = $"+ {territory.Terrain.WarPowerProduction.ToString()}";
+        StatBoxTexts["Terrain"].text = $"Terrain: {territory.Terrain.Name}";
         if (territory.Owner == null)
         {
             StatBoxTexts["Owner"].text = "Currently Unowned";
@@ -273,8 +274,9 @@ public class MapManager : MonoBehaviour
             StatBoxOwnerButton.onClick.RemoveAllListeners();
         }
         else
+
         {
-            StatBoxTexts["Owner"].text = "Owned by: " + territory.Owner.CountryName;
+            StatBoxTexts["Owner"].text = $"Owned by: {territory.Owner.CountryName}";
             StatBoxTexts["Owner"].raycastTarget = true;
             StatBoxOwnerButton.onClick.AddListener(territory.OpenLeaderView);
         }
