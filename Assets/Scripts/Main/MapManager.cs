@@ -218,8 +218,18 @@ public class MapManager : MonoBehaviour
             var go_countryOwnerBanner = GameObject.Instantiate(OriginalOwnerBanner, OriginalOwnerBanner.parent);
             go_countryOwnerBanner.gameObject.SetActive(true);
             go_countryOwnerBanner.localPosition = averageCountryTerritoryPosition;
-            var img_countryOwnerBanner = go_countryOwnerBanner.GetComponent<Image>();
             var txt_countryOwnerBanner = go_countryOwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>();
+            txt_countryOwnerBanner.text = country.name;
+            txt_countryOwnerBanner.ForceMeshUpdate(); // needed to get extents            
+            var img_countryOwnerBanner = go_countryOwnerBanner.GetComponent<Image>();
+            var rect_countryOwnerBanner = img_countryOwnerBanner.rectTransform;
+            rect_countryOwnerBanner.sizeDelta = new Vector3(txt_countryOwnerBanner.textBounds.extents.x * 2, txt_countryOwnerBanner.textBounds.extents.y * 2);
+
+            // Clamp xcor to stop banners from extending out of map area
+            var maxXCor = ((rect_mapFrame.sizeDelta.x / mapObject.localScale.x) / 2) - (rect_countryOwnerBanner.sizeDelta.x / 2);
+            var clampedXCor = Mathf.Clamp(go_countryOwnerBanner.localPosition.x, -(maxXCor), maxXCor);
+            go_countryOwnerBanner.localPosition = new Vector3(clampedXCor, go_countryOwnerBanner.localPosition.y);
+
             var countryColor = country.textColor;
             var countryLuminance = DevTools.ColorLuminance(countryColor);
             if (countryLuminance < 0.5)
@@ -227,12 +237,7 @@ public class MapManager : MonoBehaviour
                 img_countryOwnerBanner.color = Color.white;
                 txt_countryOwnerBanner.color = Color.black;
             }
-            var rect_countryOwnerBanner = img_countryOwnerBanner.rectTransform;
 
-            txt_countryOwnerBanner.text = country.name;
-            txt_countryOwnerBanner.ForceMeshUpdate(); // needed to get extents            
-            var terrritoryLength = (country.OwnedTerritories[0].Image.rectTransform.sizeDelta.x);
-            rect_countryOwnerBanner.sizeDelta = new Vector3(txt_countryOwnerBanner.textBounds.extents.x * 2, txt_countryOwnerBanner.textBounds.extents.y * 2);
             rect_OwnerBanners.Add(rect_countryOwnerBanner);
         }
 
