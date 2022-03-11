@@ -55,7 +55,6 @@ public class Response
     public int ReceiverOpinion;
     public int ReceiverMoney;
     public int ReceiverWarPower;
-    public bool ChangeLeader;
 
     [Header("World Effects")]
     [Tooltip("Whole world's opinion change towards the sender")]

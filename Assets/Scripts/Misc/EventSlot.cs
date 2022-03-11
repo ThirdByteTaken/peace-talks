@@ -9,7 +9,7 @@ public class EventSlot : MonoBehaviour
 {
     #region variables
 
-    private TextMeshProUGUI txt_LeaderName, txt_CountryName, txt_Action, txt_description;
+    private TextMeshProUGUI txt_CountryName, txt_Action, txt_description;
     private TextMeshProUGUI[] txt_Responses = new TextMeshProUGUI[Main.Max_Action_Reactions]; // size should be greatest number of responses to a single event
     private Image img_Flag;
 
@@ -19,7 +19,6 @@ public class EventSlot : MonoBehaviour
     {
         img_Flag = transform.Find("Country Info").Find("Flag").GetComponent<Image>();
 
-        txt_LeaderName = transform.Find("Country Info").Find("Leader Name").GetComponent<TextMeshProUGUI>();
         txt_CountryName = transform.Find("Country Info").Find("Country Name").GetComponent<TextMeshProUGUI>();
         txt_Action = transform.Find("Action Info").Find("Action").GetComponent<TextMeshProUGUI>();
         txt_description = transform.Find("Action Info").Find("Description").GetComponent<TextMeshProUGUI>();
@@ -34,8 +33,6 @@ public class EventSlot : MonoBehaviour
     { txt_Responses[index].transform.parent.gameObject.SetActive(Active); }
 
     // Strings 
-    public void SetLeaderName(string LeaderName)
-    { txt_LeaderName.text = LeaderName; }
     public void SetCountryName(string CountryName)
     { txt_CountryName.text = CountryName; }
     public void SetAction(string Action)

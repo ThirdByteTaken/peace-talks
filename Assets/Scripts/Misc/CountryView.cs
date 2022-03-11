@@ -8,9 +8,9 @@ public class CountryView : MonoBehaviour
 {
     #region Variables
 
-    private Image img_Flag, img_LeaderPersonality, img_LeaderFocus;
+    private Image img_Flag;
 
-    private TextMeshProUGUI txt_CountryName, txt_LeaderName, txt_LeaderPersonality, txt_LeaderFocus, txt_WarPower, txt_Money;
+    private TextMeshProUGUI txt_CountryName, txt_WarPower, txt_Money;
 
     private Transform trfm_Relation, trfm_Focus;
 
@@ -20,15 +20,8 @@ public class CountryView : MonoBehaviour
     public void Init()
     {
         img_Flag = transform.Find("Flag").GetComponent<Image>();
-        img_LeaderPersonality = transform.Find("Leader").Find("Personality").Find("Image").GetComponent<Image>();
-        img_LeaderFocus = transform.Find("Leader").Find("Focus").Find("Image").GetComponent<Image>();
-
-
 
         txt_CountryName = transform.Find("Country").GetComponent<TextMeshProUGUI>();
-        txt_LeaderName = transform.Find("Leader").Find("Name").GetComponent<TextMeshProUGUI>();
-        txt_LeaderPersonality = transform.Find("Leader").Find("Personality").Find("Text").GetComponent<TextMeshProUGUI>();
-        txt_LeaderFocus = transform.Find("Leader").Find("Focus").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_WarPower = transform.Find("Resources").Find("War Power").Find("Text").GetComponent<TextMeshProUGUI>();
         txt_Money = transform.Find("Resources").Find("Money").Find("Text").GetComponent<TextMeshProUGUI>();
 

@@ -132,10 +132,6 @@ public class Country : ScriptableObject
         Debug.Log("\t" + name);
         Debug.Log("\tID:\t " + ID);
         Debug.Log("\tPlayer Country?\t" + IsPlayer);
-        Debug.Log("\t----------LEADER---------- ");
-        Debug.Log("\t\t--------LEADER RELATIONS--------");
-        Debug.Log("\t\t--------END LEADER RELATIONS--------");
-        Debug.Log("\t----------END LEADER---------- ");
         Debug.Log("\t-------------RELATIONS-------------");
         Relations.Values.ToList().ForEach(x => Debug.Log("\t\t" + x.Value));
         Debug.Log("\t-------------END RELATIONS-------------");

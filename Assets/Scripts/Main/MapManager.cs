@@ -283,7 +283,6 @@ public class MapManager : MonoBehaviour
         {
             StatBoxTexts["Owner"].text = $"Owned by: {territory.Owner.CountryName}";
             StatBoxTexts["Owner"].raycastTarget = true;
-            StatBoxOwnerButton.onClick.AddListener(territory.OpenLeaderView);
         }
 
     }

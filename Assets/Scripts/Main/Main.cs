@@ -98,10 +98,9 @@ public class Main : MonoBehaviour
         cnt_Player = cnt_Players.Find(x => x.IsPlayer);
         for (int i = 0; i < cnt_Players.Count; i++)
         {
-            var rel_LeaderNew = new Dictionary<Country, Relation>(); // makes new list of relations
-            for (int j = 0; j < cnt_Players.Count; j++) rel_LeaderNew.Add(cnt_Players[j], new Relation()); // initializes each one   
+            var rel_New = new Dictionary<Country, Relation>(); // makes new list of relations
+            for (int j = 0; j < cnt_Players.Count; j++) rel_New.Add(cnt_Players[j], new Relation()); // initializes each one   
 
-            var rel_New = new Dictionary<Country, Relation>(rel_LeaderNew);
             rel_New.Remove(cnt_Players[i]);
 
             cnt_Players[i].Relations = new Dictionary<Country, Relation>(rel_New); // Reset all relations            
