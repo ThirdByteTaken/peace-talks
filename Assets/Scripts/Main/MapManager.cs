@@ -34,8 +34,11 @@ public class MapManager : MonoBehaviour
     private static Dictionary<string, TMP_Text> StatBoxTexts = new Dictionary<string, TMP_Text>();
     private static Button StatBoxOwnerButton;
 
-    private List<List<Territory>> map = new List<List<Territory>>();
+    private static Transform OriginalOwnerBanner;
 
+    private static List<List<Territory>> map = new List<List<Territory>>();
+
+    private static List<RectTransform> rect_OwnerBanners = new List<RectTransform>();
     private Main main;
     void Start()
     {
@@ -46,6 +49,7 @@ public class MapManager : MonoBehaviour
         imageSize = new Vector3(image.sprite.rect.width, image.sprite.rect.height);
         rect_mapFrame = originalImage.transform.parent.parent.GetComponent<RectTransform>();
         TerritoryStatBox = originalImage.transform.parent.parent.GetChild(1).GetComponent<Image>();
+        OriginalOwnerBanner = originalImage.transform.parent.GetChild(1);
         for (int i = 0; i < TerritoryStatBox.transform.childCount; i++)
         {
             var child = TerritoryStatBox.transform.GetChild(i);
@@ -58,10 +62,11 @@ public class MapManager : MonoBehaviour
     public void GenerateHexGrid()
     {
         map.Clear();
-
+        rect_OwnerBanners.Clear();
         mapObject = originalImage.transform.parent;
-        for (int i = mapObject.childCount - 1; i > 0; i--)
+        for (int i = mapObject.childCount - 1; i > -1; i--)
         {
+            if (mapObject.GetChild(i).Equals(originalImage.transform) || mapObject.GetChild(i).Equals(OriginalOwnerBanner)) continue; // Skip over original hexagon and original owner banner
             GameObject.Destroy(mapObject.GetChild(i).gameObject);
         }
         int height = Random.Range(5, 20);
@@ -150,7 +155,7 @@ public class MapManager : MonoBehaviour
             totalPerimeterDistance++;
         }
         TerritoriesPerCountry = (map.Count * map[0].Count) / (2 * totalCountryCount);
-        while (totalCountries.Min(x => x.OwnedTerritories.Count) < TerritoriesPerCountry)
+        while (totalCountries.Min(x => x.OwnedTerritories.Count) < TerritoriesPerCountry) // Runs until all countries have enough territories
         {
             for (int i = 0; i < totalCountries.Count; i++)
             {
@@ -206,32 +211,67 @@ public class MapManager : MonoBehaviour
 
             }
         }
+        totalCountries.ForEach(x => x.UpdateTerritoryBenefits());
         foreach (Country country in totalCountries)
-            country.UpdateTerritoryBenefits();
+        {
+            var averageCountryTerritoryPosition = new Vector2(country.OwnedTerritories.Average(x => x.GameObject.transform.localPosition.x), country.OwnedTerritories.Average(x => x.GameObject.transform.localPosition.y));
+            var go_countryOwnerBanner = GameObject.Instantiate(OriginalOwnerBanner, OriginalOwnerBanner.parent);
+            go_countryOwnerBanner.gameObject.SetActive(true);
+            go_countryOwnerBanner.localPosition = averageCountryTerritoryPosition;
+            var txt_countryOwnerBanner = go_countryOwnerBanner.transform.GetChild(0).GetComponent<TMP_Text>();
+            txt_countryOwnerBanner.text = country.name;
+            txt_countryOwnerBanner.ForceMeshUpdate(); // needed to get extents            
+            var img_countryOwnerBanner = go_countryOwnerBanner.GetComponent<Image>();
+            var rect_countryOwnerBanner = img_countryOwnerBanner.rectTransform;
+            rect_countryOwnerBanner.sizeDelta = new Vector3(txt_countryOwnerBanner.textBounds.extents.x * 2, txt_countryOwnerBanner.textBounds.extents.y * 2);
+
+            // Clamp xcor to stop banners from extending out of map area
+            var maxXCor = ((rect_mapFrame.sizeDelta.x / mapObject.localScale.x) / 2) - (rect_countryOwnerBanner.sizeDelta.x / 2);
+            var clampedXCor = Mathf.Clamp(go_countryOwnerBanner.localPosition.x, -(maxXCor), maxXCor);
+            go_countryOwnerBanner.localPosition = new Vector3(clampedXCor, go_countryOwnerBanner.localPosition.y);
+
+            var countryColor = country.textColor;
+            var countryLuminance = DevTools.ColorLuminance(countryColor);
+            if (countryLuminance < 0.5)
+            {
+                img_countryOwnerBanner.color = Color.white;
+                txt_countryOwnerBanner.color = Color.black;
+            }
+
+            rect_OwnerBanners.Add(rect_countryOwnerBanner);
+        }
+
 
         rect_mapFrame.gameObject.SetActive(true);
+
+        TerritoryStatBox.rectTransform.sizeDelta = new Vector3(imageSize.x * 1.5f, imageSize.y * .75f) * mapObject.localScale.x;
     }
 
     public static void MoveStatBox(Territory territory)
     {
-        float mapSizeFactor = mapObject.localScale.x;
-        TerritoryStatBox.rectTransform.sizeDelta = new Vector3(imageSize.x * 1.5f, imageSize.y * .75f) * mapSizeFactor;
+
         Vector3 statBoxSize = TerritoryStatBox.rectTransform.sizeDelta;
-        Vector3 territoryPosition = territory.GameObject.transform.localPosition * mapSizeFactor;
+        Vector3 territoryPosition = territory.GameObject.transform.localPosition * mapObject.localScale.x;
         bool boxExtendsOverTop = territoryPosition.y + statBoxSize.y > rect_mapFrame.sizeDelta.y / 2;
         bool boxExtendsOverSide = territoryPosition.x + statBoxSize.x > rect_mapFrame.sizeDelta.x / 2;
         TerritoryStatBox.transform.localPosition = territoryPosition + new Vector3((boxExtendsOverSide ? -1 : 1) * statBoxSize.x / 2, (boxExtendsOverTop ? -1 : 1) * statBoxSize.y / 2);
+        var rect_StatBox = DevTools.GetPositionedRect(TerritoryStatBox.rectTransform);
+        rect_OwnerBanners.ForEach(x => x.gameObject.SetActive(!rect_StatBox.Overlaps(DevTools.GetPositionedRect(x))));
+
         var territoryColor = territory.Image.color;
-        var territoryLuminance = ((0.2126 * territoryColor.r) + (0.7152 * territoryColor.g) + (0.0722 * territoryColor.b));
+        var territoryLuminance = DevTools.ColorLuminance(territoryColor);
         TerritoryStatBox.color = (territoryLuminance > .5f) ? Color.black : Color.white;
         TerritoryStatBox.GetComponentsInChildren<TextMeshProUGUI>().ToList().ForEach(x => x.color = (TerritoryStatBox.color == Color.black) ? Color.white : Color.black);
+
+
         PopulateStatBoxInfo(territory);
 
     }
     private static void PopulateStatBoxInfo(Territory territory)
     {
-        StatBoxTexts["Money"].text = "+" + territory.Terrain.MoneyProduction.ToString();
-        StatBoxTexts["War Power"].text = "+" + territory.Terrain.WarPowerProduction.ToString();
+        StatBoxTexts["Money"].text = $"+ {territory.Terrain.MoneyProduction.ToString()}";
+        StatBoxTexts["War Power"].text = $"+ {territory.Terrain.WarPowerProduction.ToString()}";
+        StatBoxTexts["Terrain"].text = $"Terrain: {territory.Terrain.Name}";
         if (territory.Owner == null)
         {
             StatBoxTexts["Owner"].text = "Currently Unowned";
@@ -239,8 +279,9 @@ public class MapManager : MonoBehaviour
             StatBoxOwnerButton.onClick.RemoveAllListeners();
         }
         else
+
         {
-            StatBoxTexts["Owner"].text = "Owned by: " + territory.Owner.CountryName;
+            StatBoxTexts["Owner"].text = $"Owned by: {territory.Owner.CountryName}";
             StatBoxTexts["Owner"].raycastTarget = true;
             StatBoxOwnerButton.onClick.AddListener(territory.OpenLeaderView);
         }
