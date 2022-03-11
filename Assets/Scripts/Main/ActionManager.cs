@@ -81,8 +81,6 @@ public class ActionManager : MonoBehaviour
         CurrentEvent.receiver.Money += Response.ReceiverMoney;
         CurrentEvent.receiver.WarPower += Response.ReceiverWarPower;
 
-        if (Response.ChangeLeader)
-            CurrentEvent.receiver.ChangeLeader(CurrentEvent.sender); // replaces the recievers leader with one similar to the senders country
 
 
         main.UpdateCountrySlots();

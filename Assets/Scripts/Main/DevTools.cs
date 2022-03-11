@@ -18,15 +18,10 @@ public class DevTools : MonoBehaviour
 
     public static string DecodeMessage(string message, Event currentEvent)
     {
-        if (currentEvent.sender.previousLeader != null) message = message.Replace("SenderOldLeader", currentEvent.sender.previousLeader.Name);
-        message = message.Replace("SenderLeader", currentEvent.sender.Leader.Name);
-        if (currentEvent.receiver.previousLeader != null) message = message.Replace("ReceiverOldLeader", currentEvent.receiver.previousLeader.Name);
-        message = message.Replace("ReceiverLeader", currentEvent.receiver.Leader.Name);
         message = message.Replace("Sender", currentEvent.sender.CountryName);
         message = message.Replace("Receiver", currentEvent.receiver.CountryName);
         if (currentEvent.affected != null)
         {
-            message = message.Replace("AffectedLeader", currentEvent.affected.Leader.Name);
             message = message.Replace("Affected", currentEvent.affected.CountryName);
         }
         return message;

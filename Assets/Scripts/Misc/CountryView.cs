@@ -46,8 +46,6 @@ public class CountryView : MonoBehaviour
     public void OpenCountry(Country country)
     {
         img_Flag.sprite = country.Flag;
-        img_LeaderPersonality.sprite = country.Leader.Personality.Sprite;
-        img_LeaderFocus.sprite = country.Leader.Focus.Sprite;
 
         txt_CountryName.text = country.CountryName;
         #region Relations
@@ -101,9 +99,7 @@ public class CountryView : MonoBehaviour
         {
             var newFocus = GameObject.Instantiate(trfm_Focus.gameObject, focusesParent);
             var rect_newFocus = newFocus.GetComponent<RectTransform>();
-            var anchoredFocusSize = country.FocusTendencies[i] * totalAnchoredFocusSize / 100;
             rect_newFocus.anchorMin = new Vector2(originalFocusRect.anchorMin.x, focusAnchoredPosition);
-            focusAnchoredPosition += anchoredFocusSize;
             rect_newFocus.anchorMax = new Vector2(originalFocusRect.anchorMax.x, focusAnchoredPosition);
             rect_newFocus.offsetMin = new Vector2(0, 0);
             rect_newFocus.offsetMax = new Vector2(0, 0);
@@ -123,7 +119,6 @@ public class CountryView : MonoBehaviour
             rect_focusName.anchorMax = new Vector2(rect_focusName.anchorMax.x, 1 - anchorBoundsSize.Item2);
 
             var trfm_focusPercent = newFocus.transform.GetChild(2);
-            trfm_focusPercent.GetComponent<TextMeshProUGUI>().text = $"{country.FocusTendencies[i]}%";
             var rect_focusPercent = trfm_focusPercent.GetComponent<RectTransform>();
             rect_focusPercent.anchorMin = new Vector2(rect_focusPercent.anchorMin.x, anchorBoundsSize.Item2);
             rect_focusPercent.anchorMax = new Vector2(1 - anchorBoundsSize.Item1, 1 - anchorBoundsSize.Item2);
@@ -131,10 +126,7 @@ public class CountryView : MonoBehaviour
 
         }
         trfm_Focus.gameObject.SetActive(false);
-        #endregion
-        txt_LeaderName.text = country.Leader.Name;
-        txt_LeaderPersonality.text = country.Leader.Personality.Name;
-        txt_LeaderFocus.text = country.Leader.Focus.Name;
+        #endregion                
         txt_WarPower.text = (country.WarPower + $" ({((country.WarPowerGain > 0) ? "+" : "")}{country.WarPowerGain})");
         txt_Money.text = (country.MoneyGain + $" ({((country.MoneyGain > 0) ? "+" : "")}{country.MoneyGain})");
         gameObject.SetActive(true);

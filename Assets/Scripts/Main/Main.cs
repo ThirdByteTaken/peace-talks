@@ -93,7 +93,6 @@ public class Main : MonoBehaviour
         // TurnActions Subscriptions
         s_TurnActions += UpdateCountryResources;
         s_TurnActions += DriftCountryRelations;
-        s_TurnActions += UpdateInterCountryRelations;
 
         // Country initialization
         cnt_Player = cnt_Players.Find(x => x.IsPlayer);
@@ -107,19 +106,12 @@ public class Main : MonoBehaviour
 
             cnt_Players[i].Relations = new Dictionary<Country, Relation>(rel_New); // Reset all relations            
 
-            // AI-Player Setup            
-            cnt_Players[i].LeaderRelations = new Relation(); // Reset leader relations              
-
             var newFocus = DevTools.RandomListValue<Focus>(actionManager.Focuses);
-            cnt_Players[i].Leader = new Leader(TextGenerator.LeaderName(), rel_LeaderNew, DevTools.RandomListValue<PersonalityType>(actionManager.PersonalityTypes), newFocus);
             cnt_Players[i].Focus = newFocus;
 
-            cnt_Players[i].FocusTendencies = new int[actionManager.Focuses.Count];
-            cnt_Players[i].FocusTendencies[newFocus.ID] += 100;
             cnt_Players[i].UpdateFocusModifiers(cnt_Players[i].Focus);
 
             cs_Players.Add(cnt_Players[i], cs_PlayersList[i]);
-            s_TurnActions += cnt_Players[i].CountryStatsDrift;
         }
 
         // UI Initializations
@@ -190,7 +182,6 @@ public class Main : MonoBehaviour
         newEventSlot.Init();
         newEventSlot.transform.SetAsFirstSibling();
         newEventSlot.SetCountryName(currentEvent.sender.CountryName);
-        newEventSlot.SetLeaderName(currentEvent.sender.Leader.Name);
         newEventSlot.SetAction(currentEvent.action.Name);
 
         go_CurrentEventSlots.Add(newEventSlot.gameObject);
@@ -335,58 +326,9 @@ public class Main : MonoBehaviour
 
 
             }
-            cnt.LeaderRelations.Value += Mathf.RoundToInt(cnt.LeaderRelations.DriftSpeed * (cnt.FocusTendencies[cnt.Leader.Focus.ID] - (float)cnt.FocusTendencies.Average()));
+
         }
 
-    }
-
-    private void UpdateInterCountryRelations()
-    {
-        // print("TURN " + GameInfo.s_TurnCount + ":");
-        for (int i = 0; i < cnt_Players.Count; i++)
-        {
-            for (int j = 0; j < cnt_Players.Count; j++)
-            {
-                if (i == j) continue;
-                // print("\tCOUNTRY " + i + " to COUNTRY " + j + ":");
-
-                int focusTendencyDiff = Mathf.Abs(cnt_Players[i].FocusTendencies[cnt_Players[i].Focus.ID] - cnt_Players[j].FocusTendencies[cnt_Players[i].Focus.ID]);
-
-                // print("\t\tFocusTendencyDiff: " + focusTendencyDiff + " (first country -> " + cnt_Players[i].FocusTendencies[cnt_Players[i].Focus.ID] + " second country -> " + cnt_Players[j].FocusTendencies[cnt_Players[i].Focus.ID] + ")");
-
-                int compareFocusTendencyDiff = Mathf.Abs(cnt_Players[j].FocusTendencies[cnt_Players[j].Focus.ID] - cnt_Players[i].FocusTendencies[cnt_Players[j].Focus.ID]);
-
-                // print("\t\tCompareFocusTendencyDiff: " + compareFocusTendencyDiff + " (first country -> " + cnt_Players[i].FocusTendencies[cnt_Players[j].Focus.ID] + " second country -> " + cnt_Players[j].FocusTendencies[cnt_Players[j].Focus.ID] + ")");
-
-                int averageFocusTendencyDiff = ((focusTendencyDiff + compareFocusTendencyDiff) / 2);
-
-                // print("\t\tAverage: " + averageFocusTendencyDiff);
-
-                int focusTendencyDiffEffect = Mathf.RoundToInt(cnt_Players[i].FocusDifferenceHarshness * RelationChangeFromFocusDiffFactor * averageFocusTendencyDiff);
-
-                // print("\t\tfocusTendencyDiffEffect: " + focusTendencyDiffEffect + " (harshness -> " + cnt_Players[i].FocusDifferenceHarshness + " factor -> " + RelationChangeFromFocusDiffFactor + ")");
-
-                int personalityDiff = Mathf.Abs(cnt_Players[i].Leader.Personality.ID - cnt_Players[j].Leader.Personality.ID);
-
-                // print("\t\tPersonalityDiff: " + personalityDiff + " (first country -> " + cnt_Players[i].Leader.Personality + " second country -> " + cnt_Players[j].Leader.Personality + ")");
-
-                int personalityDiffEffect = Mathf.RoundToInt(cnt_Players[i].PersonalityDifferenceHarshness * RelationChangeFromPersonalityDiffFactor * personalityDiff);
-
-                // print("\t\tPersonalityDiffEffect: " + personalityDiffEffect + " (harshness -> " + cnt_Players[i].PersonalityDifferenceHarshness + " factor -> " + RelationChangeFromPersonalityDiffFactor + ")");
-
-                int ideologicalDifference = personalityDiffEffect + focusTendencyDiffEffect;
-
-                // print("\t\tideologicalDifference: " + ideologicalDifference);
-
-                int restingValue = (-ideologicalDifference + 15) * 2; // converts range of 0 - 30 to a range of -30 to 30
-
-                // print("\t\trestingValue: " + restingValue);
-
-                cnt_Players[i].Relations[cnt_Players[j]].RestingValue = restingValue;
-
-
-            }
-        }
     }
 
     #endregion

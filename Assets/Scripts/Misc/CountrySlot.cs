@@ -43,8 +43,6 @@ public class CountrySlot : MonoBehaviour
     public void UpdateSlot()
     {
         SetCountryName(Country.CountryName);
-        SetLeaderName(Country.Leader.Name);
-        SetPersonality(Country.Leader.Personality);
         SetMoney(Country.Money);
         SetWarPower(Country.WarPower);
         if (!Country.IsPlayer) SetRelation(Country.Relations[Main.Instance.cnt_Player].Value);
@@ -57,8 +55,6 @@ public class CountrySlot : MonoBehaviour
     // Strings
     public void SetCountryName(string Name)
     { txt_CountryName.text = Name; }
-    public void SetLeaderName(string Name)
-    { txt_LeaderName.text = Name; }
 
     // Integers 
     public void SetMoney(int Money)
@@ -74,9 +70,7 @@ public class CountrySlot : MonoBehaviour
         btn_select.colors = colorBlock;
     }
 
-    // Other
-    public void SetPersonality(PersonalityType Personality)
-    { txt_Personality.text = Personality.Name; }
+    // Other    
 
 
     public void SetButtonSelected(bool selected)
