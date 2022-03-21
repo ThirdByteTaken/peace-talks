@@ -86,8 +86,6 @@ public class Country : ScriptableObject
     public Sprite Flag;
     public Color textColor;
 
-    public Dictionary<Action, int> ActionCooldowns = new Dictionary<Action, int>();
-
     #region Focuses
 
     public void UpdateFocusModifiers(Focus value)

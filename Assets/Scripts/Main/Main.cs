@@ -255,7 +255,6 @@ public class Main : MonoBehaviour
     {
         GameInfo.s_TurnCount++;
         UpdateCountrySlots();
-        UpdateActionCooldowns();
 
         UIManager.Instance.SetActionButtonsEnabled(false);
 
@@ -294,19 +293,6 @@ public class Main : MonoBehaviour
                 relation.GracePeriod--;
             }*/
         }
-    }
-
-    private void UpdateActionCooldowns()
-    {
-        foreach (Country country in cnt_Players)
-        {
-            foreach (Action action in country.ActionCooldowns.Keys.ToList())
-            {
-                country.ActionCooldowns[action]--;
-                if (country.ActionCooldowns[action] <= 0) country.ActionCooldowns.Remove(action);
-            }
-        }
-
     }
 
     private void DriftCountryRelations()
